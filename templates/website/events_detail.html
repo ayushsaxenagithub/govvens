@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% block title %}{{ event.name }} - GOVVENS{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card bg-dark text-white border-0 shadow">
+            <div class="card-header bg-primary">
+                <h2 class="card-title mb-0"><i class="bi bi-trophy me-2"></i>{{ event.name }}</h2>
+            </div>
+            <div class="card-body">
+                <p class="mb-2">
+                    <i class="bi bi-calendar3 me-2"></i><strong>Date:</strong> {{ event.date }} | 
+                    <i class="bi bi-clock me-2"></i><strong>Time:</strong> {{ event.time }}
+                </p>
+                <p class="mb-2">
+                    <i class="bi bi-geo-alt me-2"></i><strong>Venue:</strong> {{ event.stadium }}
+                </p>
+                <p class="mb-2">
+                    <i class="bi bi-currency-rupee me-2"></i><strong>Ticket Price:</strong> {{ event.ticket_price }}
+                </p>
+                <p class="mb-3">
+                    <i class="bi bi-people me-2"></i><strong>Available Seats:</strong> {{ event.available_seats }}
+                </p>
+                
+                <hr class="text-secondary my-3">
+                
+                <div class="mb-3">
+                    <h6 class="text-warning"><i class="bi bi-exclamation-triangle me-2"></i>Important Information</h6>
+                    <ul class="list-unstyled small mb-0">
+                        <li class="mb-1"><i class="bi bi-clock me-2"></i>Gates open 2 hours before match time</li>
+                        <li class="mb-1"><i class="bi bi-shield-lock me-2"></i>Identity verification required for entry</li>
+                        <li class="mb-1"><i class="bi bi-qr-code me-2"></i>Digital tickets with QR code will be provided</li>
+                        <li class="mb-0"><i class="bi bi-calendar-check me-2"></i>Entry time slots assigned after booking</li>
+                    </ul>
+                </div>
+                
+                {% if user.is_authenticated %}
+                    {% if subscription_status %}
+                        <div class="alert alert-success">
+                            <i class="bi bi-bell-fill me-2"></i>You are subscribed to notifications for this event.
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            <i class="bi bi-bell me-2"></i>Subscribe for notifications when tickets open for sale (₹10 fee, deductible from ticket price).
+                            <form method="post" action="#" class="mt-2">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-light">Subscribe</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>Login to subscribe for ticket sale notifications.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-dark text-white border-0 shadow">
+            <div class="card-header bg-primary">
+                <h5 class="mb-0">Match Info</h5>
+            </div>
+            <div class="card-body">
+                <h6 class="text-primary mb-3"><i class="bi bi-info-circle me-2"></i>Match Information</h6>
+                <p class="mb-2">
+                    <i class="bi bi-cloud-sun me-2"></i><strong>Weather Forecast:</strong> {{ event.weather_forecast }}
+                </p>
+                <p class="mb-2">
+                    <i class="bi bi-people-fill me-2"></i><strong>Crowd Expectation:</strong> {{ event.crowd_expectation }}
+                </p>
+                <p class="mb-3">
+                    <i class="bi bi-door-open me-2"></i><strong>Gate Occupancy:</strong> {{ event.gate_occupancy }}
+                </p>
+                <hr class="text-secondary">
+                <h6 class="text-success mb-3"><i class="bi bi-shield-check me-2"></i>Safety Features</h6>
+                <ul class="list-unstyled small mb-0">
+                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Staggered entry time slots</li>
+                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Real-time gate occupancy monitoring</li>
+                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Face/Eye scan verification at entry</li>
+                    <li class="mb-0"><i class="bi bi-check-circle text-success me-2"></i>Digital QR code tickets</li>
+                </ul>
+            </div>
+        </div>
+        <div class="mt-3">
+            {% if user.is_authenticated %}
+                {% if user.is_verified %}
+                    <a href="{% url 'seat_selection' event.id %}" class="btn btn-primary w-100">
+                        <i class="bi bi-cursor me-2"></i>Select Your Seat
+                    </a>
+                {% else %}
+                    <a href="{% url 'verify_identity' %}" class="btn btn-warning w-100">
+                        <i class="bi bi-shield-exclamation me-2"></i>Verify Identity First
+                    </a>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'signup_login' %}" class="btn btn-primary w-100">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Login to Book
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Additional Information Section -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card bg-dark text-white border-0 shadow">
+            <div class="card-header bg-primary">
+                <h4 class="mb-0"><i class="bi bi-info-circle me-2"></i>Additional Information</h4>
+            </div>
+            <div class="card-body">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <h5 class="text-warning mb-3"><i class="bi bi-ticket-perforated me-2"></i>Ticket Information</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i><strong>Ticket Type:</strong> Digital QR Code Ticket</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i><strong>Verification:</strong> Aadhaar eKYC + Face/Eye Scan Required</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i><strong>Entry Method:</strong> QR Code Scan + Facial Recognition</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i><strong>Transfer Policy:</strong> Non-transferable (Face-locked)</li>
+                            <li class="mb-0"><i class="bi bi-check-circle text-success me-2"></i><strong>Refund Policy:</strong> As per event terms and conditions</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="text-warning mb-3"><i class="bi bi-clock me-2"></i>Timing Details</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-door-open text-info me-2"></i><strong>Gates Open:</strong> 2 hours before match time</li>
+                            <li class="mb-2"><i class="bi bi-calendar-check text-info me-2"></i><strong>Entry Window:</strong> Assigned after booking (e.g., 17:00-17:30)</li>
+                            <li class="mb-2"><i class="bi bi-signpost text-info me-2"></i><strong>Exit Window:</strong> Assigned based on seat location</li>
+                            <li class="mb-2"><i class="bi bi-shield-lock text-info me-2"></i><strong>Verification Time:</strong> 2-3 minutes per person</li>
+                            <li class="mb-0"><i class="bi bi-exclamation-triangle text-warning me-2"></i><strong>Late Entry:</strong> Subject to availability and gate capacity</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ Section for This Event -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card bg-secondary text-white border-0 shadow">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0"><i class="bi bi-question-circle me-2"></i>Frequently Asked Questions</h4>
+            </div>
+            <div class="card-body">
+                <div class="accordion" id="eventFAQ">
+                    <div class="accordion-item bg-dark border-secondary">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button bg-secondary text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                <i class="bi bi-question-circle me-2"></i>How does the notification system work for this event?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#eventFAQ">
+                            <div class="accordion-body">
+                                Users pay a small, refundable fee (₹10) to get SMS alerts when tickets for this match open. This ensures fair and early access. The fee is deductible from your ticket price when you make a booking.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item bg-dark border-secondary">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button bg-secondary text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                <i class="bi bi-question-circle me-2"></i>Can I book seats for my friends or family?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#eventFAQ">
+                            <div class="accordion-body">
+                                Yes. The seat map supports individual, friends, and family bookings. You can select multiple seats together, and they will be held for up to 15 minutes during checkout. Each person will need their own identity verification for entry at the venue.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item bg-dark border-secondary">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button bg-secondary text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                <i class="bi bi-question-circle me-2"></i>What if my payment fails?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#eventFAQ">
+                            <div class="accordion-body">
+                                The reserved seats are released after 15 minutes if payment isn't completed. You'll receive a notification if your payment fails. You can retry the payment within the 15-minute window. If the time expires, you'll need to select seats again.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="{% url 'faq' %}" class="btn btn-outline-light">
+                        <i class="bi bi-question-circle me-2"></i>View All FAQs
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

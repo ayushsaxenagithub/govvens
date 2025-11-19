@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block title %}FAQ - GOVVENS{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-5 fw-bold mb-3"><i class="bi bi-question-circle me-2"></i>Frequently Asked Questions</h1>
+        <p class="lead text-muted">Find answers to common questions about GOVVENS ticketing and crowd-safety platform.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-3 mb-4">
+        <div class="card bg-dark text-white border-0 shadow sticky-top" style="top: 100px;">
+            <div class="card-header bg-primary">
+                <h5 class="mb-0"><i class="bi bi-list-ul me-2"></i>Categories</h5>
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-pills flex-column" id="faqCategories" role="tablist">
+                    <li class="nav-item">
+                        <button class="nav-link active w-100 text-start mb-2" data-bs-toggle="pill" data-bs-target="#all" type="button">
+                            <i class="bi bi-grid me-2"></i>All Questions
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link w-100 text-start mb-2" data-bs-toggle="pill" data-bs-target="#general" type="button">
+                            <i class="bi bi-info-circle me-2"></i>General
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link w-100 text-start mb-2" data-bs-toggle="pill" data-bs-target="#booking" type="button">
+                            <i class="bi bi-ticket-perforated me-2"></i>Booking
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link w-100 text-start mb-2" data-bs-toggle="pill" data-bs-target="#payment" type="button">
+                            <i class="bi bi-credit-card me-2"></i>Payment
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link w-100 text-start mb-2" data-bs-toggle="pill" data-bs-target="#verification" type="button">
+                            <i class="bi bi-shield-check me-2"></i>Verification
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-9">
+        <div class="tab-content" id="faqContent">
+            <div class="tab-pane fade show active" id="all">
+                <div class="accordion" id="faqAccordion">
+                    {% for faq in faqs %}
+                    <div class="accordion-item bg-dark border-secondary mb-3">
+                        <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                            <button class="accordion-button bg-secondary text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}">
+                                <i class="bi {{ faq.icon }} me-3"></i>
+                                <strong>{{ faq.question }}</strong>
+                            </button>
+                        </h2>
+                        <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body bg-dark text-white">
+                                <p class="mb-0">{{ faq.answer }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="tab-pane fade" id="general">
+                <div class="accordion" id="faqAccordionGeneral">
+                    {% for faq in faqs %}
+                    {% if faq.category == 'general' %}
+                    <div class="accordion-item bg-dark border-secondary mb-3">
+                        <h2 class="accordion-header" id="headingGeneral{{ forloop.counter }}">
+                            <button class="accordion-button bg-secondary text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGeneral{{ forloop.counter }}">
+                                <i class="bi {{ faq.icon }} me-3"></i>
+                                <strong>{{ faq.question }}</strong>
+                            </button>
+                        </h2>
+                        <div id="collapseGeneral{{ forloop.counter }}" class="accordion-collapse collapse" data-bs-parent="#faqAccordionGeneral">
+                            <div class="accordion-body bg-dark text-white">
+                                <p class="mb-0">{{ faq.answer }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="tab-pane fade" id="booking">
+                <div class="accordion" id="faqAccordionBooking">
+                    {% for faq in faqs %}
+                    {% if faq.category == 'booking' %}
+                    <div class="accordion-item bg-dark border-secondary mb-3">
+                        <h2 class="accordion-header" id="headingBooking{{ forloop.counter }}">
+                            <button class="accordion-button bg-secondary text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBooking{{ forloop.counter }}">
+                                <i class="bi {{ faq.icon }} me-3"></i>
+                                <strong>{{ faq.question }}</strong>
+                            </button>
+                        </h2>
+                        <div id="collapseBooking{{ forloop.counter }}" class="accordion-collapse collapse" data-bs-parent="#faqAccordionBooking">
+                            <div class="accordion-body bg-dark text-white">
+                                <p class="mb-0">{{ faq.answer }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="tab-pane fade" id="payment">
+                <div class="accordion" id="faqAccordionPayment">
+                    {% for faq in faqs %}
+                    {% if faq.category == 'payment' %}
+                    <div class="accordion-item bg-dark border-secondary mb-3">
+                        <h2 class="accordion-header" id="headingPayment{{ forloop.counter }}">
+                            <button class="accordion-button bg-secondary text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePayment{{ forloop.counter }}">
+                                <i class="bi {{ faq.icon }} me-3"></i>
+                                <strong>{{ faq.question }}</strong>
+                            </button>
+                        </h2>
+                        <div id="collapsePayment{{ forloop.counter }}" class="accordion-collapse collapse" data-bs-parent="#faqAccordionPayment">
+                            <div class="accordion-body bg-dark text-white">
+                                <p class="mb-0">{{ faq.answer }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="tab-pane fade" id="verification">
+                <div class="accordion" id="faqAccordionVerification">
+                    {% for faq in faqs %}
+                    {% if faq.category == 'verification' or faq.category == 'notifications' or faq.category == 'crowd-control' or faq.category == 'privacy' %}
+                    <div class="accordion-item bg-dark border-secondary mb-3">
+                        <h2 class="accordion-header" id="headingVerification{{ forloop.counter }}">
+                            <button class="accordion-button bg-secondary text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVerification{{ forloop.counter }}">
+                                <i class="bi {{ faq.icon }} me-3"></i>
+                                <strong>{{ faq.question }}</strong>
+                            </button>
+                        </h2>
+                        <div id="collapseVerification{{ forloop.counter }}" class="accordion-collapse collapse" data-bs-parent="#faqAccordionVerification">
+                            <div class="accordion-body bg-dark text-white">
+                                <p class="mb-0">{{ faq.answer }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="card bg-primary text-white border-0 shadow-lg mt-5">
+            <div class="card-body text-center p-5">
+                <h3 class="mb-3"><i class="bi bi-headset me-2"></i>Still Have Questions?</h3>
+                <p class="lead mb-4">Can't find the answer you're looking for? Our support team is here to help!</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="mailto:support@govvens.com" class="btn btn-light btn-lg">
+                        <i class="bi bi-envelope me-2"></i>Email Support
+                    </a>
+                    <a href="tel:+919876543210" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-telephone me-2"></i>Call Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

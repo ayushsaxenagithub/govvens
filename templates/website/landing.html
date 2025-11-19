@@ -1,0 +1,356 @@
+{% extends "base.html" %}
+{% block title %}Home - GOVVENS{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="position-relative text-white py-5"
+    style="background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
+    url('/static/images/stadium-bg.jpg') center/cover no-repeat;">
+    <div class="container text-center py-5">
+        <h1 class="display-4 fw-bold mb-3">Welcome to <span class="text-success">GOVVENS</span></h1>
+        <p class="lead mb-3">India’s first crowd-safe ticketing platform for high-footfall cricket events.</p>
+        <p class="mb-4">Enjoy smart entry, zero queues, and secure access powered by advanced eKYC + Face Scan.</p>
+        <a href="/events/" class="btn btn-success btn-lg mt-3 shadow-sm px-4 py-2">
+            Explore Upcoming Matches
+        </a>
+    </div>
+</section>
+
+<!-- Why GOVVENS -->
+<section class="bg-light text-dark py-5">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-md-6">
+                <img src="/static/images/safe-crowd.png" alt="Crowd Safety" class="img-fluid rounded shadow">
+            </div>
+            <div class="col-md-6">
+                <h2 class="fw-bold mb-3">Why GOVVENS?</h2>
+                <p class="text-muted mb-4">
+                    Designed for safe, smooth, and congestion-free stadium experiences.
+                </p>
+
+                <ul class="list-unstyled fs-5">
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>No Bots • No Scalpers • Genuine Fans Only</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>One-time eKYC + Face/Eye Verification</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>AI-based Entry Slot Assignment</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Trip Planner by PIN Code</li>
+                    <li><i class="bi bi-check-circle-fill text-success me-2"></i>Live Gate Occupancy & Crowd Heatmap</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Govvens Features -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="fw-bold text-center mb-5">Built for High-Footfall Stadiums</h2>
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="p-4 border rounded shadow-sm h-100">
+                    <h5 class="fw-bold text-success">Advanced Ticket Protection</h5>
+                    <p class="text-muted">Face-locked tickets prevent black marketing, duplicates, or unauthorised transfers.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="p-4 border rounded shadow-sm h-100">
+                    <h5 class="fw-bold text-success">Smart Gate Assignment</h5>
+                    <p class="text-muted">AI allocates the best entry gate and slot to avoid crowding at peak times.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="p-4 border rounded shadow-sm h-100">
+                    <h5 class="fw-bold text-success">Faster Security Checks</h5>
+                    <p class="text-muted">Verified IDs ensure quick frisking, shorter queues, and smooth entry.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Upcoming Matches (DUMMY DATA) -->
+<section class="py-5 bg-dark text-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h3 class="fw-bold text-success">Upcoming Matches</h3>
+            <p class="text-light">Booking opens soon — join the waitlist and never miss out!</p>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- Dummy Event 1 -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow-lg bg-gradient text-white h-100"
+                     style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">RCB vs CSK</h5>
+                        <p class="card-text">
+                            <strong>Date:</strong> 15 March 2025<br>
+                            <strong>Time:</strong> 7:30 PM<br>
+                            <strong>Venue:</strong> Chinnaswamy Stadium<br>
+                            <strong>Price:</strong> ₹1,200 – ₹8,000
+                        </p>
+                        <a href="/events/1/" class="btn btn-outline-light w-100">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dummy Event 2 -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow-lg bg-gradient text-white h-100"
+                     style="background: linear-gradient(135deg, #1c1c1c, #434343);">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">India vs South Africa</h5>
+                        <p class="card-text">
+                            <strong>Date:</strong> 22 March 2025<br>
+                            <strong>Time:</strong> 7:00 PM<br>
+                            <strong>Venue:</strong> Chinnaswamy Stadium<br>
+                            <strong>Price:</strong> ₹1,500 – ₹10,000
+                        </p>
+                        <a href="/events/2/" class="btn btn-outline-light w-100">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dummy Event 3 -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow-lg bg-gradient text-white h-100"
+                     style="background: linear-gradient(135deg, #16222a, #3a6073);">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">RCB vs Mumbai Indians</h5>
+                        <p class="card-text">
+                            <strong>Date:</strong> 28 March 2025<br>
+                            <strong>Time:</strong> 8:00 PM<br>
+                            <strong>Venue:</strong> Chinnaswamy Stadium<br>
+                            <strong>Price:</strong> ₹1,000 – ₹7,500
+                        </p>
+                        <a href="/events/3/" class="btn btn-outline-light w-100">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- 11-Step Flow -->
+<section class="py-5 bg-light">
+    <div class="container">
+
+        <h2 class="fw-bold text-center mb-5">How GOVVENS Works</h2>
+
+        <div class="row g-4">
+
+            <!-- 11 steps dummy content -->
+            {% for i in "1234567891234" %}
+            <!-- placeholder if needed -->
+            {% endfor %}
+
+            <div class="col-md-6 col-lg-4">
+                <div class="p-4 bg-white border rounded shadow-sm h-100">
+                    <h5 class="fw-bold text-success">1. Signup / Login</h5>
+                    <p>Register with mobile OTP (dummy for now).</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="p-4 bg-white border rounded shadow-sm h-100">
+                    <h5 class="fw-bold text-success">2. Face/Eye Verification</h5>
+                    <p>Mock face scan page for MVP.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="p-4 bg-white border rounded shadow-sm h-100">
+                    <h5 class="fw-bold text-success">3. Browse Matches</h5>
+                    <p>Shows dummy match cards.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="p-4 bg-white border rounded shadow-sm h-100">
+                    <h5 class="fw-bold text-success">4. Event Details</h5>
+                    <p>Static details of match + stadium map.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="p-4 bg-white border rounded shadow-sm h-100">
+                    <h5 class="fw-bold text-success">5. Seat Selection</h5>
+                    <p>Static image-based seat map, click to select.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="p-4 bg-white border rounded shadow-sm h-100">
+                    <h5 class="fw-bold text-success">6. Payment</h5>
+                    <p>Dummy Razorpay sandbox payment page.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="p-4 bg-white border rounded shadow-sm h-100">
+                    <h5 class="fw-bold text-success">7. Ticket Confirmation</h5>
+                    <p>Shows a dummy QR and seat details.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="p-4 bg-white border rounded shadow-sm h-100">
+                    <h5 class="fw-bold text-success">8. My Tickets</h5>
+                    <p>Static list of previously booked dummy tickets.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="p-4 bg-white border rounded shadow-sm h-100">
+                    <h5 class="fw-bold text-success">9. Smart Entry</h5>
+                    <p>Shows dummy gate & time slot.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="p-4 bg-white border rounded shadow-sm h-100">
+                    <h5 class="fw-bold text-success">10. Venue Verification</h5>
+                    <p>Mock face scan gate page.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="p-4 bg-white border rounded shadow-sm h-100">
+                    <h5 class="fw-bold text-success">11. Live Map</h5>
+                    <p>Static crowd heatmap image.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- Key Features in Detail -->
+<section class="py-5 bg-dark text-white">
+    <div class="container">
+        <h2 class="fw-bold text-center mb-5 text-success">Platform Features</h2>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="card bg-secondary border-0 h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-warning"><i class="bi bi-bell-fill me-2"></i>Early Notification System</h5>
+                        <p class="card-text">Pay a small refundable fee (₹10) to get SMS alerts when tickets open. This ensures fair and early access. The fee is deductible from your ticket price.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card bg-secondary border-0 h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-warning"><i class="bi bi-shield-check me-2"></i>Secure Verification</h5>
+                        <p class="card-text">Aadhaar-based eKYC and facial recognition ensure each ticket is tied to the user. Backup verification uses mobile OTP and ID at entry gates.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card bg-secondary border-0 h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-warning"><i class="bi bi-clock-history me-2"></i>Staggered Entry/Exit</h5>
+                        <p class="card-text">Automated time slot assignment minimizes congestion and stampede risk. Each user gets personalized entry and exit windows via SMS and app notifications.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card bg-secondary border-0 h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-warning"><i class="bi bi-geo-alt me-2"></i>Privacy-First Location</h5>
+                        <p class="card-text">Only your home PIN code is required. Routes and timings are computed using Google Maps API. We never track your live location.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card bg-secondary border-0 h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-warning"><i class="bi bi-people-fill me-2"></i>Group Bookings</h5>
+                        <p class="card-text">Book seats for friends and family. The seat map supports multiple selections, holding seats for up to 15 minutes during checkout.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card bg-secondary border-0 h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-warning"><i class="bi bi-credit-card me-2"></i>Secure Payments</h5>
+                        <p class="card-text">Payments processed securely via Razorpay. Accepts Credit/Debit Cards, UPI, Net Banking, and Wallets. All transactions are encrypted.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Preview Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="fw-bold text-center mb-5">Common Questions</h2>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-question-circle text-primary me-2"></i>What is Govvens?</h5>
+                        <p class="card-text text-muted">Govvens is a civic-tech ticketing and crowd-safety platform that manages crowd entry, ticketing, and exit for large events using staggered timings and verified ticketing.</p>
+                        <a href="{% url 'faq' %}" class="btn btn-sm btn-outline-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-question-circle text-primary me-2"></i>How does verification work?</h5>
+                        <p class="card-text text-muted">Each ticket is tied to the user through Aadhaar-based eKYC and facial recognition. At the venue, you'll go through a quick face/eye scan similar to DigiYatra.</p>
+                        <a href="{% url 'faq' %}" class="btn btn-sm btn-outline-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-question-circle text-primary me-2"></i>Do I need to share my live location?</h5>
+                        <p class="card-text text-muted">No. Only your home PIN code is required. Routes and timings are computed using Google Maps API based on that. Your privacy is protected.</p>
+                        <a href="{% url 'faq' %}" class="btn btn-sm btn-outline-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-question-circle text-primary me-2"></i>What if payment fails?</h5>
+                        <p class="card-text text-muted">The reserved seats are released after 15 minutes if payment isn't completed. You can retry the payment within the 15-minute window.</p>
+                        <a href="{% url 'faq' %}" class="btn btn-sm btn-outline-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'faq' %}" class="btn btn-primary btn-lg">
+                <i class="bi bi-question-circle me-2"></i>View All FAQs
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter -->
+<section class="py-5 text-center text-white" style="background: linear-gradient(90deg, #00c6ff, #0072ff);">
+    <div class="container">
+        <h3 class="fw-bold mb-3">Stay Updated!</h3>
+        <p class="mb-4">Join our waitlist to get alerts before tickets go live.</p>
+        <form class="d-flex justify-content-center">
+            <input type="email" class="form-control w-50 me-2" placeholder="Enter your email" required>
+            <button class="btn btn-dark px-4" type="submit">Notify Me</button>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

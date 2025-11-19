@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% block title %}Sign Up / Login - GOVVENS{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <!-- Tabs for Signup/Login -->
+        <ul class="nav nav-tabs nav-justified mb-4" id="authTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="signup-tab" data-bs-toggle="tab" data-bs-target="#signup" type="button" role="tab">
+                    <i class="bi bi-person-plus me-2"></i>Sign Up
+                </button>
+            </li>
+        </ul>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="tab-content" id="authTabsContent">
+            <!-- Login Tab -->
+            <div class="tab-pane fade show active" id="login" role="tabpanel">
+                <div class="card bg-dark text-white border-0 shadow-lg">
+                    <div class="card-header bg-primary text-center">
+                        <h3 class="mb-0"><i class="bi bi-box-arrow-in-right me-2"></i>Login to Your Account</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="post" action="{% url 'signup_login' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="login">
+                            
+                            <div class="mb-3">
+                                <label for="login_email" class="form-label">Email Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-secondary text-white"><i class="bi bi-envelope"></i></span>
+                                    <input type="email" class="form-control bg-dark text-white border-secondary" 
+                                           id="login_email" name="email" placeholder="your.email@example.com" 
+                                           required autofocus>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="login_password" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-secondary text-white"><i class="bi bi-lock"></i></span>
+                                    <input type="password" class="form-control bg-dark text-white border-secondary" 
+                                           id="login_password" name="password" placeholder="Enter your password" 
+                                           required>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('login_password')">
+                                        <i class="bi bi-eye" id="login_password_toggle"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Signup Tab -->
+            <div class="tab-pane fade" id="signup" role="tabpanel">
+                <div class="card bg-dark text-white border-0 shadow-lg">
+                    <div class="card-header bg-success text-center">
+                        <h3 class="mb-0"><i class="bi bi-person-plus me-2"></i>Create New Account</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="post" action="{% url 'signup_login' %}" id="signupForm">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="signup">
+                            
+                            <div class="mb-3">
+                                <label for="signup_username" class="form-label">Username <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-secondary text-white"><i class="bi bi-person"></i></span>
+                                    <input type="text" class="form-control bg-dark text-white border-secondary" 
+                                           id="signup_username" name="username" placeholder="Choose a username" 
+                                           required minlength="3" maxlength="30">
+                                </div>
+                                <small class="text-muted">3-30 characters, letters, numbers, and underscores only</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="signup_email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-secondary text-white"><i class="bi bi-envelope"></i></span>
+                                    <input type="email" class="form-control bg-dark text-white border-secondary" 
+                                           id="signup_email" name="email" placeholder="your.email@example.com" 
+                                           required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="signup_password" class="form-label">Password <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-secondary text-white"><i class="bi bi-lock"></i></span>
+                                    <input type="password" class="form-control bg-dark text-white border-secondary" 
+                                           id="signup_password" name="password" placeholder="Create a strong password" 
+                                           required minlength="8">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('signup_password')">
+                                        <i class="bi bi-eye" id="signup_password_toggle"></i>
+                                    </button>
+                                </div>
+                                <small class="text-muted">Minimum 8 characters</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="signup_phone" class="form-label">Phone Number (Optional)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-secondary text-white"><i class="bi bi-phone"></i></span>
+                                    <input type="tel" class="form-control bg-dark text-white border-secondary" 
+                                           id="signup_phone" name="phone" placeholder="+91 98765 43210" 
+                                           pattern="[0-9]{10}">
+                                </div>
+                                <small class="text-muted">Used for trip planning and notifications</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="signup_pin_code" class="form-label">PIN Code (Optional)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-secondary text-white"><i class="bi bi-geo-alt"></i></span>
+                                    <input type="text" class="form-control bg-dark text-white border-secondary" 
+                                           id="signup_pin_code" name="pin_code" placeholder="560001" 
+                                           pattern="[0-9]{6}" maxlength="6">
+                                </div>
+                                <small class="text-muted">Used for trip planning to the stadium</small>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="bi bi-person-plus me-2"></i>Create Account
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-dark text-white border-0 shadow mt-3">
+            <div class="card-body">
+                <h6 class="text-success"><i class="bi bi-shield-check me-2"></i>Secure Authentication</h6>
+                <p class="small text-muted mb-0">
+                    Your account is secured with email and password authentication. After login, you can optionally 
+                    complete identity verification (Face/Eye Scan) similar to DigiYatra for secure entry at the venue.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function togglePassword(inputId) {
+        const input = document.getElementById(inputId);
+        const toggle = document.getElementById(inputId + '_toggle');
+        if (input.type === 'password') {
+            input.type = 'text';
+            toggle.classList.remove('bi-eye');
+            toggle.classList.add('bi-eye-slash');
+        } else {
+            input.type = 'password';
+            toggle.classList.remove('bi-eye-slash');
+            toggle.classList.add('bi-eye');
+        }
+    }
+
+    // Password strength indicator
+    document.getElementById('signup_password')?.addEventListener('input', function() {
+        const password = this.value;
+        const strength = checkPasswordStrength(password);
+        // You can add visual feedback here
+    });
+
+    function checkPasswordStrength(password) {
+        let strength = 0;
+        if (password.length >= 8) strength++;
+        if (password.match(/[a-z]+/)) strength++;
+        if (password.match(/[A-Z]+/)) strength++;
+        if (password.match(/[0-9]+/)) strength++;
+        if (password.match(/[$@#&!]+/)) strength++;
+        return strength;
+    }
+</script>
+{% endblock %}

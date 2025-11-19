@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Plan Your Journey - GOVVENS{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="bi bi-map me-2"></i>Plan Your Journey to the Stadium</h2>
+</div>
+
+<div class="alert alert-info mb-4">
+    <h6 class="alert-heading"><i class="bi bi-info-circle me-2"></i>Journey Planning</h6>
+    <p class="mb-0">Plan your route to Chinnaswamy Stadium based on your PIN code. We'll calculate the best departure time to arrive during your assigned entry window.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card bg-dark text-white border-0 shadow">
+            <div class="card-header bg-primary">
+                <h5 class="mb-0">Recommended Departure Time</h5>
+            </div>
+            <div class="card-body">
+                <h6 class="text-primary mb-3"><i class="bi bi-geo-alt me-2"></i>Your Location Details</h6>
+                <p class="mb-2"><strong>Your PIN Code:</strong> <span class="badge bg-secondary">{{ user_pin }}</span></p>
+                <p class="mb-2"><strong>Assigned Entry Window:</strong> <span class="badge bg-success">{{ entry_window }}</span></p>
+                <p class="mb-3"><strong>Recommended Departure Time:</strong> <span class="badge bg-warning text-dark">{{ departure_time }}</span></p>
+                
+                <hr class="text-secondary my-3">
+                
+                <h6 class="text-success mb-3"><i class="bi bi-navigation me-2"></i>Route Information</h6>
+                <p class="mb-3">Use Google Maps to plan your route. Click the button below to open directions from your location to Chinnaswamy Stadium.</p>
+                
+                <div class="alert alert-warning small mb-3">
+                    <i class="bi bi-clock me-2"></i><strong>Timing:</strong> Plan to arrive 30 minutes before your entry window to account for traffic and security checks.
+                </div>
+                <div class="d-grid gap-2">
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=Chinnaswamy+Stadium,+Bengaluru" target="_blank" class="btn btn-primary">
+                        <i class="bi bi-map me-2"></i>Open Google Maps
+                    </a>
+                    <a href="{% url 'my_tickets' %}" class="btn btn-outline-light">
+                        <i class="bi bi-ticket-perforated me-2"></i>View My Tickets
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-dark text-white border-0 shadow">
+            <div class="card-header bg-primary">
+                <h5 class="mb-0">Travel Tips</h5>
+            </div>
+            <div class="card-body">
+                <h6 class="text-warning mb-3"><i class="bi bi-lightbulb me-2"></i>Travel Tips</h6>
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Arrive 30 mins before your entry window</li>
+                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Avoid central concourse during peak entry times</li>
+                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Parking available near Gate B and Gate C</li>
+                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Public transport: Metro Blue Line to Majestic, then bus 337</li>
+                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Carry your digital ticket with QR code</li>
+                    <li class="mb-0"><i class="bi bi-check-circle text-success me-2"></i>Follow traffic updates on match day</li>
+                </ul>
+                
+                <hr class="text-secondary my-3">
+                
+                <h6 class="text-info mb-3"><i class="bi bi-building me-2"></i>Stadium Information</h6>
+                <p class="small mb-0">
+                    <strong>Address:</strong> M. Chinnaswamy Stadium, Cubbon Road, Shanthala Nagar, Ashok Nagar, Bengaluru, Karnataka 560001<br>
+                    <strong>Capacity:</strong> ~40,000 seats<br>
+                    <strong>Gates:</strong> Gate A, Gate B, Gate C (Main Entry Points)
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -19,24 +19,32 @@ def signup_login(request):
         
         if action == 'signup':
             # Signup logic
-            if User.objects.filter(email=email).exists():
-                messages.error(request, 'An account with this email already exists. Please login instead.')
+            if not email:
+                messages.error(request, 'Email address is required.')
             elif not username:
-                messages.error(request, 'Username is required for signup.')
+                messages.error(request, 'Username is required.')
+            elif not password:
+                messages.error(request, 'Password is required.')
+            elif User.objects.filter(email=email).exists():
+                messages.error(request, 'An account with this email already exists. Please login instead.')
+            elif User.objects.filter(username=username).exists():
+                messages.error(request, 'This username is already taken. Please choose another.')
             elif len(password) < 8:
                 messages.error(request, 'Password must be at least 8 characters long.')
             else:
                 try:
+                    # Clean phone and pin_code - set to None if empty
+                    phone_value = phone.strip() if phone and phone.strip() else None
+                    pin_code_value = pin_code.strip() if pin_code and pin_code.strip() else None
+                    
+                    # Create user
                     user = User.objects.create_user(
-                        username=username,
-                        email=email,
-                        password=password
+                        username=username.strip(),
+                        email=email.strip().lower(),
+                        password=password,
+                        phone=phone_value,
+                        pin_code=pin_code_value
                     )
-                    if phone:
-                        user.phone = phone
-                    if pin_code:
-                        user.pin_code = pin_code
-                    user.save()
                     login(request, user)
                     messages.success(request, 'Account created successfully! Welcome to GOVVENS.')
                     # Redirect to intended page if exists

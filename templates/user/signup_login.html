@@ -123,21 +123,10 @@
                                 <div class="input-group">
                                     <span class="input-group-text bg-secondary text-white"><i class="bi bi-phone"></i></span>
                                     <input type="tel" class="form-control bg-dark text-white border-secondary" 
-                                           id="signup_phone" name="phone" placeholder="+91 98765 43210" 
-                                           pattern="[0-9]{10}">
+                                           id="signup_phone" name="phone" placeholder="9876543210" 
+                                           pattern="[0-9]{10}" maxlength="10">
                                 </div>
-                                <small class="text-muted">Used for trip planning and notifications</small>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="signup_pin_code" class="form-label">PIN Code (Optional)</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-secondary text-white"><i class="bi bi-geo-alt"></i></span>
-                                    <input type="text" class="form-control bg-dark text-white border-secondary" 
-                                           id="signup_pin_code" name="pin_code" placeholder="560001" 
-                                           pattern="[0-9]{6}" maxlength="6">
-                                </div>
-                                <small class="text-muted">Used for trip planning to the stadium</small>
+                                <small class="text-muted">10-digit phone number (optional, for trip planning and notifications)</small>
                             </div>
 
                             <div class="d-grid gap-2">

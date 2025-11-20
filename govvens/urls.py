@@ -22,3 +22,7 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('', include('website.urls')),
 ]
+
+# Error handlers
+handler404 = 'govvens.views.handler404'
+handler500 = 'govvens.views.handler500'

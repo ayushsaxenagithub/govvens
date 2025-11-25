@@ -3,16 +3,113 @@
 
 {% block content %}
 
+<style>
+    /* Animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    
+    .animate-on-scroll {
+        opacity: 0;
+        transition: all 0.6s ease-out;
+    }
+    
+    .animate-on-scroll.animated {
+        opacity: 1;
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    .step-card {
+        transition: all 0.3s ease;
+        border-left: 4px solid transparent;
+    }
+    
+    .step-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+        border-left-color: #28a745;
+    }
+    
+    .feature-card {
+        transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2) !important;
+    }
+    
+    .hero-section {
+        animation: fadeIn 1s ease-in;
+    }
+    
+    .gradient-text {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .icon-bounce {
+        animation: pulse 2s infinite;
+    }
+</style>
+
 <!-- Hero Section -->
-<section class="position-relative text-white py-5"
-    style="background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
-    url('/static/images/stadium-bg.jpg') center/cover no-repeat;">
+<section class="position-relative text-white py-5 hero-section"
+    style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)),
+    url('https://images.unsplash.com/photo-1530549387789-4c1017266635?w=1920') center/cover no-repeat; min-height: 90vh; display: flex; align-items: center;">
     <div class="container text-center py-5">
-        <h1 class="display-4 fw-bold mb-3">Welcome to <span class="text-success">GOVVENS</span></h1>
-        <p class="lead mb-3">India’s first crowd-safe ticketing platform for high-footfall cricket events.</p>
-        <p class="mb-4">Enjoy smart entry, zero queues, and secure access powered by advanced eKYC + Face Scan.</p>
-        <a href="/events/" class="btn btn-success btn-lg mt-3 shadow-sm px-4 py-2">
-            Explore Upcoming Matches
+        <h1 class="display-3 fw-bold mb-4 animate-on-scroll">
+            Welcome to <span class="text-success">GOVVENS</span>
+        </h1>
+        <p class="lead fs-4 mb-3 animate-on-scroll" style="animation-delay: 0.2s;">
+            India's first crowd-safe ticketing platform for high-footfall cricket events
+        </p>
+        <p class="fs-5 mb-4 animate-on-scroll" style="animation-delay: 0.4s;">
+            Experience smart entry, zero queues, and secure access powered by advanced eKYC + Face Scan technology
+        </p>
+        <a href="{% url 'events_list' %}" class="btn btn-success btn-lg mt-3 shadow-lg px-5 py-3 animate-on-scroll" style="animation-delay: 0.6s;">
+            <i class="bi bi-calendar-event me-2"></i>Explore Upcoming Matches
         </a>
     </div>
 </section>
@@ -21,248 +118,398 @@
 <section class="bg-light text-dark py-5">
     <div class="container">
         <div class="row align-items-center g-4">
-            <div class="col-md-6">
-                <img src="/static/images/safe-crowd.png" alt="Crowd Safety" class="img-fluid rounded shadow">
+            <div class="col-md-6 animate-on-scroll">
+                <div class="text-center">
+                    <i class="bi bi-shield-check-fill text-success" style="font-size: 8rem; opacity: 0.8;"></i>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h2 class="fw-bold mb-3">Why GOVVENS?</h2>
-                <p class="text-muted mb-4">
-                    Designed for safe, smooth, and congestion-free stadium experiences.
+            <div class="col-md-6 animate-on-scroll">
+                <h2 class="fw-bold mb-4 gradient-text">Why Choose GOVVENS?</h2>
+                <p class="text-muted mb-4 fs-5">
+                    Designed for safe, smooth, and congestion-free stadium experiences. 
+                    We combine cutting-edge technology with crowd management expertise.
                 </p>
 
                 <ul class="list-unstyled fs-5">
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>No Bots • No Scalpers • Genuine Fans Only</li>
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>One-time eKYC + Face/Eye Verification</li>
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>AI-based Entry Slot Assignment</li>
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Trip Planner by PIN Code</li>
-                    <li><i class="bi bi-check-circle-fill text-success me-2"></i>Live Gate Occupancy & Crowd Heatmap</li>
+                    <li class="mb-3 animate-on-scroll">
+                        <i class="bi bi-check-circle-fill text-success me-2 icon-bounce"></i>
+                        <strong>No Bots • No Scalpers • Genuine Fans Only</strong>
+                    </li>
+                    <li class="mb-3 animate-on-scroll" style="animation-delay: 0.1s;">
+                        <i class="bi bi-check-circle-fill text-success me-2 icon-bounce" style="animation-delay: 0.5s;"></i>
+                        <strong>One-time eKYC + Face/Eye Verification</strong> - Quick and secure
+                    </li>
+                    <li class="mb-3 animate-on-scroll" style="animation-delay: 0.2s;">
+                        <i class="bi bi-check-circle-fill text-success me-2 icon-bounce" style="animation-delay: 1s;"></i>
+                        <strong>AI-based Entry Slot Assignment</strong> - Avoid peak hour crowds
+                    </li>
+                    <li class="mb-3 animate-on-scroll" style="animation-delay: 0.3s;">
+                        <i class="bi bi-check-circle-fill text-success me-2 icon-bounce" style="animation-delay: 1.5s;"></i>
+                        <strong>Trip Planner by PIN Code</strong> - Privacy-first route optimization
+                    </li>
+                    <li class="mb-3 animate-on-scroll" style="animation-delay: 0.4s;">
+                        <i class="bi bi-check-circle-fill text-success me-2 icon-bounce" style="animation-delay: 2s;"></i>
+                        <strong>Live Gate Occupancy & Crowd Heatmap</strong> - Real-time insights
+                    </li>
                 </ul>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Govvens Features -->
+<!-- Key Features -->
 <section class="py-5">
     <div class="container">
-        <h2 class="fw-bold text-center mb-5">Built for High-Footfall Stadiums</h2>
+        <h2 class="fw-bold text-center mb-5 gradient-text">Built for High-Footfall Stadiums</h2>
         <div class="row g-4">
-
-            <div class="col-md-4">
-                <div class="p-4 border rounded shadow-sm h-100">
-                    <h5 class="fw-bold text-success">Advanced Ticket Protection</h5>
-                    <p class="text-muted">Face-locked tickets prevent black marketing, duplicates, or unauthorised transfers.</p>
+            <div class="col-md-4 animate-on-scroll">
+                <div class="p-4 border rounded shadow-sm h-100 feature-card bg-white">
+                    <div class="text-center mb-3">
+                        <i class="bi bi-shield-lock-fill text-success" style="font-size: 3rem;"></i>
+                    </div>
+                    <h5 class="fw-bold text-success text-center mb-3">Advanced Ticket Protection</h5>
+                    <p class="text-muted text-center">Face-locked tickets prevent black marketing, duplicates, or unauthorized transfers. Each ticket is cryptographically tied to your identity.</p>
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <div class="p-4 border rounded shadow-sm h-100">
-                    <h5 class="fw-bold text-success">Smart Gate Assignment</h5>
-                    <p class="text-muted">AI allocates the best entry gate and slot to avoid crowding at peak times.</p>
+            <div class="col-md-4 animate-on-scroll" style="animation-delay: 0.2s;">
+                <div class="p-4 border rounded shadow-sm h-100 feature-card bg-white">
+                    <div class="text-center mb-3">
+                        <i class="bi bi-diagram-3-fill text-success" style="font-size: 3rem;"></i>
+                    </div>
+                    <h5 class="fw-bold text-success text-center mb-3">Smart Gate Assignment</h5>
+                    <p class="text-muted text-center">AI allocates the best entry gate and time slot to avoid crowding at peak times. Get personalized entry windows via SMS.</p>
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <div class="p-4 border rounded shadow-sm h-100">
-                    <h5 class="fw-bold text-success">Faster Security Checks</h5>
-                    <p class="text-muted">Verified IDs ensure quick frisking, shorter queues, and smooth entry.</p>
+            <div class="col-md-4 animate-on-scroll" style="animation-delay: 0.4s;">
+                <div class="p-4 border rounded shadow-sm h-100 feature-card bg-white">
+                    <div class="text-center mb-3">
+                        <i class="bi bi-speedometer2 text-success" style="font-size: 3rem;"></i>
+                    </div>
+                    <h5 class="fw-bold text-success text-center mb-3">Faster Security Checks</h5>
+                    <p class="text-muted text-center">Verified IDs ensure quick frisking, shorter queues, and smooth entry. Pre-verified users skip long verification lines.</p>
                 </div>
             </div>
-
         </div>
     </div>
 </section>
 
-<!-- Upcoming Matches (DUMMY DATA) -->
+<!-- Upcoming Matches -->
+{% if has_events %}
 <section class="py-5 bg-dark text-white">
     <div class="container">
-        <div class="text-center mb-5">
-            <h3 class="fw-bold text-success">Upcoming Matches</h3>
-            <p class="text-light">Booking opens soon — join the waitlist and never miss out!</p>
+        <div class="text-center mb-5 animate-on-scroll">
+            <h3 class="fw-bold text-success mb-3">Upcoming Matches</h3>
+            <p class="text-light fs-5">Book your tickets now and secure your spot at the stadium!</p>
         </div>
 
         <div class="row g-4">
-
-            <!-- Dummy Event 1 -->
-            <div class="col-md-4">
-                <div class="card border-0 shadow-lg bg-gradient text-white h-100"
+            {% for event in featured_events %}
+            <div class="col-md-4 animate-on-scroll" style="animation-delay: {{ forloop.counter0|add:"0.2" }}s;">
+                <div class="card border-0 shadow-lg bg-gradient text-white h-100 feature-card"
                      style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);">
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold">RCB vs CSK</h5>
-                        <p class="card-text">
-                            <strong>Date:</strong> 15 March 2025<br>
-                            <strong>Time:</strong> 7:30 PM<br>
-                            <strong>Venue:</strong> Chinnaswamy Stadium<br>
-                            <strong>Price:</strong> ₹1,200 – ₹8,000
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h5 class="card-title fw-bold mb-0">{{ event.name }}</h5>
+                            <i class="bi bi-calendar3 text-warning" style="font-size: 1.5rem;"></i>
+                        </div>
+                        <hr class="text-white-50">
+                        <p class="card-text mb-2">
+                            <i class="bi bi-calendar-event me-2"></i><strong>Date:</strong> {{ event.date }}
                         </p>
-                        <a href="/events/1/" class="btn btn-outline-light w-100">View Details</a>
+                        <p class="card-text mb-2">
+                            <i class="bi bi-clock me-2"></i><strong>Time:</strong> {{ event.time }}
+                        </p>
+                        <p class="card-text mb-2">
+                            <i class="bi bi-geo-alt me-2"></i><strong>Venue:</strong> {{ event.stadium }}
+                        </p>
+                        <p class="card-text mb-3">
+                            <i class="bi bi-currency-rupee me-2"></i><strong>Price:</strong> {{ event.ticket_price }}
+                        </p>
+                        <p class="card-text mb-3">
+                            <i class="bi bi-ticket-perforated me-2"></i><strong>Available:</strong> {{ event.available_seats }} seats
+                        </p>
+                        <a href="{% url 'event_detail' event.id %}" class="btn btn-outline-light w-100 mt-3">
+                            <i class="bi bi-eye me-2"></i>View Details & Book
+                        </a>
                     </div>
                 </div>
             </div>
-
-            <!-- Dummy Event 2 -->
-            <div class="col-md-4">
-                <div class="card border-0 shadow-lg bg-gradient text-white h-100"
-                     style="background: linear-gradient(135deg, #1c1c1c, #434343);">
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold">India vs South Africa</h5>
-                        <p class="card-text">
-                            <strong>Date:</strong> 22 March 2025<br>
-                            <strong>Time:</strong> 7:00 PM<br>
-                            <strong>Venue:</strong> Chinnaswamy Stadium<br>
-                            <strong>Price:</strong> ₹1,500 – ₹10,000
-                        </p>
-                        <a href="/events/2/" class="btn btn-outline-light w-100">View Details</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Dummy Event 3 -->
-            <div class="col-md-4">
-                <div class="card border-0 shadow-lg bg-gradient text-white h-100"
-                     style="background: linear-gradient(135deg, #16222a, #3a6073);">
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold">RCB vs Mumbai Indians</h5>
-                        <p class="card-text">
-                            <strong>Date:</strong> 28 March 2025<br>
-                            <strong>Time:</strong> 8:00 PM<br>
-                            <strong>Venue:</strong> Chinnaswamy Stadium<br>
-                            <strong>Price:</strong> ₹1,000 – ₹7,500
-                        </p>
-                        <a href="/events/3/" class="btn btn-outline-light w-100">View Details</a>
-                    </div>
-                </div>
-            </div>
-
+            {% endfor %}
         </div>
-
+        
+        <div class="text-center mt-5">
+            <a href="{% url 'events_list' %}" class="btn btn-success btn-lg px-5">
+                <i class="bi bi-list-ul me-2"></i>View All Events
+            </a>
+        </div>
     </div>
 </section>
+{% else %}
+<section class="py-5 bg-dark text-white">
+    <div class="container text-center">
+        <div class="animate-on-scroll">
+            <i class="bi bi-calendar-x text-warning" style="font-size: 5rem;"></i>
+            <h3 class="fw-bold text-success mt-4 mb-3">No Upcoming Events</h3>
+            <p class="text-light fs-5 mb-4">New matches will be announced soon. Stay tuned for updates!</p>
+            <a href="{% url 'events_list' %}" class="btn btn-success btn-lg px-5">
+                <i class="bi bi-bell me-2"></i>Get Notified
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
 
-<!-- 11-Step Flow -->
-<section class="py-5" style="background-color: #f5f5f5;">
+<!-- How GOVVENS Works - Complete Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
     <div class="container">
-        <h2 class="fw-bold text-center mb-5" style="color: #6c757d; opacity: 0.8;">How GOVVENS Works</h2>
+        <div class="text-center mb-5 animate-on-scroll">
+            <h2 class="fw-bold mb-3 gradient-text" style="font-size: 2.5rem;">How GOVVENS Works</h2>
+            <p class="lead text-muted">A simple, secure, and seamless journey from signup to stadium entry</p>
+        </div>
+        
         <div class="row g-4">
-            <div class="col-md-6 col-lg-4">
-                <div class="p-4 bg-white rounded shadow-sm h-100" style="border: 1px solid #e0e0e0;">
-                    <h5 class="fw-bold mb-2" style="color: #155724;">1. Signup / Login</h5>
-                    <p class="mb-0" style="color: #155724;">Register with mobile OTP (dummy for now).</p>
+            <!-- Step 1 -->
+            <div class="col-md-6 col-lg-4 animate-on-scroll">
+                <div class="p-4 bg-white rounded shadow-sm h-100 step-card">
+                    <div class="text-center mb-3">
+                        <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; font-size: 1.5rem; font-weight: bold;">1</div>
+                    </div>
+                    <h5 class="fw-bold mb-3 text-center text-success">
+                        <i class="bi bi-person-plus me-2"></i>Create Account
+                    </h5>
+                    <p class="text-muted mb-0 text-center">
+                        Sign up with your email and phone number. Quick registration takes less than 2 minutes. 
+                        Your account is your gateway to secure ticketing.
+                    </p>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="p-4 bg-white rounded shadow-sm h-100" style="border: 1px solid #e0e0e0;">
-                    <h5 class="fw-bold mb-2" style="color: #155724;">2. Face/Eye Verification</h5>
-                    <p class="mb-0" style="color: #155724;">Mock face scan page for MVP.</p>
+            
+            <!-- Step 2 -->
+            <div class="col-md-6 col-lg-4 animate-on-scroll" style="animation-delay: 0.1s;">
+                <div class="p-4 bg-white rounded shadow-sm h-100 step-card">
+                    <div class="text-center mb-3">
+                        <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; font-size: 1.5rem; font-weight: bold;">2</div>
+                    </div>
+                    <h5 class="fw-bold mb-3 text-center text-success">
+                        <i class="bi bi-camera-video me-2"></i>Identity Verification
+                    </h5>
+                    <p class="text-muted mb-0 text-center">
+                        Complete one-time eKYC verification using Aadhaar. Then perform face/eye scan 
+                        to link your biometrics to your account. This ensures ticket security.
+                    </p>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="p-4 bg-white rounded shadow-sm h-100" style="border: 1px solid #e0e0e0;">
-                    <h5 class="fw-bold mb-2" style="color: #155724;">3. Browse Matches</h5>
-                    <p class="mb-0" style="color: #155724;">Shows dummy match cards.</p>
+            
+            <!-- Step 3 -->
+            <div class="col-md-6 col-lg-4 animate-on-scroll" style="animation-delay: 0.2s;">
+                <div class="p-4 bg-white rounded shadow-sm h-100 step-card">
+                    <div class="text-center mb-3">
+                        <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; font-size: 1.5rem; font-weight: bold;">3</div>
+                    </div>
+                    <h5 class="fw-bold mb-3 text-center text-success">
+                        <i class="bi bi-calendar-event me-2"></i>Browse Events
+                    </h5>
+                    <p class="text-muted mb-0 text-center">
+                        Explore upcoming cricket matches at Chinnaswamy Stadium. View match details, 
+                        dates, times, and ticket prices. Subscribe to get early notifications.
+                    </p>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="p-4 bg-white rounded shadow-sm h-100" style="border: 1px solid #e0e0e0;">
-                    <h5 class="fw-bold mb-2" style="color: #155724;">4. Event Details</h5>
-                    <p class="mb-0" style="color: #155724;">Static details of match + stadium map.</p>
+            
+            <!-- Step 4 -->
+            <div class="col-md-6 col-lg-4 animate-on-scroll" style="animation-delay: 0.3s;">
+                <div class="p-4 bg-white rounded shadow-sm h-100 step-card">
+                    <div class="text-center mb-3">
+                        <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; font-size: 1.5rem; font-weight: bold;">4</div>
+                    </div>
+                    <h5 class="fw-bold mb-3 text-center text-success">
+                        <i class="bi bi-info-circle me-2"></i>View Match Details
+                    </h5>
+                    <p class="text-muted mb-0 text-center">
+                        Check detailed match information including weather forecast, stadium map, 
+                        gate occupancy levels, and crowd expectations. Plan your visit accordingly.
+                    </p>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="p-4 bg-white rounded shadow-sm h-100" style="border: 1px solid #e0e0e0;">
-                    <h5 class="fw-bold mb-2" style="color: #155724;">5. Seat Selection</h5>
-                    <p class="mb-0" style="color: #155724;">Static image-based seat map, click to select.</p>
+            
+            <!-- Step 5 -->
+            <div class="col-md-6 col-lg-4 animate-on-scroll" style="animation-delay: 0.4s;">
+                <div class="p-4 bg-white rounded shadow-sm h-100 step-card">
+                    <div class="text-center mb-3">
+                        <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; font-size: 1.5rem; font-weight: bold;">5</div>
+                    </div>
+                    <h5 class="fw-bold mb-3 text-center text-success">
+                        <i class="bi bi-grid-3x3-gap me-2"></i>Select Your Seats
+                    </h5>
+                    <p class="text-muted mb-0 text-center">
+                        Choose your preferred seats from the interactive stadium map. Select multiple 
+                        seats for friends and family. Seats are held for 15 minutes during checkout.
+                    </p>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="p-4 bg-white rounded shadow-sm h-100" style="border: 1px solid #e0e0e0;">
-                    <h5 class="fw-bold mb-2" style="color: #155724;">6. Payment</h5>
-                    <p class="mb-0" style="color: #155724;">Dummy Razorpay sandbox payment page.</p>
+            
+            <!-- Step 6 -->
+            <div class="col-md-6 col-lg-4 animate-on-scroll" style="animation-delay: 0.5s;">
+                <div class="p-4 bg-white rounded shadow-sm h-100 step-card">
+                    <div class="text-center mb-3">
+                        <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; font-size: 1.5rem; font-weight: bold;">6</div>
+                    </div>
+                    <h5 class="fw-bold mb-3 text-center text-success">
+                        <i class="bi bi-credit-card me-2"></i>Secure Payment
+                    </h5>
+                    <p class="text-muted mb-0 text-center">
+                        Pay securely via Razorpay using Credit/Debit Cards, UPI, Net Banking, or Wallets. 
+                        All transactions are encrypted and PCI-DSS compliant.
+                    </p>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="p-4 bg-white rounded shadow-sm h-100" style="border: 1px solid #e0e0e0;">
-                    <h5 class="fw-bold mb-2" style="color: #155724;">7. Ticket Confirmation</h5>
-                    <p class="mb-0" style="color: #155724;">Shows a dummy QR and seat details.</p>
+            
+            <!-- Step 7 -->
+            <div class="col-md-6 col-lg-4 animate-on-scroll" style="animation-delay: 0.6s;">
+                <div class="p-4 bg-white rounded shadow-sm h-100 step-card">
+                    <div class="text-center mb-3">
+                        <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; font-size: 1.5rem; font-weight: bold;">7</div>
+                    </div>
+                    <h5 class="fw-bold mb-3 text-center text-success">
+                        <i class="bi bi-check-circle me-2"></i>Receive Ticket
+                    </h5>
+                    <p class="text-muted mb-0 text-center">
+                        Get instant confirmation with a unique QR code ticket. Access your tickets 
+                        anytime from "My Tickets" section. QR code is face-locked to you.
+                    </p>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="p-4 bg-white rounded shadow-sm h-100" style="border: 1px solid #e0e0e0;">
-                    <h5 class="fw-bold mb-2" style="color: #155724;">8. My Tickets</h5>
-                    <p class="mb-0" style="color: #155724;">Static list of previously booked dummy tickets.</p>
+            
+            <!-- Step 8 -->
+            <div class="col-md-6 col-lg-4 animate-on-scroll" style="animation-delay: 0.7s;">
+                <div class="p-4 bg-white rounded shadow-sm h-100 step-card">
+                    <div class="text-center mb-3">
+                        <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; font-size: 1.5rem; font-weight: bold;">8</div>
+                    </div>
+                    <h5 class="fw-bold mb-3 text-center text-success">
+                        <i class="bi bi-clock-history me-2"></i>Get Entry Schedule
+                    </h5>
+                    <p class="text-muted mb-0 text-center">
+                        Receive your personalized entry time slot and assigned gate via SMS and email. 
+                        AI optimizes your slot to minimize waiting time and crowd density.
+                    </p>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="p-4 bg-white rounded shadow-sm h-100" style="border: 1px solid #e0e0e0;">
-                    <h5 class="fw-bold mb-2" style="color: #155724;">9. Smart Entry</h5>
-                    <p class="mb-0" style="color: #155724;">Shows dummy gate & time slot.</p>
+            
+            <!-- Step 9 -->
+            <div class="col-md-6 col-lg-4 animate-on-scroll" style="animation-delay: 0.8s;">
+                <div class="p-4 bg-white rounded shadow-sm h-100 step-card">
+                    <div class="text-center mb-3">
+                        <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; font-size: 1.5rem; font-weight: bold;">9</div>
+                    </div>
+                    <h5 class="fw-bold mb-3 text-center text-success">
+                        <i class="bi bi-geo-alt me-2"></i>Plan Your Journey
+                    </h5>
+                    <p class="text-muted mb-0 text-center">
+                        Enter your home PIN code to get optimized route and departure time. 
+                        Google Maps integration calculates the best travel time to arrive during your slot.
+                    </p>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="p-4 bg-white rounded shadow-sm h-100" style="border: 1px solid #e0e0e0;">
-                    <h5 class="fw-bold mb-2" style="color: #155724;">10. Venue Verification</h5>
-                    <p class="mb-0" style="color: #155724;">Mock face scan gate page.</p>
+            
+            <!-- Step 10 -->
+            <div class="col-md-6 col-lg-4 animate-on-scroll" style="animation-delay: 0.9s;">
+                <div class="p-4 bg-white rounded shadow-sm h-100 step-card">
+                    <div class="text-center mb-3">
+                        <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; font-size: 1.5rem; font-weight: bold;">10</div>
+                    </div>
+                    <h5 class="fw-bold mb-3 text-center text-success">
+                        <i class="bi bi-qr-code-scan me-2"></i>Venue Entry
+                    </h5>
+                    <p class="text-muted mb-0 text-center">
+                        Arrive at your assigned gate during your time slot. Quick face/eye scan 
+                        verification (similar to DigiYatra) confirms your identity and grants entry.
+                    </p>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="p-4 bg-white rounded shadow-sm h-100" style="border: 1px solid #e0e0e0;">
-                    <h5 class="fw-bold mb-2" style="color: #155724;">11. Live Map</h5>
-                    <p class="mb-0" style="color: #155724;">Static crowd heatmap image.</p>
+            
+            <!-- Step 11 -->
+            <div class="col-md-6 col-lg-4 animate-on-scroll" style="animation-delay: 1s;">
+                <div class="p-4 bg-white rounded shadow-sm h-100 step-card">
+                    <div class="text-center mb-3">
+                        <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; font-size: 1.5rem; font-weight: bold;">11</div>
+                    </div>
+                    <h5 class="fw-bold mb-3 text-center text-success">
+                        <i class="bi bi-heart-pulse me-2"></i>Enjoy the Match
+                    </h5>
+                    <p class="text-muted mb-0 text-center">
+                        Watch live gate occupancy and crowd heatmap in real-time. Get exit time 
+                        notifications to avoid post-match congestion. Safe, organized, and enjoyable experience.
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Key Features in Detail -->
+<!-- Platform Features -->
 <section class="py-5 bg-dark text-white">
     <div class="container">
         <h2 class="fw-bold text-center mb-5 text-success">Platform Features</h2>
         <div class="row g-4">
-            <div class="col-md-6 col-lg-4">
-                <div class="card bg-secondary border-0 h-100">
+            <div class="col-md-6 col-lg-4 animate-on-scroll">
+                <div class="card bg-secondary border-0 h-100 feature-card">
                     <div class="card-body">
-                        <h5 class="card-title text-warning"><i class="bi bi-bell-fill me-2"></i>Early Notification System</h5>
+                        <h5 class="card-title text-warning">
+                            <i class="bi bi-bell-fill me-2"></i>Early Notification System
+                        </h5>
                         <p class="card-text">Pay a small refundable fee (₹10) to get SMS alerts when tickets open. This ensures fair and early access. The fee is deductible from your ticket price.</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card bg-secondary border-0 h-100">
+            <div class="col-md-6 col-lg-4 animate-on-scroll" style="animation-delay: 0.2s;">
+                <div class="card bg-secondary border-0 h-100 feature-card">
                     <div class="card-body">
-                        <h5 class="card-title text-warning"><i class="bi bi-shield-check me-2"></i>Secure Verification</h5>
+                        <h5 class="card-title text-warning">
+                            <i class="bi bi-shield-check me-2"></i>Secure Verification
+                        </h5>
                         <p class="card-text">Aadhaar-based eKYC and facial recognition ensure each ticket is tied to the user. Backup verification uses mobile OTP and ID at entry gates.</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card bg-secondary border-0 h-100">
+            <div class="col-md-6 col-lg-4 animate-on-scroll" style="animation-delay: 0.4s;">
+                <div class="card bg-secondary border-0 h-100 feature-card">
                     <div class="card-body">
-                        <h5 class="card-title text-warning"><i class="bi bi-clock-history me-2"></i>Staggered Entry/Exit</h5>
+                        <h5 class="card-title text-warning">
+                            <i class="bi bi-clock-history me-2"></i>Staggered Entry/Exit
+                        </h5>
                         <p class="card-text">Automated time slot assignment minimizes congestion and stampede risk. Each user gets personalized entry and exit windows via SMS and app notifications.</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card bg-secondary border-0 h-100">
+            <div class="col-md-6 col-lg-4 animate-on-scroll" style="animation-delay: 0.6s;">
+                <div class="card bg-secondary border-0 h-100 feature-card">
                     <div class="card-body">
-                        <h5 class="card-title text-warning"><i class="bi bi-geo-alt me-2"></i>Privacy-First Location</h5>
+                        <h5 class="card-title text-warning">
+                            <i class="bi bi-geo-alt me-2"></i>Privacy-First Location
+                        </h5>
                         <p class="card-text">Only your home PIN code is required. Routes and timings are computed using Google Maps API. We never track your live location.</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card bg-secondary border-0 h-100">
+            <div class="col-md-6 col-lg-4 animate-on-scroll" style="animation-delay: 0.8s;">
+                <div class="card bg-secondary border-0 h-100 feature-card">
                     <div class="card-body">
-                        <h5 class="card-title text-warning"><i class="bi bi-people-fill me-2"></i>Group Bookings</h5>
+                        <h5 class="card-title text-warning">
+                            <i class="bi bi-people-fill me-2"></i>Group Bookings
+                        </h5>
                         <p class="card-text">Book seats for friends and family. The seat map supports multiple selections, holding seats for up to 15 minutes during checkout.</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card bg-secondary border-0 h-100">
+            <div class="col-md-6 col-lg-4 animate-on-scroll" style="animation-delay: 1s;">
+                <div class="card bg-secondary border-0 h-100 feature-card">
                     <div class="card-body">
-                        <h5 class="card-title text-warning"><i class="bi bi-credit-card me-2"></i>Secure Payments</h5>
+                        <h5 class="card-title text-warning">
+                            <i class="bi bi-credit-card me-2"></i>Secure Payments
+                        </h5>
                         <p class="card-text">Payments processed securely via Razorpay. Accepts Credit/Debit Cards, UPI, Net Banking, and Wallets. All transactions are encrypted.</p>
                     </div>
                 </div>
@@ -276,37 +523,45 @@
     <div class="container">
         <h2 class="fw-bold text-center mb-5">Common Questions</h2>
         <div class="row g-4">
-            <div class="col-md-6">
-                <div class="card border-0 shadow-sm h-100">
+            <div class="col-md-6 animate-on-scroll">
+                <div class="card border-0 shadow-sm h-100 feature-card">
                     <div class="card-body">
-                        <h5 class="card-title"><i class="bi bi-question-circle text-primary me-2"></i>What is Govvens?</h5>
+                        <h5 class="card-title">
+                            <i class="bi bi-question-circle text-primary me-2"></i>What is Govvens?
+                        </h5>
                         <p class="card-text text-muted">Govvens is a civic-tech ticketing and crowd-safety platform that manages crowd entry, ticketing, and exit for large events using staggered timings and verified ticketing.</p>
                         <a href="{% url 'faq' %}" class="btn btn-sm btn-outline-primary">Learn More</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="card border-0 shadow-sm h-100">
+            <div class="col-md-6 animate-on-scroll" style="animation-delay: 0.2s;">
+                <div class="card border-0 shadow-sm h-100 feature-card">
                     <div class="card-body">
-                        <h5 class="card-title"><i class="bi bi-question-circle text-primary me-2"></i>How does verification work?</h5>
+                        <h5 class="card-title">
+                            <i class="bi bi-question-circle text-primary me-2"></i>How does verification work?
+                        </h5>
                         <p class="card-text text-muted">Each ticket is tied to the user through Aadhaar-based eKYC and facial recognition. At the venue, you'll go through a quick face/eye scan similar to DigiYatra.</p>
                         <a href="{% url 'faq' %}" class="btn btn-sm btn-outline-primary">Learn More</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="card border-0 shadow-sm h-100">
+            <div class="col-md-6 animate-on-scroll" style="animation-delay: 0.4s;">
+                <div class="card border-0 shadow-sm h-100 feature-card">
                     <div class="card-body">
-                        <h5 class="card-title"><i class="bi bi-question-circle text-primary me-2"></i>Do I need to share my live location?</h5>
+                        <h5 class="card-title">
+                            <i class="bi bi-question-circle text-primary me-2"></i>Do I need to share my live location?
+                        </h5>
                         <p class="card-text text-muted">No. Only your home PIN code is required. Routes and timings are computed using Google Maps API based on that. Your privacy is protected.</p>
                         <a href="{% url 'faq' %}" class="btn btn-sm btn-outline-primary">Learn More</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="card border-0 shadow-sm h-100">
+            <div class="col-md-6 animate-on-scroll" style="animation-delay: 0.6s;">
+                <div class="card border-0 shadow-sm h-100 feature-card">
                     <div class="card-body">
-                        <h5 class="card-title"><i class="bi bi-question-circle text-primary me-2"></i>What if payment fails?</h5>
+                        <h5 class="card-title">
+                            <i class="bi bi-question-circle text-primary me-2"></i>What if payment fails?
+                        </h5>
                         <p class="card-text text-muted">The reserved seats are released after 15 minutes if payment isn't completed. You can retry the payment within the 15-minute window.</p>
                         <a href="{% url 'faq' %}" class="btn btn-sm btn-outline-primary">Learn More</a>
                     </div>
@@ -322,10 +577,10 @@
 </section>
 
 <!-- Newsletter -->
-<section class="py-5 text-center text-white" style="background: linear-gradient(90deg, #00c6ff, #0072ff);">
+<section class="py-5 text-center text-white animate-on-scroll" style="background: linear-gradient(90deg, #00c6ff, #0072ff);">
     <div class="container">
         <h3 class="fw-bold mb-3">Stay Updated!</h3>
-        <p class="mb-4">Join our waitlist to get alerts before tickets go live.</p>
+        <p class="mb-4 fs-5">Join our waitlist to get alerts before tickets go live.</p>
         <form class="d-flex justify-content-center">
             <input type="email" class="form-control w-50 me-2" placeholder="Enter your email" required>
             <button class="btn btn-dark px-4" type="submit">Notify Me</button>
@@ -333,4 +588,28 @@
     </div>
 </section>
 
+<script>
+    // Scroll animation observer
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Observe all elements with animate-on-scroll class
+    document.addEventListener('DOMContentLoaded', function() {
+        const elements = document.querySelectorAll('.animate-on-scroll');
+        elements.forEach(el => observer.observe(el));
+    });
+</script>
+
 {% endblock %}
+

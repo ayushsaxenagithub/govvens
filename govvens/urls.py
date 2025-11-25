@@ -25,9 +25,17 @@ urlpatterns = [
     path('', include('website.urls')),
 ]
 
-# Serve static files in development
+# Serve static and media files
+# Note: In production with DEBUG=False, you should use a web server (nginx/apache) 
+# or install whitenoise. For now, we serve static files via Django in both modes.
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf.urls.static import static
+
+# Always add staticfiles_urlpatterns for admin static files
+urlpatterns += staticfiles_urlpatterns()
+
+# Serve media files in development
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Error handlers

@@ -3,42 +3,29 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Event, Booking
 
-# Page 1: Landing Page (Static)
+# Page 1: Landing Page
 def landing_page(request):
-    """Static landing page for investor presentation"""
+    """Landing page with real event data"""
+    # Fetch real upcoming events from database
+    upcoming_events = Event.objects.filter(is_active=True).order_by('date', 'time')[:3]
+    
+    featured_events = []
+    for event in upcoming_events:
+        featured_events.append({
+            'id': event.id,
+            'name': event.name,
+            'date': event.date.strftime('%d %B %Y'),
+            'time': event.time.strftime('%I:%M %p'),
+            'stadium': event.stadium,
+            'ticket_price': f'₹{int(event.ticket_price)}',
+            'available_seats': event.available_seats
+        })
+    
+    # If no events in DB, show message instead of dummy data
     return render(request, 'website/landing.html', {
         'page_title': 'GOVVENS - Crowd-Safe Ticketing',
-        'hero_title': 'Welcome to GOVVENS',
-        'hero_subtitle': 'Crowd-safe ticketing for high-footfall cricket events at Chinnaswamy Stadium.',
-        'featured_events': [
-            {
-                'id': 1,
-                'name': 'India vs Australia',
-                'date': '2025-11-05',
-                'time': '18:00',
-                'stadium': 'Chinnaswamy Stadium',
-                'ticket_price': '₹2500',
-                'available_seats': '1200'
-            },
-            {
-                'id': 2,
-                'name': 'IPL Final',
-                'date': '2025-11-10',
-                'time': '19:00',
-                'stadium': 'Chinnaswamy Stadium',
-                'ticket_price': '₹5000',
-                'available_seats': '800'
-            },
-            {
-                'id': 3,
-                'name': 'T20 World Cup Match',
-                'date': '2025-11-15',
-                'time': '17:30',
-                'stadium': 'Chinnaswamy Stadium',
-                'ticket_price': '₹3500',
-                'available_seats': '1500'
-            }
-        ]
+        'featured_events': featured_events,
+        'has_events': len(featured_events) > 0
     })
 
 # Page 4: Events List

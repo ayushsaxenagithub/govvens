@@ -1,11 +1,15 @@
-from django.shortcuts import render, redirect
-from django.http import JsonResponse, HttpResponseForbidden
-from django.contrib import messages
-from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.decorators import login_required
-from django.utils import timezone
-from .models import User, NotificationSubscription
+import json
 import random
+
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseForbidden, JsonResponse
+from django.shortcuts import redirect, render
+from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+
+from .models import NotificationSubscription, User, UserActivity, UserSession
 
 # Page 2: Signup / Login
 def signup_login(request):
@@ -144,3 +148,55 @@ def operator_dashboard(request):
         'gates': gates,
         'current_time': timezone.now(),
     })
+
+
+@csrf_exempt
+@require_POST
+def track_client_event(request):
+    """
+    Lightweight endpoint the frontend can call to record granular events such as
+    button clicks, scroll depth, or performance timings.
+    """
+    session = getattr(request, "tracking_session", None)
+    if session is None and request.session.session_key:
+        session = UserSession.objects.filter(
+            session_id=request.session.session_key
+        ).first()
+
+    if session is None:
+        return JsonResponse({"error": "session_not_found"}, status=404)
+
+    try:
+        payload = json.loads(request.body or "{}")
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "invalid_json"}, status=400)
+
+    event_type = payload.get("event_type") or UserActivity.EventType.CUSTOM
+    event_payload = payload.get("payload") or {}
+    metadata = payload.get("metadata") or {}
+
+    activity = UserActivity.objects.create(
+        session=session,
+        event_type=event_type,
+        url=payload.get("url") or request.META.get("HTTP_REFERER", ""),
+        path=payload.get("path") or request.path,
+        view_name=payload.get("view_name", ""),
+        handler=payload.get("handler", "client_event"),
+        method=payload.get("method", "CLIENT"),
+        status_code=payload.get("status_code"),
+        response_time_ms=payload.get("response_time_ms"),
+        client_ip=session.ip_address,
+        user_agent=session.user_agent,
+        country=session.country,
+        referrer=payload.get("referrer", request.META.get("HTTP_REFERER", "")),
+        query_params=payload.get("query_params", {}),
+        payload=UserActivity.sanitize_payload(event_payload),
+        metadata={**metadata, "client_event": True},
+    )
+
+    return JsonResponse(
+        {
+            "status": "ok",
+            "activity_id": activity.id,
+        }
+    )

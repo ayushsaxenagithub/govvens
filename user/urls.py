@@ -16,4 +16,7 @@ urlpatterns = [
 
     # Page 13: Operator Dashboard
     path('operator-dashboard/', views.operator_dashboard, name='operator_dashboard'),
+
+    # Tracking API
+    path('track-event/', views.track_client_event, name='track_client_event'),
 ]

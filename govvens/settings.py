@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-wg-6k9$m$ot7(ita=%co2$%o3)w&rr$y^y(124+ln5owr6*okd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True  # Set to False in production
 
 ALLOWED_HOSTS = ['*','15.207.108.196']
 
@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'govvens.middleware.UserTrackingMiddleware',
     'govvens.middleware.AdminProtectionMiddleware',
 ]
 
@@ -120,7 +121,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Additional locations of static files
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+] if (BASE_DIR / 'static').exists() else []
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -129,3 +140,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom User Model
 AUTH_USER_MODEL = 'user.User'
+
+# Tracking / telemetry configuration
+TRACKING_VISITOR_COOKIE_NAME = 'gov_visitor_id'
+TRACKING_VISITOR_COOKIE_AGE = 60 * 60 * 24 * 365  # 1 year
+TRACKING_GEOIP_ENDPOINT = os.getenv('TRACKING_GEOIP_ENDPOINT', 'https://ipapi.co/{ip}/json/')
+TRACKING_GEOIP_TIMEOUT = 2
+TRACKING_IGNORED_PATH_PREFIXES = ['/static/', '/media/', '/favicon.ico', '/admin/jsi18n/']

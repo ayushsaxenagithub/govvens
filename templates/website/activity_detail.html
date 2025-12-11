@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+{% block title %}Activity Details - GOVVENS{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0"><i class="bi bi-activity me-2"></i>Activity Details</h1>
+            <p class="text-muted mb-0">Complete activity information</p>
+        </div>
+        <div>
+            <a href="{% url 'dashboard_activities' %}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Activities
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Activity Information -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Activity Information</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th width="40%">Activity ID:</th>
+                            <td>{{ activity.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Event Type:</th>
+                            <td>
+                                <span class="badge bg-{% if activity.event_type == 'page_view' %}primary{% elif activity.event_type == 'api_request' %}info{% elif activity.event_type == 'auth' %}success{% elif activity.event_type == 'interaction' %}warning{% else %}secondary{% endif %}">
+                                    {{ activity.get_event_type_display }}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Path:</th>
+                            <td><code>{{ activity.path }}</code></td>
+                        </tr>
+                        <tr>
+                            <th>Full URL:</th>
+                            <td>
+                                <a href="{{ activity.url }}" target="_blank" class="text-break">
+                                    {{ activity.url|truncatechars:80 }}
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>View Name:</th>
+                            <td>{{ activity.view_name|default:"-" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Handler:</th>
+                            <td>{{ activity.handler|default:"-" }}</td>
+                        </tr>
+                        <tr>
+                            <th>HTTP Method:</th>
+                            <td>
+                                {% if activity.method %}
+                                    <span class="badge bg-secondary">{{ activity.method }}</span>
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Status Code:</th>
+                            <td>
+                                {% if activity.status_code %}
+                                    {% if activity.status_code < 300 %}
+                                        <span class="badge bg-success">{{ activity.status_code }}</span>
+                                    {% elif activity.status_code < 400 %}
+                                        <span class="badge bg-info">{{ activity.status_code }}</span>
+                                    {% elif activity.status_code < 400 %}
+                                        <span class="badge bg-warning">{{ activity.status_code }}</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">{{ activity.status_code }}</span>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Response Time:</th>
+                            <td>
+                                {% if activity.response_time_ms %}
+                                    {{ activity.response_time_ms }}ms
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Timestamp:</th>
+                            <td>{{ activity.timestamp|date:"M d, Y H:i:s" }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Session & User Information -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-person-circle me-2"></i>Session & User</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th width="40%">Session:</th>
+                            <td>
+                                {% if activity.session %}
+                                    <a href="{% url 'session_detail' activity.session.id %}" class="text-decoration-none">
+                                        <code>{{ activity.session.session_id|truncatechars:40 }}</code>
+                                    </a>
+                                    <br>
+                                    <small class="text-muted">
+                                        Started: {{ activity.session.started_at|date:"M d, Y H:i" }}
+                                    </small>
+                                {% else %}
+                                    <span class="text-muted">No session</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>User:</th>
+                            <td>
+                                {% if activity.session and activity.session.user %}
+                                    <a href="{% url 'dashboard' %}?search={{ activity.session.user.email }}" class="text-decoration-none">
+                                        {{ activity.session.user.email }}
+                                    </a>
+                                    <br>
+                                    <small class="text-muted">{{ activity.session.user.username }}</small>
+                                {% else %}
+                                    <span class="text-muted">Anonymous</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Client IP:</th>
+                            <td>{{ activity.client_ip|default:"-" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Country:</th>
+                            <td>
+                                {% if activity.country %}
+                                    <i class="bi bi-geo-alt"></i> {{ activity.country }}
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>User Agent:</th>
+                            <td>
+                                {% if activity.user_agent %}
+                                    <small class="text-break">{{ activity.user_agent|truncatechars:100 }}</small>
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Referrer:</th>
+                            <td>
+                                {% if activity.referrer %}
+                                    <a href="{{ activity.referrer }}" target="_blank" class="text-break">
+                                        {{ activity.referrer|truncatechars:60 }}
+                                    </a>
+                                {% else %}
+                                    <span class="text-muted">Direct</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Query Parameters -->
+    {% if activity.query_params %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-list-ul me-2"></i>Query Parameters</h5>
+                </div>
+                <div class="card-body">
+                    <pre class="bg-light p-3 rounded"><code>{{ query_params_json|default:"No query parameters" }}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Payload -->
+    {% if activity.payload %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="bi bi-code-square me-2"></i>Payload</h5>
+                </div>
+                <div class="card-body">
+                    <pre class="bg-light p-3 rounded"><code>{{ payload_json|default:"No payload" }}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Metadata -->
+    {% if activity.metadata %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="bi bi-gear me-2"></i>Metadata</h5>
+                </div>
+                <div class="card-body">
+                    <pre class="bg-light p-3 rounded"><code>{{ metadata_json|default:"No metadata" }}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Related Activities -->
+    {% if activity.session %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="bi bi-activity me-2"></i>Other Activities in This Session</h5>
+                    <a href="{% url 'dashboard_activities' %}?session_id={{ activity.session.id }}" class="btn btn-sm btn-light">
+                        View All
+                    </a>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-3">
+                        This activity belongs to session 
+                        <a href="{% url 'session_detail' activity.session.id %}">
+                            {{ activity.session.session_id|truncatechars:50 }}
+                        </a>
+                        which has {{ activity.session.activities.count }} total activities.
+                    </p>
+                    <a href="{% url 'session_detail' activity.session.id %}" class="btn btn-primary">
+                        <i class="bi bi-window me-1"></i>View Full Session Details
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

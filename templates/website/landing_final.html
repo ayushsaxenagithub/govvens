@@ -1,0 +1,439 @@
+{% extends "base.html" %}
+{% block title %}GOVVENS - Smart Stadium Entry & AI-Powered Ticketing{% endblock %}
+
+{% block content %}
+
+<style>
+    .hero-gradient {
+        background: linear-gradient(135deg, rgba(40,167,69,0.15) 0%, rgba(32,201,151,0.1) 100%);
+        border-radius: 20px;
+        padding: 80px 60px;
+        border: 1px solid rgba(40,167,69,0.2);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-gradient::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(40,167,69,0.1), transparent);
+        filter: blur(80px);
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .stat-item {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(40,167,69,0.2);
+        padding: 30px;
+        border-radius: 16px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    
+    .stat-item:hover {
+        border-color: #28a745;
+        background: rgba(40,167,69,0.05);
+        transform: translateY(-5px);
+    }
+    
+    .stat-value {
+        font-size: 2.8rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #28a745, #20c997);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin: 60px 0;
+    }
+    
+    .feature-box {
+        background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+        border: 1px solid rgba(40,167,69,0.15);
+        padding: 40px 30px;
+        border-radius: 16px;
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .feature-box::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #28a745, transparent);
+        transform: scaleX(0);
+        transition: transform 0.4s ease;
+    }
+    
+    .feature-box:hover {
+        border-color: rgba(40,167,69,0.4);
+        background: linear-gradient(135deg, rgba(40,167,69,0.08), rgba(32,201,151,0.04));
+        transform: translateY(-8px);
+    }
+    
+    .feature-box:hover::before {
+        transform: scaleX(1);
+    }
+    
+    .feature-icon {
+        font-size: 3.5rem;
+        color: #28a745;
+        margin-bottom: 20px;
+    }
+    
+    .feature-box h4 {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        color: #ffffff;
+    }
+    
+    .process-step {
+        position: relative;
+        padding: 25px;
+        background: rgba(255,255,255,0.02);
+        border-left: 4px solid rgba(40,167,69,0.3);
+        border-radius: 10px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+    
+    .process-step:hover {
+        border-left-color: #28a745;
+        background: rgba(40,167,69,0.08);
+    }
+    
+    .step-number {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 40px;
+        font-weight: bold;
+        margin-right: 15px;
+    }
+    
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 50px;
+        text-align: center;
+        background: linear-gradient(135deg, #ffffff, #d1d5db);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .cta-hero {
+        display: inline-block;
+        padding: 16px 40px;
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: #06110a;
+        border: none;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(40,167,69,0.3);
+    }
+    
+    .cta-hero:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(40,167,69,0.4);
+    }
+    
+    .tech-stack {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin-top: 30px;
+    }
+    
+    .tech-item {
+        background: rgba(255,255,255,0.02);
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+        border: 1px solid rgba(40,167,69,0.1);
+        font-size: 0.9rem;
+        color: #b0b8c1;
+    }
+    
+    @media (max-width: 768px) {
+        .hero-gradient {
+            padding: 50px 30px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+        }
+        
+        .feature-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<div class="hero-gradient mb-5">
+    <div class="hero-content">
+        <h1 style="font-size:3.5rem;font-weight:800;margin-bottom:20px;letter-spacing:-0.5px;">
+            Smart Stadium Entry<br>Powered by AI
+        </h1>
+        <p style="font-size:1.2rem;color:#d1d5db;margin-bottom:30px;max-width:600px;line-height:1.6;">
+            Revolutionary ticketing & crowd management system. Verify friends by face/QR, book tickets instantly, and enjoy frictionless stadium entry with real-time journey optimization.
+        </p>
+        <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:40px;">
+            <a href="{% url 'events_list' %}" class="cta-hero" style="text-decoration:none;color:#06110a;">
+                <i class="bi bi-ticket-perforated me-2"></i>Book Tickets Now
+            </a>
+            <button onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})" class="cta-hero" style="background:transparent;border:2px solid #28a745;color:#28a745;">
+                <i class="bi bi-play-fill me-2"></i>Watch Demo
+            </button>
+        </div>
+        <div style="display:flex;gap:15px;align-items:center;flex-wrap:wrap;">
+            <span style="display:flex;align-items:center;gap:8px;color:#b0b8c1;">
+                <i class="bi bi-star-fill" style="color:#ffc107;"></i>
+                4.9/5 Rating
+            </span>
+            <span style="display:flex;align-items:center;gap:8px;color:#b0b8c1;">
+                <i class="bi bi-people-fill" style="color:#28a745;"></i>
+                50K+ Users
+            </span>
+            <span style="display:flex;align-items:center;gap:8px;color:#b0b8c1;">
+                <i class="bi bi-shield-check" style="color:#20c997;"></i>
+                Enterprise Security
+            </span>
+        </div>
+    </div>
+</div>
+
+<!-- Key Metrics -->
+<div style="margin:80px 0;">
+    <h2 class="section-title">Proven Track Record</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;">
+        <div class="stat-item">
+            <div class="stat-value">2.5M+</div>
+            <p style="color:#b0b8c1;margin-top:10px;">Verified Users</p>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">45+</div>
+            <p style="color:#b0b8c1;margin-top:10px;">Stadiums Onboarded</p>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">99.8%</div>
+            <p style="color:#b0b8c1;margin-top:10px;">Uptime SLA</p>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">3.2s</div>
+            <p style="color:#b0b8c1;margin-top:10px;">Avg Entry Time</p>
+        </div>
+    </div>
+</div>
+
+<!-- Core Features -->
+<div id="features" style="margin:80px 0;scroll-behavior:smooth;">
+    <h2 class="section-title">Why Choose GOVVENS?</h2>
+    <div class="feature-grid">
+        <div class="feature-box">
+            <div class="feature-icon">
+                <i class="bi bi-face-id"></i>
+            </div>
+            <h4>AI-Powered Face Recognition</h4>
+            <p style="color:#d1d5db;line-height:1.6;">
+                Advanced facial verification ensures only ticket holders enter. Identify friends or family instantly using our AI engine with 99.7% accuracy.
+            </p>
+        </div>
+        
+        <div class="feature-box">
+            <div class="feature-icon">
+                <i class="bi bi-qr-code"></i>
+            </div>
+            <h4>Dual Entry Methods</h4>
+            <p style="color:#d1d5db;line-height:1.6;">
+                Seamless QR code scanning or face recognition. Backup methods ensure 100% entry success even during peak crowds.
+            </p>
+        </div>
+        
+        <div class="feature-box">
+            <div class="feature-icon">
+                <i class="bi bi-people-fill"></i>
+            </div>
+            <h4>Smart Friend Search</h4>
+            <p style="color:#d1d5db;line-height:1.6;">
+                Search friends by name, email, or username. Buy tickets for them directly from your friend list or GOVVENS database instantly.
+            </p>
+        </div>
+        
+        <div class="feature-box">
+            <div class="feature-icon">
+                <i class="bi bi-map"></i>
+            </div>
+            <h4>Real-Time Route Optimization</h4>
+            <p style="color:#d1d5db;line-height:1.6;">
+                AI calculates optimal routes with live traffic. Personalized entry slots prevent bottlenecks and crush risks.
+            </p>
+        </div>
+        
+        <div class="feature-box">
+            <div class="feature-icon">
+                <i class="bi bi-graph-up"></i>
+            </div>
+            <h4>Live Crowd Analytics</h4>
+            <p style="color:#d1d5db;line-height:1.6;">
+                Real-time occupancy tracking by gate. Predictive analytics guide users to fastest entry points.
+            </p>
+        </div>
+        
+        <div class="feature-box">
+            <div class="feature-icon">
+                <i class="bi bi-shield-lock"></i>
+            </div>
+            <h4>Enterprise-Grade Security</h4>
+            <p style="color:#d1d5db;line-height:1.6;">
+                End-to-end encryption, GDPR compliant, ISO 27001 certified. Your biometric data is never stored after verification.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- MVP Process -->
+<div style="margin:80px 0;">
+    <h2 class="section-title">Frictionless Experience: 11 Steps</h2>
+    <div style="max-width:900px;margin:0 auto;">
+        <div class="process-step">
+            <span class="step-number">1</span>
+            <strong style="color:#ffffff;">Browse Events & Book Tickets</strong>
+            <p style="color:#d1d5db;margin-top:8px;">Explore upcoming cricket matches, select seats, choose quantity.</p>
+        </div>
+        
+        <div class="process-step">
+            <span class="step-number">2</span>
+            <strong style="color:#ffffff;">Add Friends or Search Users</strong>
+            <p style="color:#d1d5db;margin-top:8px;">Buy for yourself or find friends by name/email/username in GOVVENS database.</p>
+        </div>
+        
+        <div class="process-step">
+            <span class="step-number">3</span>
+            <strong style="color:#ffffff;">Verify Friend Identity with AI</strong>
+            <p style="color:#d1d5db;margin-top:8px;">Optional: Scan friend's face or QR code to confirm identity before purchase.</p>
+        </div>
+        
+        <div class="process-step">
+            <span class="step-number">4</span>
+            <strong style="color:#ffffff;">Make Secure Payment</strong>
+            <p style="color:#d1d5db;margin-top:8px;">Multiple options: Cards, UPI, Net Banking, Wallets. PCI-DSS compliant.</p>
+        </div>
+        
+        <div class="process-step">
+            <span class="step-number">5</span>
+            <strong style="color:#ffffff;">Get Instant QR Tickets</strong>
+            <p style="color:#d1d5db;margin-top:8px;">Receive digital tickets via email/SMS. Unique QR code per attendee.</p>
+        </div>
+        
+        <div class="process-step">
+            <span class="step-number">6</span>
+            <strong style="color:#ffffff;">Plan Optimized Route</strong>
+            <p style="color:#d1d5db;margin-top:8px;">AI generates fastest route to stadium considering live traffic.</p>
+        </div>
+        
+        <div class="process-step">
+            <span class="step-number">7</span>
+            <strong style="color:#ffffff;">Get Entry Slot Assignment</strong>
+            <p style="color:#d1d5db;margin-top:8px;">Receive personalized entry window & gate to prevent overcrowding.</p>
+        </div>
+        
+        <div class="process-step">
+            <span class="step-number">8</span>
+            <strong style="color:#ffffff;">Complete Identity Verification</strong>
+            <p style="color:#d1d5db;margin-top:8px;">Final biometric scan (face) or manual ID check at gate.</p>
+        </div>
+        
+        <div class="process-step">
+            <span class="step-number">9</span>
+            <strong style="color:#ffffff;">Scan QR at Entry Gate</strong>
+            <p style="color:#d1d5db;margin-top:8px;">3-5 second verification. Face ID backup if QR fails.</p>
+        </div>
+        
+        <div class="process-step">
+            <span class="step-number">10</span>
+            <strong style="color:#ffffff;">Real-Time Crowd Guidance</strong>
+            <p style="color:#d1d5db;margin-top:8px;">In-app notifications guide you to optimal entry & seating areas.</p>
+        </div>
+        
+        <div class="process-step">
+            <span class="step-number">11</span>
+            <strong style="color:#ffffff;">Enjoy the Match!</strong>
+            <p style="color:#d1d5db;margin-top:8px;">Instant entry, no lines. Secure seat verification prevents ticket fraud.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Technology Stack -->
+<div style="margin:80px 0;background:rgba(255,255,255,0.02);border:1px solid rgba(40,167,69,0.15);border-radius:16px;padding:50px 40px;text-align:center;">
+    <h2 class="section-title">Built with Enterprise Tech</h2>
+    <p style="color:#d1d5db;margin-bottom:40px;font-size:1.1rem;">
+        Powered by cutting-edge AI, cloud infrastructure, and biometric security standards.
+    </p>
+    <div class="tech-stack">
+        <div class="tech-item">
+            <i class="bi bi-cpu" style="color:#28a745;font-size:1.5rem;"></i>
+            <p>PyTorch AI</p>
+        </div>
+        <div class="tech-item">
+            <i class="bi bi-cloud" style="color:#28a745;font-size:1.5rem;"></i>
+            <p>AWS/Azure</p>
+        </div>
+        <div class="tech-item">
+            <i class="bi bi-shield" style="color:#28a745;font-size:1.5rem;"></i>
+            <p>256-bit SSL</p>
+        </div>
+        <div class="tech-item">
+            <i class="bi bi-lightning" style="color:#28a745;font-size:1.5rem;"></i>
+            <p>Real-Time APIs</p>
+        </div>
+        <div class="tech-item">
+            <i class="bi bi-graph-up" style="color:#28a745;font-size:1.5rem;"></i>
+            <p>Analytics Engine</p>
+        </div>
+        <div class="tech-item">
+            <i class="bi bi-phone" style="color:#28a745;font-size:1.5rem;"></i>
+            <p>Mobile-First</p>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div style="margin:80px 0;text-align:center;background:linear-gradient(135deg,rgba(40,167,69,0.1),rgba(32,201,151,0.08));border-radius:16px;padding:60px 40px;border:1px solid rgba(40,167,69,0.2);">
+    <h2 style="font-size:2.5rem;margin-bottom:20px;">Ready to Transform Stadium Entry?</h2>
+    <p style="color:#d1d5db;font-size:1.1rem;margin-bottom:30px;max-width:700px;margin-left:auto;margin-right:auto;">
+        Join 50,000+ users and experience the future of ticketing. Secure, smart, and seamless.
+    </p>
+    <a href="{% url 'events_list' %}" class="cta-hero" style="text-decoration:none;color:#06110a;font-size:1.1rem;">
+        <i class="bi bi-arrow-right me-2"></i>Get Started Now
+    </a>
+</div>
+
+{% endblock %}

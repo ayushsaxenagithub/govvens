@@ -1,0 +1,1561 @@
+INFO 2025-12-12 01:44:09,856 autoreload 108448 89476 Watching for file changes with StatReloader
+INFO 2025-12-12 01:47:48,071 autoreload 110264 87148 Watching for file changes with StatReloader
+ERROR 2025-12-12 01:47:59,046 views 110264 35972 Error in dashboard_activities: Invalid filter: 'replace'
+ERROR 2025-12-12 01:47:59,063 log 110264 35972 Internal Server Error: /dashboard/activities/
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\website\views.py", line 801, in dashboard_activities
+    return render(request, 'website/dashboard_activities.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 489, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'replace'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\website\views.py", line 805, in dashboard_activities
+    return render(request, 'website/dashboard_activities.html', {
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 489, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'replace'
+ERROR 2025-12-12 01:47:59,088 basehttp 110264 35972 "GET /dashboard/activities/ HTTP/1.1" 500 2755
+ERROR 2025-12-12 01:48:01,536 views 110264 35972 Error in dashboard_activities: Invalid filter: 'replace'
+ERROR 2025-12-12 01:48:01,539 log 110264 35972 Internal Server Error: /dashboard/activities/
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\website\views.py", line 801, in dashboard_activities
+    return render(request, 'website/dashboard_activities.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 489, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'replace'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\website\views.py", line 805, in dashboard_activities
+    return render(request, 'website/dashboard_activities.html', {
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 489, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'replace'
+ERROR 2025-12-12 01:48:01,552 basehttp 110264 35972 "GET /dashboard/activities/ HTTP/1.1" 500 2755
+INFO 2025-12-12 01:48:03,331 basehttp 110264 35972 "GET /dashboard/sessions/ HTTP/1.1" 200 66271
+INFO 2025-12-12 01:48:08,815 basehttp 110264 35972 "GET /dashboard/ HTTP/1.1" 200 46690
+INFO 2025-12-12 01:48:11,556 basehttp 110264 35972 "GET / HTTP/1.1" 200 36354
+INFO 2025-12-12 01:48:12,856 basehttp 110264 35972 "GET / HTTP/1.1" 200 36354
+INFO 2025-12-12 01:48:14,250 basehttp 110264 35972 "GET /events/ HTTP/1.1" 200 10251
+INFO 2025-12-12 01:48:17,118 basehttp 110264 35972 "GET /my-tickets/ HTTP/1.1" 200 8320
+INFO 2025-12-12 01:48:18,675 basehttp 110264 35972 "GET /entry-exit-plan/ HTTP/1.1" 200 11864
+INFO 2025-12-12 01:48:19,921 basehttp 110264 35972 "GET /my-tickets/ HTTP/1.1" 200 8320
+INFO 2025-12-12 01:48:22,304 basehttp 110264 35972 "GET /events/ HTTP/1.1" 200 10251
+INFO 2025-12-12 01:48:24,120 basehttp 110264 35972 "GET /exit-info/ HTTP/1.1" 200 11209
+INFO 2025-12-12 01:48:25,234 basehttp 110264 35972 "GET /entry-exit-plan/ HTTP/1.1" 200 11864
+INFO 2025-12-12 01:48:28,764 basehttp 110264 118448 "GET /user/entry-verification/ HTTP/1.1" 200 13316
+INFO 2025-12-12 01:48:32,543 basehttp 110264 118448 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-12 01:48:32,573 basehttp 110264 118448 "GET /events/ HTTP/1.1" 200 10251
+WARNING 2025-12-12 01:48:34,710 views 110264 118448 Event 2 not found
+INFO 2025-12-12 01:48:34,721 basehttp 110264 118448 "GET /event/2/ HTTP/1.1" 302 0
+INFO 2025-12-12 01:48:34,751 basehttp 110264 118448 "GET /events/ HTTP/1.1" 200 10251
+INFO 2025-12-12 01:48:36,744 basehttp 110264 102680 "GET /faq/ HTTP/1.1" 200 15038
+INFO 2025-12-12 01:48:52,803 basehttp 110264 102680 "GET /user/verify-identity/ HTTP/1.1" 200 13154
+INFO 2025-12-12 01:49:22,047 basehttp 110264 59456 "GET / HTTP/1.1" 200 35137
+WARNING 2025-12-12 01:49:23,592 log 110264 70428 Not Found: /favicon.ico
+WARNING 2025-12-12 01:49:23,594 basehttp 110264 70428 "GET /favicon.ico HTTP/1.1" 404 2679
+INFO 2025-12-12 01:49:29,500 basehttp 110264 70428 "GET /dashboard HTTP/1.1" 301 0
+INFO 2025-12-12 01:49:29,547 basehttp 110264 52152 "GET /dashboard/ HTTP/1.1" 302 0
+WARNING 2025-12-12 01:49:29,590 log 110264 52152 Not Found: /accounts/login/
+WARNING 2025-12-12 01:49:29,590 basehttp 110264 52152 "GET /accounts/login/?next=/dashboard/ HTTP/1.1" 404 2679
+INFO 2025-12-12 01:49:57,399 basehttp 110264 73580 "GET / HTTP/1.1" 200 35137
+INFO 2025-12-12 01:50:00,672 basehttp 110264 96280 "GET /events/ HTTP/1.1" 200 8899
+INFO 2025-12-12 01:50:02,811 basehttp 110264 96280 "GET /my-tickets/ HTTP/1.1" 200 8474
+INFO 2025-12-12 01:50:05,129 basehttp 110264 96280 "GET /entry-exit-plan/ HTTP/1.1" 200 10649
+INFO 2025-12-12 01:50:08,324 basehttp 110264 96280 "GET /exit-info/ HTTP/1.1" 200 9992
+INFO 2025-12-12 01:50:11,384 basehttp 110264 96280 "GET /user/entry-verification/ HTTP/1.1" 200 12099
+INFO 2025-12-12 01:50:13,968 basehttp 110264 96280 "POST /user/entry-verification/ HTTP/1.1" 200 49
+INFO 2025-12-12 01:50:17,247 basehttp 110264 96280 "GET /ticket/confirm/ HTTP/1.1" 200 8564
+INFO 2025-12-12 01:50:18,745 basehttp 110264 96280 "GET /faq/ HTTP/1.1" 200 13821
+INFO 2025-12-12 01:50:19,843 basehttp 110264 96280 "GET /user/signup-login/ HTTP/1.1" 200 16586
+ERROR 2025-12-12 01:50:28,849 log 110264 96280 Internal Server Error: /user/signup-login/
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\AppData\Local\Programs\Python\Python311\Lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1140, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\user\views.py", line 68, in signup_login
+    if user.check_password(password):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\base_user.py", line 112, in check_password
+    return check_password(raw_password, self.password, setter)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 82, in check_password
+    setter(password)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\base_user.py", line 107, in setter
+    self.set_password(raw_password)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\base_user.py", line 97, in set_password
+    self.password = make_password(raw_password)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 113, in make_password
+    return hasher.encode(password, salt)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 396, in encode
+    argon2 = self._load_library()
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-12-12 01:50:28,867 basehttp 110264 96280 "POST /user/signup-login/ HTTP/1.1" 500 2755
+INFO 2025-12-12 01:50:31,756 basehttp 110264 96280 "GET / HTTP/1.1" 200 35137
+INFO 2025-12-12 01:50:33,089 basehttp 110264 96280 "GET /user/signup-login/ HTTP/1.1" 200 16586
+ERROR 2025-12-12 01:50:40,354 log 110264 96280 Internal Server Error: /user/signup-login/
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\AppData\Local\Programs\Python\Python311\Lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1140, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\user\views.py", line 68, in signup_login
+    if user.check_password(password):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\base_user.py", line 112, in check_password
+    return check_password(raw_password, self.password, setter)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 82, in check_password
+    setter(password)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\base_user.py", line 107, in setter
+    self.set_password(raw_password)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\base_user.py", line 97, in set_password
+    self.password = make_password(raw_password)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 113, in make_password
+    return hasher.encode(password, salt)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 396, in encode
+    argon2 = self._load_library()
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-12-12 01:50:40,409 basehttp 110264 96280 "POST /user/signup-login/ HTTP/1.1" 500 2755
+INFO 2025-12-12 01:51:28,425 autoreload 110264 87148 C:\Users\ayush\OneDrive\Desktop\code\Govvens\govvens\settings.py changed, reloading.
+INFO 2025-12-12 01:51:30,103 autoreload 63740 60084 Watching for file changes with StatReloader
+ERROR 2025-12-12 01:51:36,159 log 63740 36172 Internal Server Error: /user/signup-login/
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\AppData\Local\Programs\Python\Python311\Lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1140, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\user\views.py", line 68, in signup_login
+    if user.check_password(password):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\base_user.py", line 112, in check_password
+    return check_password(raw_password, self.password, setter)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 82, in check_password
+    setter(password)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\base_user.py", line 107, in setter
+    self.set_password(raw_password)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\base_user.py", line 97, in set_password
+    self.password = make_password(raw_password)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 113, in make_password
+    return hasher.encode(password, salt)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 396, in encode
+    argon2 = self._load_library()
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-12-12 01:51:36,193 basehttp 63740 36172 "POST /user/signup-login/ HTTP/1.1" 500 122823
+INFO 2025-12-12 01:52:07,794 autoreload 113972 67620 Watching for file changes with StatReloader
+INFO 2025-12-12 01:52:52,391 autoreload 41116 68684 Watching for file changes with StatReloader
+ERROR 2025-12-12 01:52:57,629 log 41116 9456 Internal Server Error: /user/signup-login/
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\AppData\Local\Programs\Python\Python311\Lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1140, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\user\views.py", line 68, in signup_login
+    if user.check_password(password):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\base_user.py", line 112, in check_password
+    return check_password(raw_password, self.password, setter)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 82, in check_password
+    setter(password)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\base_user.py", line 107, in setter
+    self.set_password(raw_password)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\base_user.py", line 97, in set_password
+    self.password = make_password(raw_password)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 113, in make_password
+    return hasher.encode(password, salt)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 396, in encode
+    argon2 = self._load_library()
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-12-12 01:52:57,643 basehttp 41116 9456 "POST /user/signup-login/ HTTP/1.1" 500 123584
+INFO 2025-12-12 01:53:22,457 autoreload 55528 121060 Watching for file changes with StatReloader
+ERROR 2025-12-12 01:53:26,541 log 55528 96396 Internal Server Error: /user/signup-login/
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\AppData\Local\Programs\Python\Python311\Lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1140, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\user\views.py", line 68, in signup_login
+    if user.check_password(password):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\base_user.py", line 112, in check_password
+    return check_password(raw_password, self.password, setter)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 82, in check_password
+    setter(password)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\base_user.py", line 107, in setter
+    self.set_password(raw_password)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\base_user.py", line 97, in set_password
+    self.password = make_password(raw_password)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 113, in make_password
+    return hasher.encode(password, salt)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 396, in encode
+    argon2 = self._load_library()
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-12-12 01:53:26,557 basehttp 55528 96396 "POST /user/signup-login/ HTTP/1.1" 500 123584
+INFO 2025-12-12 01:54:02,056 autoreload 29884 64348 Watching for file changes with StatReloader
+INFO 2025-12-12 01:54:05,547 basehttp 29884 70348 "POST /user/signup-login/ HTTP/1.1" 302 0
+INFO 2025-12-12 01:54:05,632 basehttp 29884 70348 "GET /events/ HTTP/1.1" 200 10251
+INFO 2025-12-12 01:54:08,905 basehttp 29884 70348 "GET /dashboard/ HTTP/1.1" 200 46690
+INFO 2025-12-12 01:54:18,762 basehttp 29884 70348 "GET /dashboard/sessions/ HTTP/1.1" 200 76070
+ERROR 2025-12-12 01:54:24,421 views 29884 70348 Error getting session activities: Cannot reorder a query once a slice has been taken.
+ERROR 2025-12-12 01:54:24,424 views 29884 70348 Error in session_detail: Invalid filter: 'intdiv'
+INFO 2025-12-12 01:54:24,437 basehttp 29884 70348 "GET /dashboard/sessions/2/ HTTP/1.1" 302 0
+INFO 2025-12-12 01:54:24,488 basehttp 29884 70348 "GET /dashboard/sessions/ HTTP/1.1" 200 76070
+ERROR 2025-12-12 01:54:27,729 views 29884 70348 Error getting session activities: Cannot reorder a query once a slice has been taken.
+ERROR 2025-12-12 01:54:27,731 views 29884 70348 Error in session_detail: Invalid filter: 'intdiv'
+INFO 2025-12-12 01:54:27,747 basehttp 29884 70348 "GET /dashboard/sessions/12/ HTTP/1.1" 302 0
+INFO 2025-12-12 01:54:27,803 basehttp 29884 70348 "GET /dashboard/sessions/ HTTP/1.1" 200 76070
+ERROR 2025-12-12 01:54:29,564 views 29884 70348 Error in dashboard_activities: Invalid filter: 'replace'
+ERROR 2025-12-12 01:54:29,650 log 29884 70348 Internal Server Error: /dashboard/activities/
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\website\views.py", line 801, in dashboard_activities
+    return render(request, 'website/dashboard_activities.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 489, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'replace'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\website\views.py", line 805, in dashboard_activities
+    return render(request, 'website/dashboard_activities.html', {
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 489, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'replace'
+ERROR 2025-12-12 01:54:29,674 basehttp 29884 70348 "GET /dashboard/activities/ HTTP/1.1" 500 550659
+ERROR 2025-12-12 01:56:33,132 views 29884 70348 Error in dashboard_activities: 'custom_filters' is not a registered tag library. Must be one of:
+admin_list
+admin_modify
+admin_urls
+cache
+i18n
+l10n
+log
+static
+tz
+ERROR 2025-12-12 01:56:33,208 log 29884 70348 Internal Server Error: /dashboard/activities/
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 1035, in find_library
+    return parser.libraries[name]
+           ~~~~~~~~~~~~~~~~^^^^^^
+KeyError: 'custom_filters'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\website\views.py", line 801, in dashboard_activities
+    return render(request, 'website/dashboard_activities.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 1097, in load
+    lib = find_library(parser, name)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 1037, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'custom_filters' is not a registered tag library. Must be one of:
+admin_list
+admin_modify
+admin_urls
+cache
+i18n
+l10n
+log
+static
+tz
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 1035, in find_library
+    return parser.libraries[name]
+           ~~~~~~~~~~~~~~~~^^^^^^
+KeyError: 'custom_filters'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\website\views.py", line 805, in dashboard_activities
+    return render(request, 'website/dashboard_activities.html', {
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 1097, in load
+    lib = find_library(parser, name)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 1037, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'custom_filters' is not a registered tag library. Must be one of:
+admin_list
+admin_modify
+admin_urls
+cache
+i18n
+l10n
+log
+static
+tz
+ERROR 2025-12-12 01:56:33,224 basehttp 29884 70348 "GET /dashboard/activities/ HTTP/1.1" 500 432320
+ERROR 2025-12-12 01:56:35,563 views 29884 70348 Error in dashboard_activities: 'custom_filters' is not a registered tag library. Must be one of:
+admin_list
+admin_modify
+admin_urls
+cache
+i18n
+l10n
+log
+static
+tz
+ERROR 2025-12-12 01:56:35,645 log 29884 70348 Internal Server Error: /dashboard/activities/
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 1035, in find_library
+    return parser.libraries[name]
+           ~~~~~~~~~~~~~~~~^^^^^^
+KeyError: 'custom_filters'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\website\views.py", line 801, in dashboard_activities
+    return render(request, 'website/dashboard_activities.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 1097, in load
+    lib = find_library(parser, name)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 1037, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'custom_filters' is not a registered tag library. Must be one of:
+admin_list
+admin_modify
+admin_urls
+cache
+i18n
+l10n
+log
+static
+tz
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 1035, in find_library
+    return parser.libraries[name]
+           ~~~~~~~~~~~~~~~~^^^^^^
+KeyError: 'custom_filters'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\website\views.py", line 805, in dashboard_activities
+    return render(request, 'website/dashboard_activities.html', {
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 1097, in load
+    lib = find_library(parser, name)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\defaulttags.py", line 1037, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'custom_filters' is not a registered tag library. Must be one of:
+admin_list
+admin_modify
+admin_urls
+cache
+i18n
+l10n
+log
+static
+tz
+ERROR 2025-12-12 01:56:35,666 basehttp 29884 70348 "GET /dashboard/activities/ HTTP/1.1" 500 432414
+INFO 2025-12-12 01:58:07,105 autoreload 100732 107644 Watching for file changes with StatReloader
+INFO 2025-12-12 01:58:11,311 basehttp 100732 17612 "GET /dashboard/activities/ HTTP/1.1" 200 259641
+INFO 2025-12-12 01:58:17,598 basehttp 100732 17612 "GET /dashboard/activities/171/ HTTP/1.1" 200 16229
+ERROR 2025-12-12 01:58:22,833 views 100732 17612 Error getting session activities: Cannot reorder a query once a slice has been taken.
+ERROR 2025-12-12 01:58:22,834 views 100732 17612 Error in session_detail: Invalid filter: 'intdiv'
+INFO 2025-12-12 01:58:22,845 basehttp 100732 17612 "GET /dashboard/sessions/12/ HTTP/1.1" 302 0
+INFO 2025-12-12 01:58:22,903 basehttp 100732 17612 "GET /dashboard/sessions/ HTTP/1.1" 200 76070
+INFO 2025-12-12 01:58:49,340 autoreload 100732 107644 C:\Users\ayush\OneDrive\Desktop\code\Govvens\website\views.py changed, reloading.
+INFO 2025-12-12 01:58:49,998 autoreload 48308 96692 Watching for file changes with StatReloader
+INFO 2025-12-12 01:58:56,560 autoreload 62888 83468 Watching for file changes with StatReloader
+INFO 2025-12-12 01:58:58,100 basehttp 48308 87096 "GET /dashboard/sessions/ HTTP/1.1" 200 76070
+INFO 2025-12-12 01:58:59,668 basehttp 48308 65684 "GET /dashboard/sessions/ HTTP/1.1" 200 76070
+INFO 2025-12-12 01:59:02,821 basehttp 48308 65684 "GET /dashboard/activities/ HTTP/1.1" 200 259846
+INFO 2025-12-12 01:59:04,047 basehttp 48308 65684 "GET /dashboard/ HTTP/1.1" 200 46690
+INFO 2025-12-12 01:59:06,594 basehttp 48308 65684 "GET /dashboard/activities/?user_id=3 HTTP/1.1" 200 259858
+ERROR 2025-12-12 01:59:12,708 views 48308 65684 Error getting session activities: Cannot reorder a query once a slice has been taken.
+ERROR 2025-12-12 01:59:12,711 views 48308 65684 Error in session_detail: Invalid filter: 'intdiv'
+INFO 2025-12-12 01:59:12,725 basehttp 48308 65684 "GET /dashboard/sessions/11/ HTTP/1.1" 302 0
+INFO 2025-12-12 01:59:12,779 basehttp 48308 65684 "GET /dashboard/sessions/ HTTP/1.1" 200 76070
+INFO 2025-12-12 01:59:17,077 basehttp 48308 65684 "GET / HTTP/1.1" 200 36354
+INFO 2025-12-12 01:59:18,477 basehttp 48308 65684 "GET /events/ HTTP/1.1" 200 10251
+INFO 2025-12-12 01:59:19,655 basehttp 48308 65684 "GET /my-tickets/ HTTP/1.1" 200 8320
+INFO 2025-12-12 01:59:20,423 basehttp 48308 65684 "GET /entry-exit-plan/ HTTP/1.1" 200 11864
+INFO 2025-12-12 01:59:21,700 basehttp 48308 65684 "GET /my-tickets/ HTTP/1.1" 200 8320
+INFO 2025-12-12 01:59:27,953 autoreload 48308 96692 C:\Users\ayush\OneDrive\Desktop\code\Govvens\website\views.py changed, reloading.
+INFO 2025-12-12 01:59:27,968 autoreload 62888 83468 C:\Users\ayush\OneDrive\Desktop\code\Govvens\website\views.py changed, reloading.
+INFO 2025-12-12 01:59:28,652 autoreload 46240 101212 Watching for file changes with StatReloader
+INFO 2025-12-12 01:59:28,653 autoreload 70264 117040 Watching for file changes with StatReloader
+INFO 2025-12-12 01:59:40,463 autoreload 46240 101212 C:\Users\ayush\OneDrive\Desktop\code\Govvens\govvens\settings.py changed, reloading.
+INFO 2025-12-12 01:59:40,587 autoreload 70264 117040 C:\Users\ayush\OneDrive\Desktop\code\Govvens\govvens\settings.py changed, reloading.
+INFO 2025-12-12 01:59:41,250 autoreload 94516 49816 Watching for file changes with StatReloader
+INFO 2025-12-12 01:59:41,306 autoreload 79020 61736 Watching for file changes with StatReloader
+INFO 2025-12-12 01:59:55,670 basehttp 94516 114088 "GET /my-tickets/ HTTP/1.1" 200 8320
+INFO 2025-12-12 01:59:57,446 basehttp 94516 114088 "GET /exit-info/ HTTP/1.1" 200 11209
+INFO 2025-12-12 01:59:58,531 basehttp 94516 114088 "GET /entry-exit-plan/ HTTP/1.1" 200 11864
+INFO 2025-12-12 01:59:59,268 basehttp 94516 114088 "GET /my-tickets/ HTTP/1.1" 200 8320
+INFO 2025-12-12 02:00:00,087 basehttp 94516 114088 "GET /events/ HTTP/1.1" 200 10251
+INFO 2025-12-12 02:00:00,829 basehttp 94516 114088 "GET / HTTP/1.1" 200 36354
+INFO 2025-12-12 02:00:01,548 basehttp 94516 114088 "GET / HTTP/1.1" 200 36354
+INFO 2025-12-12 02:00:02,867 basehttp 94516 114088 "GET /faq/ HTTP/1.1" 200 15038
+INFO 2025-12-12 02:00:05,285 basehttp 94516 114088 "GET /my-tickets/ HTTP/1.1" 200 8320
+INFO 2025-12-12 02:00:07,747 basehttp 94516 114088 "GET /entry-exit-plan/ HTTP/1.1" 200 11864
+INFO 2025-12-12 02:00:10,322 basehttp 94516 114088 "GET /user/verify-identity/ HTTP/1.1" 200 14397
+INFO 2025-12-12 02:01:03,740 autoreload 120792 70696 Watching for file changes with StatReloader
+INFO 2025-12-12 02:01:18,029 basehttp 94516 114088 "GET /user/verify-identity/ HTTP/1.1" 200 11530
+INFO 2025-12-12 02:01:21,467 basehttp 94516 114088 "GET /user/verify-identity/ HTTP/1.1" 200 11530
+INFO 2025-12-12 02:01:24,264 basehttp 94516 114088 "GET / HTTP/1.1" 200 36354
+INFO 2025-12-12 02:01:25,154 basehttp 94516 114088 "GET / HTTP/1.1" 200 36354
+INFO 2025-12-12 02:01:28,384 basehttp 94516 114088 "GET /admin HTTP/1.1" 301 0
+INFO 2025-12-12 02:01:28,448 basehttp 94516 28396 "GET /admin/ HTTP/1.1" 200 8525
+INFO 2025-12-12 02:01:28,483 basehttp 94516 28396 "GET /static/admin/css/base.css HTTP/1.1" 200 22120
+INFO 2025-12-12 02:01:28,493 basehttp 94516 59796 "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2808
+INFO 2025-12-12 02:01:28,494 basehttp 94516 102236 "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+INFO 2025-12-12 02:01:28,494 basehttp 94516 38928 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+INFO 2025-12-12 02:01:28,494 basehttp 94516 63852 "GET /static/admin/css/responsive.css HTTP/1.1" 200 16565
+INFO 2025-12-12 02:01:28,494 basehttp 94516 122904 "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+INFO 2025-12-12 02:01:28,506 basehttp 94516 122904 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2025-12-12 02:01:28,519 basehttp 94516 38928 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+INFO 2025-12-12 02:01:28,519 basehttp 94516 63852 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2025-12-12 02:01:30,460 basehttp 94516 63852 "GET /admin/user/useractivity/ HTTP/1.1" 200 82002
+INFO 2025-12-12 02:01:30,504 basehttp 94516 63852 "GET /static/admin/css/changelists.css HTTP/1.1" 200 6878
+INFO 2025-12-12 02:01:30,514 basehttp 94516 102236 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-12-12 02:01:30,515 basehttp 94516 59796 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-12-12 02:01:30,515 basehttp 94516 63852 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2025-12-12 02:01:30,515 basehttp 94516 28396 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2025-12-12 02:01:30,521 basehttp 94516 102236 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-12-12 02:01:30,523 basehttp 94516 28396 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-12-12 02:01:30,525 basehttp 94516 122904 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-12-12 02:01:30,526 basehttp 94516 38928 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-12 02:01:30,529 basehttp 94516 59796 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2025-12-12 02:01:30,539 basehttp 94516 63852 "GET /static/admin/img/search.svg HTTP/1.1" 200 458
+INFO 2025-12-12 02:01:30,548 basehttp 94516 63852 "GET /static/admin/js/filters.js HTTP/1.1" 200 978
+INFO 2025-12-12 02:01:30,585 basehttp 94516 59796 "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+INFO 2025-12-12 02:01:30,585 basehttp 94516 63852 "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 331
+INFO 2025-12-12 02:01:30,587 basehttp 94516 38928 "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 200 1097
+INFO 2025-12-12 02:01:32,535 basehttp 94516 38928 "GET /admin/user/useractivity/185/change/ HTTP/1.1" 200 19344
+INFO 2025-12-12 02:01:32,596 basehttp 94516 38928 "GET /static/admin/css/forms.css HTTP/1.1" 200 8525
+INFO 2025-12-12 02:01:32,605 basehttp 94516 38928 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2025-12-12 02:01:32,607 basehttp 94516 63852 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-12 02:01:32,609 basehttp 94516 38928 "GET /static/admin/css/widgets.css HTTP/1.1" 200 11973
+INFO 2025-12-12 02:01:32,612 basehttp 94516 38928 "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2025-12-12 02:01:35,656 basehttp 94516 38928 "GET /admin/user/useractivity/ HTTP/1.1" 200 82103
+INFO 2025-12-12 02:01:35,710 basehttp 94516 63852 "GET /admin/ HTTP/1.1" 200 8525
+INFO 2025-12-12 02:03:49,922 basehttp 94516 63852 "GET /dashboard/ HTTP/1.1" 200 46690
+INFO 2025-12-12 02:03:58,662 basehttp 94516 63852 "GET /dashboard/sessions/ HTTP/1.1" 200 76070
+INFO 2025-12-12 02:04:00,115 basehttp 94516 63852 "GET /dashboard/activities/ HTTP/1.1" 200 262731
+INFO 2025-12-12 02:04:10,871 autoreload 94516 49816 C:\Users\ayush\OneDrive\Desktop\code\Govvens\govvens\settings.py changed, reloading.
+INFO 2025-12-12 02:04:11,508 autoreload 81264 34152 Watching for file changes with StatReloader
+INFO 2025-12-12 02:07:50,983 autoreload 81264 34152 C:\Users\ayush\OneDrive\Desktop\code\Govvens\govvens\settings.py changed, reloading.
+INFO 2025-12-12 02:07:52,073 autoreload 3932 75876 Watching for file changes with StatReloader
+INFO 2025-12-12 02:07:53,840 autoreload 3932 75876 C:\Users\ayush\OneDrive\Desktop\code\Govvens\govvens\settings.py changed, reloading.
+INFO 2025-12-12 02:07:54,479 autoreload 124872 69392 Watching for file changes with StatReloader
+INFO 2025-12-12 02:08:20,228 basehttp 124872 50688 "GET / HTTP/1.1" 200 36192
+INFO 2025-12-12 02:08:27,040 basehttp 124872 50688 "GET /events/ HTTP/1.1" 200 31585
+INFO 2025-12-12 02:08:48,948 basehttp 124872 50688 "GET /my-tickets/ HTTP/1.1" 200 32964
+INFO 2025-12-12 02:08:50,271 basehttp 124872 50688 "GET /events/ HTTP/1.1" 200 31585
+INFO 2025-12-12 02:08:54,804 basehttp 124872 50688 "GET /my-tickets/ HTTP/1.1" 200 32964
+INFO 2025-12-12 02:09:10,355 basehttp 124872 50688 "GET /my-tickets/ HTTP/1.1" 200 32964
+INFO 2025-12-12 02:09:11,169 basehttp 124872 50688 "GET /entry-exit-plan/ HTTP/1.1" 200 11702
+INFO 2025-12-12 02:09:17,924 basehttp 124872 50688 "GET /exit-info/ HTTP/1.1" 200 26500
+INFO 2025-12-12 02:09:30,460 basehttp 124872 50688 "GET /entry-exit-plan/ HTTP/1.1" 200 11702
+INFO 2025-12-12 02:09:34,400 basehttp 124872 50688 "GET /user/entry-verification/ HTTP/1.1" 200 13154
+INFO 2025-12-12 02:09:36,017 basehttp 124872 50688 "GET /exit-info/ HTTP/1.1" 200 26500
+INFO 2025-12-12 02:10:00,161 basehttp 124872 50688 "GET /faq/ HTTP/1.1" 200 14876
+INFO 2025-12-12 02:10:26,975 basehttp 124872 50688 "GET /entry-exit-plan/ HTTP/1.1" 200 11702
+INFO 2025-12-12 02:10:34,592 basehttp 124872 50688 "GET /dashboard/ HTTP/1.1" 200 46528
+INFO 2025-12-12 02:10:38,413 basehttp 124872 50688 "GET /events/ HTTP/1.1" 200 31585
+INFO 2025-12-12 02:10:58,832 basehttp 124872 50688 "GET /entry-exit-plan/ HTTP/1.1" 200 11702
+INFO 2025-12-12 02:11:06,752 basehttp 124872 50688 "GET /exit-info/ HTTP/1.1" 200 26500
+INFO 2025-12-12 02:11:07,907 basehttp 124872 50688 "GET /user/entry-verification/ HTTP/1.1" 200 13154
+INFO 2025-12-12 02:11:10,867 basehttp 124872 50688 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-12 02:11:10,893 basehttp 124872 50688 "GET /events/ HTTP/1.1" 200 31585
+INFO 2025-12-12 02:11:13,999 basehttp 124872 50688 "GET /faq/ HTTP/1.1" 200 14876
+INFO 2025-12-12 02:11:16,599 basehttp 124872 50688 "GET /user/verify-identity/ HTTP/1.1" 200 11703
+INFO 2025-12-12 02:11:19,354 basehttp 124872 50688 "GET /events/ HTTP/1.1" 200 31585
+INFO 2025-12-12 02:11:27,916 basehttp 124872 50688 "GET /my-tickets/ HTTP/1.1" 200 32964
+INFO 2025-12-12 02:11:29,421 basehttp 124872 50688 "GET /entry-exit-plan/ HTTP/1.1" 200 11702
+INFO 2025-12-12 02:11:37,212 basehttp 124872 50688 "GET /entry-exit-plan/ HTTP/1.1" 200 11702
+INFO 2025-12-12 02:11:38,090 basehttp 124872 50688 "GET /exit-info/ HTTP/1.1" 200 26500
+INFO 2025-12-12 02:11:49,385 basehttp 124872 50688 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-12 02:11:49,418 basehttp 124872 50688 "GET /events/ HTTP/1.1" 200 31585
+INFO 2025-12-12 02:11:54,023 basehttp 124872 50688 "GET /faq/ HTTP/1.1" 200 14876
+INFO 2025-12-12 02:11:55,795 basehttp 124872 50688 "GET /user/verify-identity/ HTTP/1.1" 200 11703
+INFO 2025-12-12 02:11:59,299 basehttp 124872 50688 "GET /events/ HTTP/1.1" 200 31585
+INFO 2025-12-12 02:12:00,026 basehttp 124872 50688 "GET / HTTP/1.1" 200 36192
+INFO 2025-12-12 02:12:13,527 basehttp 124872 50688 "GET /events/ HTTP/1.1" 200 31585
+INFO 2025-12-12 02:12:14,983 basehttp 124872 50688 "GET /my-tickets/ HTTP/1.1" 200 32964
+INFO 2025-12-12 02:12:16,246 basehttp 124872 50688 "GET /entry-exit-plan/ HTTP/1.1" 200 11702
+INFO 2025-12-12 02:12:28,495 basehttp 124872 50688 "GET /exit-info/ HTTP/1.1" 200 26500
+INFO 2025-12-12 02:12:29,451 basehttp 124872 50688 "GET /user/entry-verification/ HTTP/1.1" 200 13154
+INFO 2025-12-12 02:12:38,339 basehttp 124872 50688 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-12 02:12:38,378 basehttp 124872 50688 "GET /events/ HTTP/1.1" 200 31585
+INFO 2025-12-12 02:12:43,797 basehttp 124872 50688 "GET /faq/ HTTP/1.1" 200 14876
+INFO 2025-12-12 02:12:46,056 basehttp 124872 50688 "GET /user/verify-identity/ HTTP/1.1" 200 11703
+INFO 2025-12-12 02:14:05,122 basehttp 124872 82968 "GET / HTTP/1.1" 200 36192
+INFO 2025-12-12 02:14:06,596 basehttp 124872 82968 "GET /events/ HTTP/1.1" 200 31585
+INFO 2025-12-12 02:17:30,980 basehttp 124872 82968 "GET /robots.txt HTTP/1.1" 200 1328
+WARNING 2025-12-12 02:17:44,979 log 124872 82968 Not Found: /rss.xml
+WARNING 2025-12-12 02:17:44,979 basehttp 124872 82968 "GET /rss.xml HTTP/1.1" 404 9792
+INFO 2025-12-12 02:17:54,460 basehttp 124872 82968 "GET /sitemap.xml HTTP/1.1" 200 1693
+INFO 2025-12-12 02:18:22,575 basehttp 124872 82968 "GET / HTTP/1.1" 200 36779
+INFO 2025-12-12 02:19:05,240 basehttp 124872 82968 "GET /events/ HTTP/1.1" 200 31585
+INFO 2025-12-12 02:19:06,261 basehttp 124872 82968 "GET /my-tickets/ HTTP/1.1" 200 32964
+INFO 2025-12-12 02:19:07,153 basehttp 124872 82968 "GET /entry-exit-plan/ HTTP/1.1" 200 28068
+INFO 2025-12-12 02:19:07,856 basehttp 124872 82968 "GET /exit-info/ HTTP/1.1" 200 26500
+INFO 2025-12-12 02:19:08,754 basehttp 124872 82968 "GET /user/entry-verification/ HTTP/1.1" 200 25945
+INFO 2025-12-12 02:19:09,498 basehttp 124872 82968 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-12 02:19:09,533 basehttp 124872 82968 "GET /events/ HTTP/1.1" 200 31585
+INFO 2025-12-12 02:19:10,257 basehttp 124872 82968 "GET /faq/ HTTP/1.1" 200 14876
+INFO 2025-12-12 02:19:11,985 basehttp 124872 82968 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-12 02:19:12,015 basehttp 124872 82968 "GET /events/ HTTP/1.1" 200 31585
+INFO 2025-12-12 02:19:12,614 basehttp 124872 82968 "GET /user/entry-verification/ HTTP/1.1" 200 25945
+INFO 2025-12-12 02:19:18,336 basehttp 124872 82968 "GET / HTTP/1.1" 200 36779
+INFO 2025-12-12 02:19:59,835 basehttp 124872 82968 "GET /events/ HTTP/1.1" 200 31585
+INFO 2025-12-12 02:20:08,168 basehttp 124872 82968 "GET /exit-info/ HTTP/1.1" 200 26500
+INFO 2025-12-12 02:26:23,178 basehttp 124872 58448 "GET / HTTP/1.1" 200 36779
+INFO 2025-12-12 02:26:24,841 basehttp 124872 58448 "GET /events/ HTTP/1.1" 200 31585
+INFO 2025-12-12 02:26:25,280 basehttp 124872 58448 "GET /my-tickets/ HTTP/1.1" 200 32964
+INFO 2025-12-12 02:26:25,766 basehttp 124872 58448 "GET /entry-exit-plan/ HTTP/1.1" 200 28068
+INFO 2025-12-12 02:26:26,322 basehttp 124872 58448 "GET /exit-info/ HTTP/1.1" 200 26500
+INFO 2025-12-12 02:26:26,708 basehttp 124872 58448 "GET /user/entry-verification/ HTTP/1.1" 200 25945
+INFO 2025-12-12 02:26:27,126 basehttp 124872 58448 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-12 02:26:27,168 basehttp 124872 58448 "GET /events/ HTTP/1.1" 200 31585
+INFO 2025-12-12 02:26:28,774 basehttp 124872 58448 "GET /faq/ HTTP/1.1" 200 14876
+INFO 2025-12-12 02:26:29,542 basehttp 124872 58448 "GET /user/verify-identity/ HTTP/1.1" 200 29771
+INFO 2025-12-12 02:26:31,678 basehttp 124872 58448 "GET /entry-exit-plan/ HTTP/1.1" 200 28068
+INFO 2025-12-12 02:28:21,854 basehttp 124872 58448 "GET /exit-info/ HTTP/1.1" 200 27476
+INFO 2025-12-12 02:28:21,919 basehttp 124872 58448 "GET /static/css/theme.css HTTP/1.1" 200 3505
+INFO 2025-12-12 02:28:24,090 basehttp 124872 58448 "GET / HTTP/1.1" 200 37755
+INFO 2025-12-12 02:28:25,455 basehttp 124872 58448 "GET /events/ HTTP/1.1" 200 32561
+INFO 2025-12-12 02:28:26,658 basehttp 124872 58448 "GET /my-tickets/ HTTP/1.1" 200 33940
+INFO 2025-12-12 02:28:27,628 basehttp 124872 58448 "GET /entry-exit-plan/ HTTP/1.1" 200 29044
+INFO 2025-12-12 02:28:28,782 basehttp 124872 58448 "GET /exit-info/ HTTP/1.1" 200 27476
+INFO 2025-12-12 02:28:29,382 basehttp 124872 58448 "GET /user/entry-verification/ HTTP/1.1" 200 26921
+INFO 2025-12-12 02:28:29,456 basehttp 124872 58448 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 02:28:29,906 basehttp 124872 58448 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-12 02:28:29,971 basehttp 124872 58448 "GET /events/ HTTP/1.1" 200 32561
+INFO 2025-12-12 02:28:30,918 basehttp 124872 58448 "GET /faq/ HTTP/1.1" 200 15852
+INFO 2025-12-12 02:28:33,831 basehttp 124872 58448 "GET /user/verify-identity/ HTTP/1.1" 200 30747
+INFO 2025-12-12 02:29:11,674 basehttp 124872 27700 "GET / HTTP/1.1" 200 37749
+INFO 2025-12-12 02:29:11,743 basehttp 124872 27700 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 02:29:42,885 basehttp 124872 101508 "GET /events/ HTTP/1.1" 200 32561
+INFO 2025-12-12 02:29:42,960 basehttp 124872 101508 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 02:29:43,815 basehttp 124872 101508 "GET /my-tickets/ HTTP/1.1" 200 33940
+INFO 2025-12-12 02:29:44,856 basehttp 124872 101508 "GET /entry-exit-plan/ HTTP/1.1" 200 29044
+INFO 2025-12-12 02:29:45,535 basehttp 124872 101508 "GET /exit-info/ HTTP/1.1" 200 27461
+INFO 2025-12-12 02:29:46,318 basehttp 124872 101508 "GET /user/entry-verification/ HTTP/1.1" 200 26921
+INFO 2025-12-12 02:29:47,053 basehttp 124872 101508 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-12 02:29:47,151 basehttp 124872 101508 "GET /events/ HTTP/1.1" 200 32558
+INFO 2025-12-12 02:29:47,899 basehttp 124872 101508 "GET /faq/ HTTP/1.1" 200 15852
+INFO 2025-12-12 02:29:48,566 basehttp 124872 101508 "GET /user/verify-identity/ HTTP/1.1" 200 30747
+INFO 2025-12-12 02:29:53,645 basehttp 124872 101508 "GET /entry-exit-plan/ HTTP/1.1" 200 29044
+INFO 2025-12-12 02:30:16,434 basehttp 124872 117936 "GET / HTTP/1.1" 200 37749
+INFO 2025-12-12 02:30:16,490 basehttp 124872 117936 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 02:31:47,200 basehttp 124872 117936 "GET /user/verify-identity/ HTTP/1.1" 200 30729
+INFO 2025-12-12 02:31:47,261 basehttp 124872 117936 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 02:32:07,050 basehttp 124872 117936 "GET /events/ HTTP/1.1" 200 32558
+INFO 2025-12-12 02:32:08,735 basehttp 124872 117936 "GET /my-tickets/ HTTP/1.1" 200 33940
+INFO 2025-12-12 02:32:15,205 basehttp 124872 117936 "GET /events/ HTTP/1.1" 200 32558
+INFO 2025-12-12 02:32:17,611 basehttp 124872 117936 "GET / HTTP/1.1" 200 37731
+INFO 2025-12-12 02:32:17,650 basehttp 124872 117936 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 02:33:15,699 autoreload 36860 35148 Watching for file changes with StatReloader
+INFO 2025-12-12 03:07:52,913 basehttp 124872 8108 "GET /events/ HTTP/1.1" 200 32558
+INFO 2025-12-12 03:07:52,982 basehttp 124872 8108 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 03:07:53,945 basehttp 124872 8108 "GET /my-tickets/ HTTP/1.1" 200 33937
+INFO 2025-12-12 03:07:54,917 basehttp 124872 8108 "GET /entry-exit-plan/ HTTP/1.1" 200 29029
+INFO 2025-12-12 03:07:56,324 basehttp 124872 8108 "GET /exit-info/ HTTP/1.1" 200 27461
+INFO 2025-12-12 03:07:57,289 basehttp 124872 8108 "GET /user/entry-verification/ HTTP/1.1" 200 26903
+INFO 2025-12-12 03:07:58,214 basehttp 124872 8108 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-12 03:07:58,252 basehttp 124872 8108 "GET /events/ HTTP/1.1" 200 32558
+INFO 2025-12-12 03:07:59,210 basehttp 124872 8108 "GET /faq/ HTTP/1.1" 200 15852
+INFO 2025-12-12 03:12:13,283 basehttp 124872 8108 "GET /entry-exit-plan/ HTTP/1.1" 200 29097
+INFO 2025-12-12 03:12:13,383 basehttp 124872 8108 "GET /static/css/theme.css HTTP/1.1" 200 3911
+INFO 2025-12-12 03:12:42,077 basehttp 124872 8108 "GET / HTTP/1.1" 200 37787
+INFO 2025-12-12 03:12:42,127 basehttp 124872 8108 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 03:13:14,801 basehttp 124872 8108 "GET /events/ HTTP/1.1" 200 32626
+INFO 2025-12-12 03:13:14,852 basehttp 124872 8108 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 03:13:19,531 basehttp 124872 8108 "GET /my-tickets/ HTTP/1.1" 200 34005
+INFO 2025-12-12 03:13:23,164 basehttp 124872 8108 "GET /entry-exit-plan/ HTTP/1.1" 200 29097
+INFO 2025-12-12 03:13:24,628 basehttp 124872 8108 "GET /exit-info/ HTTP/1.1" 200 27529
+INFO 2025-12-12 03:13:28,827 basehttp 124872 8108 "GET /user/entry-verification/ HTTP/1.1" 200 26971
+INFO 2025-12-12 03:13:28,880 basehttp 124872 8108 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 03:13:29,961 basehttp 124872 8108 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-12 03:13:29,996 basehttp 124872 8108 "GET /events/ HTTP/1.1" 200 32626
+INFO 2025-12-12 03:13:31,578 basehttp 124872 8108 "GET /faq/ HTTP/1.1" 200 15920
+INFO 2025-12-12 03:13:37,701 basehttp 124872 4468 "GET /exit-info/ HTTP/1.1" 200 27529
+INFO 2025-12-12 03:13:38,819 basehttp 124872 4468 "GET /events/ HTTP/1.1" 200 32626
+INFO 2025-12-12 03:15:29,714 basehttp 124872 101660 "GET /events/ HTTP/1.1" 200 32626
+INFO 2025-12-12 03:15:29,776 basehttp 124872 101660 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 03:15:33,640 basehttp 124872 101660 "GET /faq/ HTTP/1.1" 200 15920
+INFO 2025-12-12 03:15:34,285 basehttp 124872 101660 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-12 03:15:34,410 basehttp 124872 101660 "GET /events/ HTTP/1.1" 200 32626
+INFO 2025-12-12 03:15:35,260 basehttp 124872 101660 "GET /user/entry-verification/ HTTP/1.1" 200 26971
+INFO 2025-12-12 03:15:35,898 basehttp 124872 101660 "GET /exit-info/ HTTP/1.1" 200 27529
+INFO 2025-12-12 03:15:36,338 basehttp 124872 101660 "GET /entry-exit-plan/ HTTP/1.1" 200 29097
+INFO 2025-12-12 03:15:37,187 basehttp 124872 101660 "GET /my-tickets/ HTTP/1.1" 200 34005
+INFO 2025-12-12 03:15:37,720 basehttp 124872 101660 "GET /events/ HTTP/1.1" 200 32626
+INFO 2025-12-12 03:15:38,287 basehttp 124872 101660 "GET / HTTP/1.1" 200 37787
+INFO 2025-12-12 03:15:40,084 basehttp 124872 101660 "GET /user/verify-identity/ HTTP/1.1" 200 30794
+INFO 2025-12-12 03:16:35,307 basehttp 124872 101660 "GET / HTTP/1.1" 200 37787
+INFO 2025-12-12 03:16:35,364 basehttp 124872 101660 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 03:16:36,440 basehttp 124872 101660 "GET /events/ HTTP/1.1" 200 32626
+INFO 2025-12-12 03:16:37,457 basehttp 124872 101660 "GET /my-tickets/ HTTP/1.1" 200 34005
+INFO 2025-12-12 03:16:38,355 basehttp 124872 101660 "GET /entry-exit-plan/ HTTP/1.1" 200 29097
+INFO 2025-12-12 03:16:43,358 basehttp 124872 101660 "GET /entry-exit-plan/ HTTP/1.1" 200 29097
+INFO 2025-12-12 03:16:43,861 basehttp 124872 101660 "GET /exit-info/ HTTP/1.1" 200 27529
+INFO 2025-12-12 03:16:44,799 basehttp 124872 101660 "GET /user/entry-verification/ HTTP/1.1" 200 26971
+INFO 2025-12-12 03:16:45,531 basehttp 124872 101660 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-12 03:16:45,569 basehttp 124872 101660 "GET /events/ HTTP/1.1" 200 32626
+INFO 2025-12-12 03:16:46,157 basehttp 124872 101660 "GET /faq/ HTTP/1.1" 200 15920
+INFO 2025-12-12 03:16:49,269 basehttp 124872 101660 "GET /dashboard/ HTTP/1.1" 200 47572
+INFO 2025-12-12 03:18:15,588 basehttp 124872 117360 "GET /dashboard/sessions/?user_id=2 HTTP/1.1" 200 76952
+INFO 2025-12-12 03:18:15,650 basehttp 124872 117360 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 03:18:18,271 basehttp 124872 117360 "GET / HTTP/1.1" 200 37787
+INFO 2025-12-12 03:18:19,107 basehttp 124872 117360 "GET /events/ HTTP/1.1" 200 32626
+INFO 2025-12-12 03:18:20,172 basehttp 124872 94840 "GET /my-tickets/ HTTP/1.1" 200 34005
+INFO 2025-12-12 03:18:20,839 basehttp 124872 94840 "GET /entry-exit-plan/ HTTP/1.1" 200 29097
+INFO 2025-12-12 03:18:21,393 basehttp 124872 94840 "GET /exit-info/ HTTP/1.1" 200 27529
+INFO 2025-12-12 03:18:21,916 basehttp 124872 94840 "GET /user/entry-verification/ HTTP/1.1" 200 26971
+INFO 2025-12-12 03:18:22,444 basehttp 124872 94840 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-12 03:18:22,489 basehttp 124872 94840 "GET /events/ HTTP/1.1" 200 32626
+INFO 2025-12-12 03:18:22,938 basehttp 124872 94840 "GET /faq/ HTTP/1.1" 200 15920
+INFO 2025-12-12 03:18:29,648 basehttp 124872 94840 "GET / HTTP/1.1" 200 37787
+INFO 2025-12-12 03:18:30,557 basehttp 124872 32300 "GET /events/ HTTP/1.1" 200 32626
+INFO 2025-12-12 03:18:37,519 basehttp 124872 32300 "GET /events/ HTTP/1.1" 200 32626
+INFO 2025-12-12 03:18:38,395 basehttp 124872 32300 "GET /my-tickets/ HTTP/1.1" 200 34005
+INFO 2025-12-12 03:18:45,070 basehttp 124872 32300 "GET /entry-exit-plan/ HTTP/1.1" 200 29097
+INFO 2025-12-12 03:18:52,346 basehttp 124872 32300 "GET /user/entry-verification/ HTTP/1.1" 200 26971
+INFO 2025-12-12 03:18:52,915 basehttp 124872 32300 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-12 03:18:52,952 basehttp 124872 32300 "GET /events/ HTTP/1.1" 200 32626
+INFO 2025-12-12 03:18:56,698 basehttp 124872 32300 "GET /events/ HTTP/1.1" 200 32626
+INFO 2025-12-12 03:18:58,403 basehttp 124872 32300 "GET /events/ HTTP/1.1" 200 32626
+INFO 2025-12-12 03:18:59,181 basehttp 124872 32300 "GET /events/ HTTP/1.1" 200 32626
+INFO 2025-12-12 03:18:59,226 basehttp 124872 32300 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 03:18:59,702 basehttp 124872 32300 "GET /my-tickets/ HTTP/1.1" 200 34005
+INFO 2025-12-12 03:19:12,412 basehttp 124872 32300 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-12 03:19:12,556 basehttp 124872 32300 "GET /events/ HTTP/1.1" 200 32626
+INFO 2025-12-12 03:19:21,565 basehttp 124872 32300 "GET /faq/ HTTP/1.1" 200 15920
+INFO 2025-12-12 03:19:22,683 basehttp 124872 32300 "GET /user/verify-identity/ HTTP/1.1" 200 30794
+INFO 2025-12-12 03:19:26,265 basehttp 124872 32300 "GET / HTTP/1.1" 200 37787
+INFO 2025-12-12 03:19:58,079 basehttp 124872 119064 "GET /events/ HTTP/1.1" 200 32626
+INFO 2025-12-12 03:19:58,204 basehttp 124872 119064 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 03:20:06,464 basehttp 124872 119064 "GET /my-tickets/ HTTP/1.1" 200 34005
+INFO 2025-12-12 03:20:09,540 basehttp 124872 119064 "GET /entry-exit-plan/ HTTP/1.1" 200 29097
+WARNING 2025-12-12 03:20:34,263 log 124872 119064 Not Found: /operator-dashboard/
+WARNING 2025-12-12 03:20:34,264 basehttp 124872 119064 "GET /operator-dashboard/ HTTP/1.1" 404 9828
+ERROR 2025-12-12 03:20:48,701 log 124872 119064 Internal Server Error: /user/operator-dashboard/
+Traceback (most recent call last):
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\user\views.py", line 146, in operator_dashboard
+    return render(request, 'user/operator_dashboard.html', {
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\OneDrive\Desktop\code\Govvens\env\Lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: user/operator_dashboard.html
+ERROR 2025-12-12 03:20:48,722 basehttp 124872 119064 "GET /user/operator-dashboard/ HTTP/1.1" 500 94017
+WARNING 2025-12-12 03:21:00,985 log 124872 119064 Not Found: /track-event
+WARNING 2025-12-12 03:21:00,986 basehttp 124872 119064 "GET /track-event HTTP/1.1" 404 9804
+INFO 2025-12-12 03:31:21,994 basehttp 124872 65628 "GET / HTTP/1.1" 200 38668
+INFO 2025-12-12 03:31:22,069 basehttp 124872 65628 "GET /static/css/theme.css HTTP/1.1" 200 7765
+INFO 2025-12-12 03:31:40,904 basehttp 124872 65628 "GET /user/verify-identity/ HTTP/1.1" 200 31675
+INFO 2025-12-12 03:31:40,962 basehttp 124872 65628 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 03:31:44,159 basehttp 124872 65628 "GET /dashboard/ HTTP/1.1" 200 48453
+INFO 2025-12-12 03:32:23,889 basehttp 124872 65628 "GET /dashboard/ HTTP/1.1" 200 48453
+INFO 2025-12-12 03:32:23,935 basehttp 124872 65628 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 03:32:24,936 basehttp 124872 65628 "GET /events/ HTTP/1.1" 200 33507
+INFO 2025-12-12 03:32:25,862 basehttp 124872 65628 "GET /my-tickets/ HTTP/1.1" 200 34886
+INFO 2025-12-12 03:32:26,543 basehttp 124872 65628 "GET /entry-exit-plan/ HTTP/1.1" 200 29978
+INFO 2025-12-12 03:32:38,867 basehttp 124872 65628 "GET / HTTP/1.1" 200 38668
+INFO 2025-12-12 03:32:39,726 basehttp 124872 65628 "GET /my-tickets/ HTTP/1.1" 200 34886
+INFO 2025-12-12 03:32:40,515 basehttp 124872 65628 "GET /entry-exit-plan/ HTTP/1.1" 200 29978
+INFO 2025-12-12 03:32:44,844 basehttp 124872 65628 "GET /exit-info/ HTTP/1.1" 200 28410
+INFO 2025-12-12 03:32:44,897 basehttp 124872 65628 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 03:32:49,467 basehttp 124872 65628 "GET /user/entry-verification/ HTTP/1.1" 200 27852
+INFO 2025-12-12 03:32:50,227 basehttp 124872 65628 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-12 03:32:50,270 basehttp 124872 65628 "GET /events/ HTTP/1.1" 200 33507
+WARNING 2025-12-12 03:32:52,571 views 124872 65628 Event 1 not found
+INFO 2025-12-12 03:32:52,586 basehttp 124872 65628 "GET /event/1/ HTTP/1.1" 302 0
+INFO 2025-12-12 03:32:52,628 basehttp 124872 65628 "GET /events/ HTTP/1.1" 200 33507
+INFO 2025-12-12 03:32:54,221 basehttp 124872 65628 "GET /event/1/seats/ HTTP/1.1" 302 0
+INFO 2025-12-12 03:32:54,256 basehttp 124872 65628 "GET /events/ HTTP/1.1" 200 33507
+INFO 2025-12-12 03:32:57,869 basehttp 124872 65628 "GET /event/1/seats/ HTTP/1.1" 302 0
+INFO 2025-12-12 03:32:57,907 basehttp 124872 65628 "GET /events/ HTTP/1.1" 200 33507
+INFO 2025-12-12 03:33:00,035 basehttp 124872 65628 "GET /event/1/payment/ HTTP/1.1" 302 0
+INFO 2025-12-12 03:33:00,070 basehttp 124872 65628 "GET /user/verify-identity/ HTTP/1.1" 200 31675
+INFO 2025-12-12 03:33:07,349 basehttp 124872 65628 "GET / HTTP/1.1" 200 38668
+INFO 2025-12-12 03:33:07,398 basehttp 124872 65628 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 03:34:00,529 basehttp 124872 65628 "GET /events/ HTTP/1.1" 200 33507
+INFO 2025-12-12 03:34:00,596 basehttp 124872 65628 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 03:34:01,885 basehttp 124872 65628 "GET /my-tickets/ HTTP/1.1" 200 34886
+INFO 2025-12-12 03:34:02,702 basehttp 124872 65628 "GET /events/ HTTP/1.1" 200 33507
+INFO 2025-12-12 03:34:07,771 basehttp 124872 65628 "GET /user/verify-identity/ HTTP/1.1" 200 31675
+INFO 2025-12-12 03:34:08,403 basehttp 124872 65628 "GET /user/verify-identity/ HTTP/1.1" 200 31675
+INFO 2025-12-12 03:34:13,690 basehttp 124872 65628 "GET /user/entry-verification/ HTTP/1.1" 200 27852
+INFO 2025-12-12 03:34:26,285 basehttp 124872 65628 "GET /events/ HTTP/1.1" 200 33507
+INFO 2025-12-12 03:34:26,821 basehttp 124872 65628 "GET /my-tickets/ HTTP/1.1" 200 34886
+INFO 2025-12-12 03:34:27,432 basehttp 124872 65628 "GET /entry-exit-plan/ HTTP/1.1" 200 29978
+INFO 2025-12-12 03:34:28,135 basehttp 124872 65628 "GET /exit-info/ HTTP/1.1" 200 28410
+INFO 2025-12-12 03:34:32,079 basehttp 124872 65628 "GET /user/entry-verification/ HTTP/1.1" 200 27852
+INFO 2025-12-12 03:34:32,128 basehttp 124872 65628 "GET /static/css/theme.css HTTP/1.1" 304 0
+INFO 2025-12-12 03:34:35,324 basehttp 124872 65628 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-12 03:34:35,366 basehttp 124872 65628 "GET /events/ HTTP/1.1" 200 33507
+INFO 2025-12-12 03:34:40,077 basehttp 124872 65628 "GET /faq/ HTTP/1.1" 200 16801
+WARNING 2025-12-12 03:34:43,261 views 124872 65628 Event 1 not found
+INFO 2025-12-12 03:34:43,274 basehttp 124872 65628 "GET /event/1/ HTTP/1.1" 302 0
+INFO 2025-12-12 03:34:43,313 basehttp 124872 65628 "GET /events/ HTTP/1.1" 200 33507
+INFO 2025-12-12 03:34:47,966 basehttp 124872 65628 "GET /events/ HTTP/1.1" 200 33507
+INFO 2025-12-12 03:34:50,422 basehttp 124872 65628 "GET /event/1/seats/ HTTP/1.1" 302 0
+INFO 2025-12-12 03:34:50,457 basehttp 124872 65628 "GET /events/ HTTP/1.1" 200 33507
+INFO 2025-12-12 03:34:52,527 basehttp 124872 65628 "GET /event/1/payment/ HTTP/1.1" 302 0
+INFO 2025-12-12 03:34:52,557 basehttp 124872 65628 "GET /user/verify-identity/ HTTP/1.1" 200 31675

@@ -549,25 +549,6 @@ def delete_user(request, user_id):
         messages.error(request, f'Error: {str(e)}')
     return redirect('dashboard')
 
-@login_required
-@user_passes_test(is_superuser, login_url='/')
-@require_http_methods(["POST"])
-def toggle_user_status(request, user_id):
-    """Toggle user active status"""
-    try:
-        user = get_object_or_404(User, id=user_id)
-        if user.id == request.user.id:
-            messages.error(request, 'You cannot deactivate your own account!')
-        else:
-            user.is_active = not user.is_active
-            user.save()
-            status = 'activated' if user.is_active else 'deactivated'
-            messages.success(request, f'User {user.email} has been {status}.')
-    except Exception as e:
-        logger.error(f"Error toggling user status: {str(e)}")
-        messages.error(request, f'Error: {str(e)}')
-    return redirect('dashboard')
-
 # ============================================================================
 # SESSION MANAGEMENT
 # ============================================================================
@@ -763,12 +744,9 @@ def dashboard_activities(request):
             interactions = UserActivity.objects.filter(event_type='interaction').count()
             auth_events = UserActivity.objects.filter(event_type='auth').count()
             
-            event_type_stats = list(UserActivity.objects.values('event_type').annotate(
+            event_type_stats = UserActivity.objects.values('event_type').annotate(
                 count=Count('id')
-            ).order_by('-count'))
-            # Add display names for event types
-            for stat in event_type_stats:
-                stat['event_type_display'] = stat['event_type'].replace('_', ' ').title()
+            ).order_by('-count')
             
             status_code_stats = UserActivity.objects.exclude(
                 status_code__isnull=True

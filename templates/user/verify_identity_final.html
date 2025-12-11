@@ -1,0 +1,378 @@
+{% extends "base.html" %}
+{% block title %}Verify Identity - GOVVENS{% endblock %}
+
+{% block content %}
+
+<style>
+    .verification-section {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    .verification-box {
+        background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+        border: 2px solid rgba(40,167,69,0.2);
+        border-radius: 20px;
+        padding: 50px 40px;
+        text-align: center;
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .verification-box::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(40,167,69,0.1), transparent);
+        filter: blur(60px);
+    }
+    
+    .verification-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .camera-placeholder {
+        width: 200px;
+        height: 200px;
+        background: linear-gradient(135deg, rgba(40,167,69,0.15), rgba(32,201,151,0.1));
+        border: 2px dashed rgba(40,167,69,0.3);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 20px auto;
+        color: #28a745;
+        font-size: 4rem;
+    }
+    
+    .progress-indicator {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px 0;
+    }
+    
+    .progress-dot {
+        width: 10px;
+        height: 10px;
+        background: rgba(40,167,69,0.3);
+        border-radius: 50%;
+        animation: pulse 1.5s infinite;
+    }
+    
+    .progress-dot:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+    
+    .progress-dot:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { background: rgba(40,167,69,0.3); transform: scale(1); }
+        50% { background: #28a745; transform: scale(1.2); }
+    }
+    
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-top: 30px;
+    }
+    
+    .info-card {
+        background: rgba(40,167,69,0.08);
+        border: 1px solid rgba(40,167,69,0.2);
+        padding: 20px;
+        border-radius: 12px;
+        text-align: left;
+    }
+    
+    .info-card h5 {
+        color: #28a745;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+    
+    .info-card p {
+        color: #d1d5db;
+        font-size: 0.95rem;
+        margin-bottom: 0;
+    }
+    
+    .verification-tip {
+        background: linear-gradient(135deg, rgba(255,193,7,0.1), rgba(255,152,0,0.05));
+        border-left: 4px solid #ffc107;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 30px 0;
+    }
+    
+    .verification-tip strong {
+        color: #ffc107;
+    }
+    
+    .verification-tip p {
+        color: #d1d5db;
+        margin-bottom: 0;
+    }
+    
+    .button-group {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+        justify-content: center;
+    }
+    
+    .btn-verify {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: #06110a;
+        border: none;
+        padding: 14px 35px;
+        border-radius: 50px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+    }
+    
+    .btn-verify:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(40,167,69,0.3);
+    }
+    
+    .btn-secondary {
+        background: transparent;
+        color: #28a745;
+        border: 2px solid #28a745;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-secondary:hover {
+        background: rgba(40,167,69,0.1);
+    }
+    
+    .guidelines-section {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(40,167,69,0.15);
+        border-radius: 16px;
+        padding: 40px;
+        margin-top: 40px;
+    }
+    
+    .guideline-item {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .guideline-icon {
+        color: #28a745;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+    }
+    
+    .guideline-content h5 {
+        color: #ffffff;
+        margin-bottom: 5px;
+    }
+    
+    .guideline-content p {
+        color: #d1d5db;
+        margin-bottom: 0;
+        font-size: 0.95rem;
+    }
+    
+    @media (max-width: 768px) {
+        .verification-box {
+            padding: 30px 20px;
+        }
+        
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .button-group {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<!-- Page Header -->
+<div style="background: linear-gradient(135deg, rgba(40,167,69,0.15), rgba(32,201,151,0.1)); border: 1px solid rgba(40,167,69,0.2); border-radius: 16px; padding: 50px 40px; margin-bottom: 40px;">
+    <h1 style="font-size:2.5rem;font-weight:700;margin-bottom:15px;">
+        <i class="bi bi-person-check me-2" style="color:#28a745;"></i>Identity Verification
+    </h1>
+    <p style="color:#d1d5db;font-size:1.1rem;margin-bottom:0;line-height:1.6;">
+        Complete your facial biometric verification for secure stadium entry. Takes less than 30 seconds.
+    </p>
+</div>
+
+<div class="verification-section">
+    
+    <!-- Face Verification Box -->
+    <div class="verification-box">
+        <div class="verification-content">
+            <h3 style="color:#ffffff;margin-bottom:10px;">AI Face Biometric Verification</h3>
+            <p style="color:#d1d5db;margin-bottom:30px;">Position yourself in the frame and follow the on-screen instructions</p>
+            
+            <div class="camera-placeholder">
+                <i class="bi bi-camera-video"></i>
+            </div>
+            
+            <p style="color:#b0b8c1;font-size:0.9rem;margin-bottom:20px;">Camera Access Required</p>
+            <div class="progress-indicator">
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+            </div>
+            
+            <button class="btn-verify" style="color:#06110a;">
+                <i class="bi bi-camera-fill me-2"></i>Start Face Verification
+            </button>
+        </div>
+    </div>
+
+    <!-- Verification Guidelines -->
+    <div class="verification-tip">
+        <strong><i class="bi bi-info-circle me-2"></i>Pro Tips:</strong>
+        <p>Position your face clearly in frame • Good lighting is important • Remove glasses if possible • Keep a neutral expression</p>
+    </div>
+
+    <!-- Information Cards -->
+    <div class="info-grid">
+        <div class="info-card">
+            <h5><i class="bi bi-lightning me-2"></i>Fast</h5>
+            <p>Verification takes just 5-10 seconds with our optimized AI engine.</p>
+        </div>
+        <div class="info-card">
+            <h5><i class="bi bi-shield-check me-2"></i>Secure</h5>
+            <p>Enterprise-grade encryption. Data deleted after match entry.</p>
+        </div>
+        <div class="info-card">
+            <h5><i class="bi bi-eye me-2"></i>Accurate</h5>
+            <p>99.7% accuracy with advanced liveness detection to prevent spoofing.</p>
+        </div>
+        <div class="info-card">
+            <h5><i class="bi bi-checkmark-circle me-2"></i>Verified</h5>
+            <p>ISO 27001 certified. GDPR and CCPA compliant.</p>
+        </div>
+    </div>
+
+    <!-- Guidelines Section -->
+    <div class="guidelines-section">
+        <h4 style="color:#ffffff;margin-bottom:30px;font-weight:700;">
+            <i class="bi bi-list-check me-2" style="color:#28a745;"></i>Verification Guidelines
+        </h4>
+        
+        <div class="guideline-item">
+            <div class="guideline-icon">
+                <i class="bi bi-brightness-high"></i>
+            </div>
+            <div class="guideline-content">
+                <h5>Proper Lighting</h5>
+                <p>Ensure good, even lighting. Avoid harsh shadows on your face. Natural daylight or white LED lighting works best.</p>
+            </div>
+        </div>
+        
+        <div class="guideline-item">
+            <div class="guideline-icon">
+                <i class="bi bi-camera-video"></i>
+            </div>
+            <div class="guideline-content">
+                <h5>Camera Position</h5>
+                <p>Keep your face centered in the frame. Position camera at eye level, about 12-18 inches away.</p>
+            </div>
+        </div>
+        
+        <div class="guideline-item">
+            <div class="guideline-icon">
+                <i class="bi bi-person"></i>
+            </div>
+            <div class="guideline-content">
+                <h5>Natural Expression</h5>
+                <p>Look directly at the camera with a neutral or slightly smiling expression. Blink naturally.</p>
+            </div>
+        </div>
+        
+        <div class="guideline-item">
+            <div class="guideline-icon">
+                <i class="bi bi-glasses"></i>
+            </div>
+            <div class="guideline-content">
+                <h5>Accessories</h5>
+                <p>Remove large sunglasses and hats if possible. Avoid face masks or heavy makeup changes from your ticket photo.</p>
+            </div>
+        </div>
+        
+        <div class="guideline-item">
+            <div class="guideline-icon">
+                <i class="bi bi-check-circle"></i>
+            </div>
+            <div class="guideline-content">
+                <h5>Liveness Check</h5>
+                <p>You may be asked to blink, nod, or smile. This ensures you're a real person (not a photo).</p>
+            </div>
+        </div>
+        
+        <div class="guideline-item">
+            <div class="guideline-icon">
+                <i class="bi bi-hourglass-split"></i>
+            </div>
+            <div class="guideline-content">
+                <h5>How Long It Takes</h5>
+                <p>Typical verification: 5-10 seconds. First-time users may take up to 30 seconds for biometric enrollment.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Privacy -->
+    <div style="background: rgba(40,167,69,0.08); border: 1px solid rgba(40,167,69,0.2); border-radius: 16px; padding: 30px; margin-top: 30px;">
+        <h5 style="color:#28a745;margin-bottom:15px;">
+            <i class="bi bi-lock me-2"></i>Your Privacy is Protected
+        </h5>
+        <ul style="color:#d1d5db;padding-left:20px;margin-bottom:0;">
+            <li style="margin-bottom:8px;">Facial biometric data is encrypted end-to-end</li>
+            <li style="margin-bottom:8px;">Data is automatically deleted 24 hours after match entry</li>
+            <li style="margin-bottom:8px;">No third-party access to your biometric information</li>
+            <li style="margin-bottom:8px;">GDPR Article 9 compliant - explicit consent obtained</li>
+            <li>Verification happens locally on secure servers</li>
+        </ul>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="button-group">
+        <button class="btn-verify" style="color:#06110a;">
+            <i class="bi bi-camera-fill me-2"></i>Start Verification
+        </button>
+        <button class="btn-secondary">
+            <i class="bi bi-arrow-left me-2"></i>Back
+        </button>
+    </div>
+
+    <!-- Alternative Verification -->
+    <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(40,167,69,0.15); border-radius: 16px; padding: 30px; margin-top: 30px; text-align: center;">
+        <p style="color:#d1d5db;margin-bottom:15px;">
+            <strong style="color:#ffffff;">Prefer not to use face recognition?</strong>
+        </p>
+        <p style="color:#d1d5db;margin-bottom:20px;">
+            You can use your QR ticket code at the gate for instant entry. Face verification is optional but recommended for the fastest experience.
+        </p>
+        <a href="{% url 'events_list' %}" style="display:inline-block;background:transparent;color:#28a745;border:2px solid #28a745;padding:10px 25px;border-radius:50px;text-decoration:none;font-weight:600;">
+            <i class="bi bi-qr-code me-1"></i>Use QR Instead
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

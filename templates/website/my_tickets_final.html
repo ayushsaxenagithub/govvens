@@ -1,0 +1,544 @@
+{% extends "base.html" %}
+{% block title %}My Tickets - GOVVENS{% endblock %}
+
+{% block content %}
+
+<style>
+    .ticket-card {
+        background: linear-gradient(135deg, rgba(40,167,69,0.08), rgba(32,201,151,0.04));
+        border: 2px solid rgba(40,167,69,0.2);
+        border-radius: 16px;
+        padding: 30px;
+        margin-bottom: 25px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .ticket-card:hover {
+        border-color: rgba(40,167,69,0.4);
+        transform: translateY(-5px);
+    }
+    
+    .ticket-status {
+        display: inline-block;
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        margin-bottom: 15px;
+    }
+    
+    .status-confirmed {
+        background: rgba(40,167,69,0.2);
+        color: #28a745;
+    }
+    
+    .status-pending {
+        background: rgba(255,193,7,0.2);
+        color: #ffc107;
+    }
+    
+    .status-used {
+        background: rgba(108,117,125,0.2);
+        color: #9aa0a6;
+    }
+    
+    .ticket-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 20px;
+    }
+    
+    .ticket-main {
+        flex: 1;
+    }
+    
+    .ticket-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 5px;
+    }
+    
+    .ticket-meta {
+        color: #d1d5db;
+        font-size: 0.95rem;
+    }
+    
+    .ticket-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .qr-section {
+        background: rgba(255,255,255,0.02);
+        border: 2px dashed rgba(40,167,69,0.3);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        margin: 20px 0;
+    }
+    
+    .qr-code {
+        width: 150px;
+        height: 150px;
+        background: linear-gradient(135deg, rgba(40,167,69,0.15), rgba(32,201,151,0.1));
+        border: 1px solid rgba(40,167,69,0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        color: #28a745;
+        font-size: 2.5rem;
+    }
+    
+    .ticket-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+    }
+    
+    .detail-item {
+        background: rgba(255,255,255,0.02);
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid rgba(40,167,69,0.15);
+    }
+    
+    .detail-label {
+        color: #b0b8c1;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    
+    .detail-value {
+        color: #ffffff;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+    
+    .btn-action {
+        background: rgba(40,167,69,0.15);
+        color: #28a745;
+        border: 1px solid rgba(40,167,69,0.3);
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+    }
+    
+    .btn-action:hover {
+        background: rgba(40,167,69,0.25);
+        border-color: rgba(40,167,69,0.5);
+    }
+    
+    .btn-action.primary {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: #06110a;
+        border: none;
+    }
+    
+    .btn-action.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(40,167,69,0.3);
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+    }
+    
+    .empty-icon {
+        font-size: 4rem;
+        color: rgba(40,167,69,0.3);
+        margin-bottom: 20px;
+    }
+    
+    .tabs {
+        display: flex;
+        gap: 15px;
+        border-bottom: 2px solid rgba(40,167,69,0.15);
+        margin-bottom: 30px;
+    }
+    
+    .tab {
+        padding: 15px 25px;
+        cursor: pointer;
+        color: #9aa0a6;
+        font-weight: 600;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s ease;
+        position: relative;
+        bottom: -2px;
+    }
+    
+    .tab.active {
+        color: #28a745;
+        border-bottom-color: #28a745;
+    }
+    
+    .friend-ticket {
+        background: linear-gradient(135deg, rgba(32,201,151,0.08), rgba(40,167,69,0.04));
+        border-left: 4px solid #20c997;
+    }
+</style>
+
+<!-- Page Header -->
+<div style="background: linear-gradient(135deg, rgba(40,167,69,0.15), rgba(32,201,151,0.1)); border: 1px solid rgba(40,167,69,0.2); border-radius: 16px; padding: 50px 40px; margin-bottom: 40px;">
+    <div class="row align-items-center">
+        <div class="col-md-8">
+            <h1 style="font-size:2.5rem;font-weight:700;margin-bottom:15px;">
+                <i class="bi bi-ticket-perforated me-2" style="color:#28a745;"></i>My Tickets
+            </h1>
+            <p style="color:#d1d5db;font-size:1.1rem;margin-bottom:0;line-height:1.6;">
+                View your upcoming tickets, QR codes, and manage your stadium entry.
+            </p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <a href="{% url 'events_list' %}" class="btn" style="background:#28a745;color:#06110a;font-weight:700;padding:12px 30px;border-radius:50px;">
+                <i class="bi bi-plus-circle me-2"></i>Book More
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div style="background: rgba(40,167,69,0.08); border: 1px solid rgba(40,167,69,0.2); padding: 20px; border-radius: 12px;">
+            <div style="color:#28a745;font-weight:700;font-size:0.9rem;margin-bottom:10px;">UPCOMING</div>
+            <div style="color:#ffffff;font-size:2rem;font-weight:700;">3</div>
+            <p style="color:#b0b8c1;margin-bottom:0;font-size:0.85rem;">Confirmed Tickets</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div style="background: rgba(255,193,7,0.08); border: 1px solid rgba(255,193,7,0.2); padding: 20px; border-radius: 12px;">
+            <div style="color:#ffc107;font-weight:700;font-size:0.9rem;margin-bottom:10px;">PENDING</div>
+            <div style="color:#ffffff;font-size:2rem;font-weight:700;">1</div>
+            <p style="color:#b0b8c1;margin-bottom:0;font-size:0.85rem;">Awaiting Verification</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div style="background: rgba(32,201,151,0.08); border: 1px solid rgba(32,201,151,0.2); padding: 20px; border-radius: 12px;">
+            <div style="color:#20c997;font-weight:700;font-size:0.9rem;margin-bottom:10px;">TOTAL SPENT</div>
+            <div style="color:#ffffff;font-size:2rem;font-weight:700;">₹12,500</div>
+            <p style="color:#b0b8c1;margin-bottom:0;font-size:0.85rem;">On Tickets This Season</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div style="background: rgba(108,117,125,0.08); border: 1px solid rgba(108,117,125,0.2); padding: 20px; border-radius: 12px;">
+            <div style="color:#9aa0a6;font-weight:700;font-size:0.9rem;margin-bottom:10px;">USED</div>
+            <div style="color:#ffffff;font-size:2rem;font-weight:700;">2</div>
+            <p style="color:#b0b8c1;margin-bottom:0;font-size:0.85rem;">Matches Attended</p>
+        </div>
+    </div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+    <div class="tab active" onclick="switchTab('upcoming')">
+        <i class="bi bi-calendar-event me-2"></i>Upcoming
+    </div>
+    <div class="tab" onclick="switchTab('past')">
+        <i class="bi bi-check-circle me-2"></i>Used
+    </div>
+    <div class="tab" onclick="switchTab('friends')">
+        <i class="bi bi-people-fill me-2"></i>For Friends
+    </div>
+</div>
+
+<!-- Upcoming Tickets -->
+<div id="upcoming">
+    
+    <!-- Ticket 1 -->
+    <div class="ticket-card">
+        <div class="ticket-status status-confirmed">
+            <i class="bi bi-check-circle me-1"></i>Confirmed
+        </div>
+        
+        <div class="ticket-header">
+            <div class="ticket-main">
+                <div class="ticket-title">India vs Australia - Test Match</div>
+                <div class="ticket-meta">
+                    <i class="bi bi-geo-alt me-1"></i>Chinnaswamy Stadium, Bangalore
+                </div>
+            </div>
+        </div>
+        
+        <div class="ticket-details">
+            <div class="detail-item">
+                <div class="detail-label">DATE & TIME</div>
+                <div class="detail-value">Dec 28, 2024 • 9:00 AM</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">SEAT</div>
+                <div class="detail-value">Block A - 45</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">TICKET ID</div>
+                <div class="detail-value">GOVV-2024-001</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">PRICE</div>
+                <div class="detail-value" style="color:#28a745;">₹2,500</div>
+            </div>
+        </div>
+        
+        <div class="qr-section">
+            <p style="color:#b0b8c1;font-size:0.9rem;margin-bottom:15px;">Your Entry QR Code</p>
+            <div class="qr-code">
+                <i class="bi bi-qr-code"></i>
+            </div>
+            <p style="color:#b0b8c1;font-size:0.8rem;margin-top:15px;margin-bottom:0;">Show this at the gate for instant entry</p>
+        </div>
+        
+        <div class="ticket-actions">
+            <button class="btn-action primary">
+                <i class="bi bi-download me-1"></i>Download Ticket
+            </button>
+            <button class="btn-action">
+                <i class="bi bi-share me-1"></i>Share with Friend
+            </button>
+            <button class="btn-action">
+                <i class="bi bi-map me-1"></i>Directions
+            </button>
+        </div>
+    </div>
+
+    <!-- Ticket 2 -->
+    <div class="ticket-card">
+        <div class="ticket-status status-confirmed">
+            <i class="bi bi-check-circle me-1"></i>Confirmed
+        </div>
+        
+        <div class="ticket-header">
+            <div class="ticket-main">
+                <div class="ticket-title">India vs England - ODI</div>
+                <div class="ticket-meta">
+                    <i class="bi bi-geo-alt me-1"></i>Chinnaswamy Stadium, Bangalore
+                </div>
+            </div>
+        </div>
+        
+        <div class="ticket-details">
+            <div class="detail-item">
+                <div class="detail-label">DATE & TIME</div>
+                <div class="detail-value">Jan 5, 2025 • 3:00 PM</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">SEAT</div>
+                <div class="detail-value">Block B - 67</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">TICKET ID</div>
+                <div class="detail-value">GOVV-2025-042</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">PRICE</div>
+                <div class="detail-value" style="color:#28a745;">₹3,500</div>
+            </div>
+        </div>
+        
+        <div class="qr-section">
+            <p style="color:#b0b8c1;font-size:0.9rem;margin-bottom:15px;">Your Entry QR Code</p>
+            <div class="qr-code">
+                <i class="bi bi-qr-code"></i>
+            </div>
+            <p style="color:#b0b8c1;font-size:0.8rem;margin-top:15px;margin-bottom:0;">Show this at the gate for instant entry</p>
+        </div>
+        
+        <div class="ticket-actions">
+            <button class="btn-action primary">
+                <i class="bi bi-download me-1"></i>Download Ticket
+            </button>
+            <button class="btn-action">
+                <i class="bi bi-share me-1"></i>Share with Friend
+            </button>
+            <button class="btn-action">
+                <i class="bi bi-map me-1"></i>Directions
+            </button>
+        </div>
+    </div>
+
+    <!-- Ticket 3 - Pending Verification -->
+    <div class="ticket-card">
+        <div class="ticket-status status-pending">
+            <i class="bi bi-clock me-1"></i>Pending Verification
+        </div>
+        
+        <div class="ticket-header">
+            <div class="ticket-main">
+                <div class="ticket-title">India vs West Indies - T20</div>
+                <div class="ticket-meta">
+                    <i class="bi bi-geo-alt me-1"></i>Chinnaswamy Stadium, Bangalore
+                </div>
+            </div>
+        </div>
+        
+        <div class="ticket-details">
+            <div class="detail-item">
+                <div class="detail-label">DATE & TIME</div>
+                <div class="detail-value">Jan 15, 2025 • 7:00 PM</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">SEAT</div>
+                <div class="detail-value">Block C - 120</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">TICKET ID</div>
+                <div class="detail-value">GOVV-2025-089</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">PRICE</div>
+                <div class="detail-value" style="color:#28a745;">₹4,500</div>
+            </div>
+        </div>
+        
+        <div style="background: rgba(255,193,7,0.1); border: 1px solid rgba(255,193,7,0.2); padding: 15px; border-radius: 8px; margin-top: 15px;">
+            <p style="color:#ffc107;margin-bottom:0;font-size:0.9rem;">
+                <i class="bi bi-exclamation-triangle me-1"></i>
+                <strong>Action Required:</strong> Complete your identity verification to get your QR code
+            </p>
+        </div>
+        
+        <div class="ticket-actions" style="margin-top: 20px;">
+            <a href="{% url 'entry_verification' %}" class="btn-action primary">
+                <i class="bi bi-person-check me-1"></i>Verify Identity
+            </a>
+            <button class="btn-action">
+                <i class="bi bi-share me-1"></i>Share with Friend
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<!-- Used Tickets Tab -->
+<div id="past" style="display:none;">
+    <div class="ticket-card" style="opacity: 0.7;">
+        <div class="ticket-status status-used">
+            <i class="bi bi-check-circle me-1"></i>Entry Completed
+        </div>
+        
+        <div class="ticket-header">
+            <div class="ticket-main">
+                <div class="ticket-title">India vs South Africa - Test Match</div>
+                <div class="ticket-meta">
+                    <i class="bi bi-geo-alt me-1"></i>Chinnaswamy Stadium, Bangalore
+                </div>
+            </div>
+        </div>
+        
+        <div class="ticket-details">
+            <div class="detail-item">
+                <div class="detail-label">ATTENDED ON</div>
+                <div class="detail-value">Dec 10, 2024</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">SEAT</div>
+                <div class="detail-value">Block D - 45</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">ENTRY TIME</div>
+                <div class="detail-value">8:47 AM</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">VERIFICATION</div>
+                <div class="detail-value">Face ID</div>
+            </div>
+        </div>
+        
+        <div class="ticket-actions">
+            <button class="btn-action">
+                <i class="bi bi-star me-1"></i>Rate Match
+            </button>
+            <button class="btn-action">
+                <i class="bi bi-download me-1"></i>Receipt
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- For Friends Tab -->
+<div id="friends" style="display:none;">
+    
+    <div class="ticket-card friend-ticket">
+        <div class="ticket-status status-confirmed">
+            <i class="bi bi-people-fill me-1"></i>Booked for Friend
+        </div>
+        
+        <div class="ticket-header">
+            <div class="ticket-main">
+                <div class="ticket-title">India vs Australia - Test Match</div>
+                <div class="ticket-meta">
+                    <i class="bi bi-person me-1"></i>Raj Kumar • Verified
+                </div>
+            </div>
+        </div>
+        
+        <div class="ticket-details">
+            <div class="detail-item">
+                <div class="detail-label">FRIEND</div>
+                <div class="detail-value">Raj Kumar</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">SEAT</div>
+                <div class="detail-value">Block A - 46</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">VERIFICATION</div>
+                <div class="detail-value" style="color:#28a745;">✓ Face Verified</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">PRICE</div>
+                <div class="detail-value" style="color:#28a745;">₹2,500</div>
+            </div>
+        </div>
+        
+        <div class="ticket-actions">
+            <button class="btn-action">
+                <i class="bi bi-link me-1"></i>Share QR Link
+            </button>
+            <button class="btn-action">
+                <i class="bi bi-message-dots me-1"></i>Message Friend
+            </button>
+        </div>
+    </div>
+
+    <div style="background: rgba(40,167,69,0.08); border: 1px solid rgba(40,167,69,0.2); border-radius: 12px; padding: 30px; text-align: center;">
+        <h4 style="color:#ffffff;margin-bottom:10px;">Want to Book for More Friends?</h4>
+        <p style="color:#d1d5db;margin-bottom:20px;">Search friends by name, email, or username. Verify them with face/QR and book tickets directly.</p>
+        <a href="{% url 'events_list' %}" style="display:inline-block;background:linear-gradient(135deg,#28a745,#20c997);color:#06110a;padding:10px 25px;border-radius:50px;text-decoration:none;font-weight:700;">
+            <i class="bi bi-plus-circle me-1"></i>Book for Friend
+        </a>
+    </div>
+
+</div>
+
+<script>
+    function switchTab(tab) {
+        // Hide all tabs
+        document.getElementById('upcoming').style.display = 'none';
+        document.getElementById('past').style.display = 'none';
+        document.getElementById('friends').style.display = 'none';
+        
+        // Remove active class from all tabs
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        
+        // Show selected tab
+        document.getElementById(tab).style.display = 'block';
+        
+        // Add active class to clicked tab
+        event.currentTarget.classList.add('active');
+    }
+</script>
+
+{% endblock %}

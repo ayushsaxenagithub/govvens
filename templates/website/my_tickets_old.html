@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}My Tickets - GOVVENS{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="bi bi-ticket-perforated me-2"></i>My Booked Tickets</h2>
+    <a href="{% url 'events_list' %}" class="btn btn-outline-light">
+        <i class="bi bi-calendar-event me-2"></i>Browse Events
+    </a>
+</div>
+
+{% if is_demo %}
+<div class="alert alert-info mb-4">
+    <i class="bi bi-info-circle me-2"></i>
+    <strong>Demo Mode:</strong> You are viewing sample ticket data. <a href="{% url 'signup_login' %}" class="alert-link">Login</a> to see your actual tickets.
+</div>
+{% endif %}
+
+{% if bookings %}
+<div class="row g-4">
+    {% for booking in bookings %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card bg-dark text-white border-0 shadow-lg h-100">
+            <div class="card-header bg-primary">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-trophy me-2"></i>{{ booking.event_name }}
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-2">
+                    <i class="bi bi-calendar3 me-2"></i><strong>Date:</strong> {{ booking.date }}<br>
+                    <i class="bi bi-clock me-2"></i><strong>Time:</strong> {{ booking.time }}
+                </p>
+                <p class="mb-2">
+                    <i class="bi bi-ticket-perforated me-2"></i>
+                    <strong>Seat:</strong> Block {{ booking.seat_block }}, Row {{ booking.row }}, Seat {{ booking.seat_number }}
+                </p>
+                <p class="mb-3">
+                    <i class="bi bi-door-open me-2"></i>
+                    <strong>Entry:</strong> {{ booking.entry_time_slot }}
+                </p>
+                <div class="text-center mb-3">
+                    <div class="bg-white p-2 rounded d-inline-block">
+                        <img src="{{ booking.qr_code_url }}" alt="QR Code" class="img-fluid" style="max-width: 150px;">
+                    </div>
+                </div>
+                <div class="d-grid gap-2">
+                    <a href="{% url 'entry_exit_plan' %}" class="btn btn-outline-light btn-sm">
+                        <i class="bi bi-map me-2"></i>Plan Journey
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5">
+    <i class="bi bi-ticket-perforated" style="font-size: 4rem; color: #6c757d;"></i>
+    <h4 class="mt-3">No Tickets Yet</h4>
+    <p class="text-muted">You haven't booked any tickets yet. Browse our upcoming events!</p>
+    <a href="{% url 'events_list' %}" class="btn btn-primary">
+        <i class="bi bi-calendar-event me-2"></i>Browse Events
+    </a>
+</div>
+{% endif %}
+{% endblock %}

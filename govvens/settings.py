@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-wg-6k9$m$ot7(ita=%co2$%o3)w&rr$y^y(124+ln5owr6*okd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False # Set to False in production
+DEBUG = True
 
 ALLOWED_HOSTS = ['*','15.207.108.196']
 
@@ -44,13 +44,15 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',  # Commented out - install with: pip install whitenoise
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'govvens.middleware.BotDetectionMiddleware',
+    'govvens.middleware.RateLimitMiddleware',
     'govvens.middleware.UserTrackingMiddleware',
     'govvens.middleware.AdminProtectionMiddleware',
 ]
@@ -126,7 +128,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Enable WhiteNoise's GZip compression of static assets.
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # Uncomment after: pip install whitenoise
 
 # Additional locations of static files
 STATICFILES_DIRS = [
@@ -151,3 +153,125 @@ TRACKING_VISITOR_COOKIE_AGE = 60 * 60 * 24 * 365  # 1 year
 TRACKING_GEOIP_ENDPOINT = os.getenv('TRACKING_GEOIP_ENDPOINT', 'https://ipapi.co/{ip}/json/')
 TRACKING_GEOIP_TIMEOUT = 2
 TRACKING_IGNORED_PATH_PREFIXES = ['/static/', '/media/', '/favicon.ico', '/admin/jsi18n/']
+
+# ============================================================================
+# SECURITY SETTINGS FOR BOT PROTECTION AND RATE LIMITING
+# ============================================================================
+
+# Security Headers
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_SECURITY_POLICY = {
+    "default-src": ("'self'",),
+    "script-src": ("'self'", "'unsafe-inline'", "cdn.jsdelivr.net", "https://cdn.jsdelivr.net"),
+    "style-src": ("'self'", "'unsafe-inline'", "cdn.jsdelivr.net", "https://cdn.jsdelivr.net"),
+    "img-src": ("'self'", "data:", "https:", "http:"),
+    "font-src": ("'self'", "data:", "https:", "cdn.jsdelivr.net"),
+    "connect-src": ("'self'", "https:", "http:"),
+    "frame-ancestors": ("'none'",),
+    "base-uri": ("'self'",),
+    "form-action": ("'self'",),
+}
+
+# Rate limiting configuration
+RATELIMIT_ENABLE = True
+RATELIMIT_VIEW_REQUESTS = 1000  # requests per hour
+RATELIMIT_VIEW_DURATION = 3600
+
+# Bot detection patterns
+BOT_DETECTION_ENABLED = True
+BOT_USER_AGENTS = [
+    'ahrefs', 'semrush', 'bot', 'crawler', 'spider', 'scrapy', 
+    'curl', 'wget', 'python', 'java', 'perl', 'ruby',
+    'dotbot', 'mj12bot', 'scrapybot', 'nikto', 'sqlmap'
+]
+
+# Suspicious patterns
+SUSPICIOUS_PATTERNS = [
+    'union', 'select', 'drop', 'insert', 'update', 'delete',
+    '../', '..\\', 'admin', 'config', 'database', 'password'
+]
+
+# Rate limit per IP
+RATE_LIMIT_PER_IP = 500  # requests per hour
+RATE_LIMIT_PER_SESSION = 1000  # requests per hour
+
+# Allowed redirects
+ALLOWED_REDIRECTS = [
+    'signup_login', 'verify_identity', 'my_tickets', 'events_list'
+]
+
+# Session security
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_COOKIE_AGE = 86400  # 24 hours
+
+# CSRF settings
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_TRUSTED_ORIGINS = [
+    'https://govvens.example.com',
+    'https://*.govvens.example.com',
+]
+
+# Password hashers
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+]
+
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR / 'logs' / 'govvens.log',
+            'maxBytes': 1024 * 1024 * 10,  # 10 MB
+            'backupCount': 5,
+            'formatter': 'verbose',
+        },
+        'security_file': {
+            'level': 'WARNING',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR / 'logs' / 'security.log',
+            'maxBytes': 1024 * 1024 * 10,  # 10 MB
+            'backupCount': 5,
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'django.security': {
+            'handlers': ['security_file'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+        'website': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
+
+# Ensure logs directory exists
+LOGS_DIR = BASE_DIR / 'logs'
+LOGS_DIR.mkdir(exist_ok=True)

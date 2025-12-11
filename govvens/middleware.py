@@ -1,13 +1,17 @@
 """
-Project level middleware utilities.
+Project level middleware utilities with bot detection and security enhancements.
 """
 from __future__ import annotations
 
 import time
+import logging
+import re
 
 from django.conf import settings
 from django.shortcuts import redirect
 from django.utils import timezone
+from django.http import HttpResponse
+from django.core.cache import cache
 import requests
 
 from user.models import UserActivity, UserSession
@@ -19,6 +23,8 @@ from user.services.tracking import (
     lookup_geo_data,
     parse_json_body,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class AdminProtectionMiddleware:
@@ -251,3 +257,105 @@ class UserTrackingMiddleware:
                 session.save(update_fields=["exit_url"])
         except Exception:  # pragma: no cover
             pass
+
+
+class BotDetectionMiddleware:
+    """
+    Middleware to detect and limit bot/crawler access
+    """
+    
+    def __init__(self, get_response):
+        self.get_response = get_response
+        self.bot_user_agents = getattr(settings, 'BOT_USER_AGENTS', [])
+        self.suspicious_patterns = getattr(settings, 'SUSPICIOUS_PATTERNS', [])
+        self.bot_detection_enabled = getattr(settings, 'BOT_DETECTION_ENABLED', True)
+    
+    def __call__(self, request):
+        if not self.bot_detection_enabled:
+            return self.get_response(request)
+        
+        # Check for bot signatures
+        if self._is_bot(request):
+            ip_address = get_client_ip(request)
+            logger.warning(f"Bot detected from IP: {ip_address}, User-Agent: {request.META.get('HTTP_USER_AGENT', 'Unknown')}")
+            
+            # Mark the session as a bot
+            if hasattr(request, 'tracking_session'):
+                request.tracking_session.is_bot = True
+                request.tracking_session.save(update_fields=['is_bot'])
+        
+        # Check for suspicious patterns (SQL injection, path traversal, etc)
+        if self._has_suspicious_patterns(request):
+            logger.warning(f"Suspicious pattern detected from {get_client_ip(request)}: {request.path}")
+            # Still process the request but log it
+        
+        response = self.get_response(request)
+        return response
+    
+    def _is_bot(self, request) -> bool:
+        """Check if request is from a bot/crawler"""
+        user_agent = request.META.get('HTTP_USER_AGENT', '').lower()
+        
+        # Check against known bot patterns
+        for bot_pattern in self.bot_user_agents:
+            if bot_pattern.lower() in user_agent:
+                return True
+        
+        # Check for missing or empty user agent
+        if not user_agent or user_agent.strip() == '':
+            return True
+        
+        # Check for suspicious tools
+        suspicious_tools = ['curl', 'wget', 'python', 'perl', 'java', 'ruby', 'scrapy']
+        for tool in suspicious_tools:
+            if tool in user_agent:
+                return True
+        
+        return False
+    
+    def _has_suspicious_patterns(self, request) -> bool:
+        """Check for SQL injection, XSS, path traversal, etc"""
+        path = request.path.lower()
+        query_string = request.get_full_path().lower()
+        
+        for pattern in self.suspicious_patterns:
+            if pattern.lower() in path or pattern.lower() in query_string:
+                return True
+        
+        # Check for path traversal attempts
+        if '../' in path or '..\\' in path:
+            return True
+        
+        return False
+
+
+class RateLimitMiddleware:
+    """
+    Simple rate limiting middleware based on IP address
+    """
+    
+    def __init__(self, get_response):
+        self.get_response = get_response
+        self.rate_limit_per_ip = getattr(settings, 'RATE_LIMIT_PER_IP', 500)
+        self.rate_limit_window = 3600  # 1 hour
+    
+    def __call__(self, request):
+        ip_address = get_client_ip(request)
+        cache_key = f'rate_limit_{ip_address}'
+        
+        # Get current request count
+        request_count = cache.get(cache_key, 0)
+        
+        # Check if exceeded limit
+        if request_count >= self.rate_limit_per_ip:
+            logger.warning(f"Rate limit exceeded for IP: {ip_address}")
+            return HttpResponse(
+                'Rate limit exceeded. Please try again later.',
+                status=429
+            )
+        
+        # Increment counter
+        cache.set(cache_key, request_count + 1, self.rate_limit_window)
+        
+        response = self.get_response(request)
+        return response

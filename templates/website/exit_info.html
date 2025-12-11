@@ -1,69 +1,481 @@
 {% extends "base.html" %}
-{% block title %}Exit Instructions - GOVVENS{% endblock %}
+{% block title %}Exit Information - GOVVENS{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card bg-dark text-white border-0 shadow text-center">
-            <div class="card-header bg-danger">
-                <h2 class="card-title mb-0">⏰ Exit Instructions</h2>
+
+<style>
+    .live-indicator {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        background: #28a745;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+        margin-right: 5px;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+    
+    .gate-status {
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        transition: all 0.3s ease;
+    }
+    
+    .gate-status.green {
+        background: rgba(40, 167, 69, 0.2);
+        border-left: 4px solid #28a745;
+    }
+    
+    .gate-status.yellow {
+        background: rgba(255, 193, 7, 0.2);
+        border-left: 4px solid #ffc107;
+    }
+    
+    .gate-status.red {
+        background: rgba(220, 53, 69, 0.2);
+        border-left: 4px solid #dc3545;
+    }
+    
+    .occupancy-bar {
+        height: 30px;
+        background: #2a2a2a;
+        border-radius: 5px;
+        overflow: hidden;
+        margin: 10px 0;
+        position: relative;
+    }
+    
+    .occupancy-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #28a745, #20c997);
+        transition: width 0.5s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+    
+    .occupancy-fill.warning {
+        background: linear-gradient(90deg, #ffc107, #ff9800);
+    }
+    
+    .occupancy-fill.critical {
+        background: linear-gradient(90deg, #dc3545, #c82333);
+    }
+    
+    .exit-info-card {
+        transition: all 0.3s ease;
+        border-left: 4px solid transparent;
+    }
+    
+    .exit-info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(40, 167, 69, 0.2) !important;
+        border-left-color: #28a745;
+    }
+    
+    .timeline {
+        position: relative;
+        padding-left: 30px;
+    }
+    
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #28a745;
+    }
+    
+    .timeline-dot {
+        position: absolute;
+        left: -8px;
+        width: 16px;
+        height: 16px;
+        background: #28a745;
+        border-radius: 50%;
+        border: 3px solid #1a1a1a;
+    }
+</style>
+
+<!-- Page Header -->
+<div class="bg-gradient text-white py-4 px-3 rounded-3 mb-4" style="background: linear-gradient(135deg, #28a745, #20c997);">
+    <div class="row align-items-center">
+        <div class="col-md-8">
+            <h1 class="display-5 fw-bold mb-2">
+                <i class="bi bi-door-open me-2"></i>Exit Information & Crowd Analytics
+            </h1>
+            <p class="lead mb-0">
+                <span class="live-indicator"></span>Real-time gate occupancy and safe exit guidance
+            </p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <p class="text-white-50 small mb-0">Last updated: Just now</p>
+            <p class="text-white fw-bold">Live Data</p>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Stats -->
+<div class="row g-3 mb-5">
+    <div class="col-md-3">
+        <div class="bg-dark p-4 rounded-3 text-center border border-success">
+            <i class="bi bi-people-fill" style="font-size: 2rem; color: #28a745;"></i>
+            <p class="text-muted small mt-2 mb-1">Current Crowd</p>
+            <p class="fs-4 fw-bold text-success">42,850 / 45,000</p>
+            <small class="text-muted">95% Capacity</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="bg-dark p-4 rounded-3 text-center border border-warning">
+            <i class="bi bi-clock" style="font-size: 2rem; color: #ffc107;"></i>
+            <p class="text-muted small mt-2 mb-1">Expected Exit Time</p>
+            <p class="fs-4 fw-bold text-warning">45 minutes</p>
+            <small class="text-muted">Peak exit window</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="bg-dark p-4 rounded-3 text-center border border-info">
+            <i class="bi bi-door-open" style="font-size: 2rem; color: #0dcaf0;"></i>
+            <p class="text-muted small mt-2 mb-1">Open Gates</p>
+            <p class="fs-4 fw-bold text-info">8 / 8</p>
+            <small class="text-muted">All operational</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="bg-dark p-4 rounded-3 text-center border border-danger">
+            <i class="bi bi-exclamation-triangle" style="font-size: 2rem; color: #dc3545;"></i>
+            <p class="text-muted small mt-2 mb-1">Safety Status</p>
+            <p class="fs-4 fw-bold text-danger">Normal</p>
+            <small class="text-success">No congestion alerts</small>
+        </div>
+    </div>
+</div>
+
+<!-- Gate Occupancy Overview -->
+<div class="card card-dark shadow-strong mb-4">
+    <div class="card-header bg-info bg-opacity-25">
+        <h5 class="card-title text-info mb-0">
+            <span class="live-indicator"></span>Live Gate Occupancy
+        </h5>
+    </div>
+    <div class="card-body">
+        <!-- Gate A -->
+        <div class="gate-status green">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="mb-0">Gate A (North Entrance)</h6>
+                <span class="badge bg-success">LOW (35%)</span>
+            </div>
+            <div class="occupancy-bar">
+                <div class="occupancy-fill" style="width: 35%;">35%</div>
+            </div>
+            <small class="text-muted">4,275 people • Expected wait: 3-5 min</small>
+        </div>
+
+        <!-- Gate B -->
+        <div class="gate-status yellow">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="mb-0">Gate B (East Entrance)</h6>
+                <span class="badge bg-warning text-dark">MODERATE (65%)</span>
+            </div>
+            <div class="occupancy-bar">
+                <div class="occupancy-fill warning" style="width: 65%;">65%</div>
+            </div>
+            <small class="text-muted">7,875 people • Expected wait: 8-10 min</small>
+        </div>
+
+        <!-- Gate C -->
+        <div class="gate-status yellow">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="mb-0">Gate C (South Entrance)</h6>
+                <span class="badge bg-warning text-dark">MODERATE (62%)</span>
+            </div>
+            <div class="occupancy-bar">
+                <div class="occupancy-fill warning" style="width: 62%;">62%</div>
+            </div>
+            <small class="text-muted">7,540 people • Expected wait: 7-9 min</small>
+        </div>
+
+        <!-- Gate D -->
+        <div class="gate-status red">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="mb-0">Gate D (West Entrance)</h6>
+                <span class="badge bg-danger">HIGH (85%)</span>
+            </div>
+            <div class="occupancy-bar">
+                <div class="occupancy-fill critical" style="width: 85%;">85%</div>
+            </div>
+            <small class="text-danger">10,290 people • Expected wait: 12-15 min • AVOID IF POSSIBLE</small>
+        </div>
+
+        <!-- Gate E -->
+        <div class="gate-status green">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="mb-0">Gate E (North-East)</h6>
+                <span class="badge bg-success">LOW (42%)</span>
+            </div>
+            <div class="occupancy-bar">
+                <div class="occupancy-fill" style="width: 42%;">42%</div>
+            </div>
+            <small class="text-muted">5,085 people • Expected wait: 4-6 min</small>
+        </div>
+
+        <!-- Gate F -->
+        <div class="gate-status green">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="mb-0">Gate F (South-East)</h6>
+                <span class="badge bg-success">LOW (38%)</span>
+            </div>
+            <div class="occupancy-bar">
+                <div class="occupancy-fill" style="width: 38%;">38%</div>
+            </div>
+            <small class="text-muted">4,600 people • Expected wait: 3-5 min</small>
+        </div>
+
+        <!-- Gate G -->
+        <div class="gate-status yellow">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="mb-0">Gate G (South-West)</h6>
+                <span class="badge bg-warning text-dark">MODERATE (68%)</span>
+            </div>
+            <div class="occupancy-bar">
+                <div class="occupancy-fill warning" style="width: 68%;">68%</div>
+            </div>
+            <small class="text-muted">8,235 people • Expected wait: 9-11 min</small>
+        </div>
+
+        <!-- Gate H -->
+        <div class="gate-status yellow">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="mb-0">Gate H (North-West)</h6>
+                <span class="badge bg-warning text-dark">MODERATE (58%)</span>
+            </div>
+            <div class="occupancy-bar">
+                <div class="occupancy-fill warning" style="width: 58%;">58%</div>
+            </div>
+            <small class="text-muted">7,015 people • Expected wait: 6-8 min</small>
+        </div>
+    </div>
+</div>
+
+<!-- Recommended Exit Strategy -->
+<div class="row g-4 mb-4">
+    <div class="col-lg-6">
+        <div class="card card-dark shadow-strong exit-info-card">
+            <div class="card-header bg-success bg-opacity-25">
+                <h5 class="card-title text-success mb-0">
+                    <i class="bi bi-check-circle me-2"></i>Recommended Exit Gates
+                </h5>
             </div>
             <div class="card-body">
-                <div class="alert alert-warning mb-4">
-                    <h6 class="alert-heading"><i class="bi bi-exclamation-triangle me-2"></i>Match Ended</h6>
-                    <p class="mb-0"><strong>Please follow instructions to exit safely and avoid crowding.</strong></p>
-                </div>
-                
-                <div class="row mb-4">
-                    <div class="col-md-6 mb-3">
-                        <div class="card bg-secondary">
-                            <div class="card-body">
-                                <h6 class="text-white"><i class="bi bi-door-open me-2"></i>Your Exit Gate</h6>
-                                <h3 class="text-warning mb-0">{{ exit_gate }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="card bg-secondary">
-                            <div class="card-body">
-                                <h6 class="text-white"><i class="bi bi-clock me-2"></i>Exit Time Window</h6>
-                                <h3 class="text-success mb-0">{{ exit_time_window }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="mb-4">
-                    <h6 class="text-primary mb-3"><i class="bi bi-signpost me-2"></i>Egress Route</h6>
-                    <p class="mb-2">{{ egress_route }}</p>
+                <div class="mb-3">
+                    <h6 class="text-warning">
+                        <i class="bi bi-star-fill me-2"></i>Best Options
+                    </h6>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><i class="bi bi-arrow-right-circle text-success me-2"></i>Follow directional signs to {{ exit_gate }}</li>
-                        <li class="mb-2"><i class="bi bi-arrow-right-circle text-success me-2"></i>Avoid central concourse during peak exit times</li>
-                        <li class="mb-2"><i class="bi bi-arrow-right-circle text-success me-2"></i>Stay with your group if traveling together</li>
-                        <li class="mb-0"><i class="bi bi-arrow-right-circle text-success me-2"></i>Listen to stadium staff announcements</li>
+                        <li class="mb-2 ps-3">
+                            <i class="bi bi-check-lg text-success me-2"></i>
+                            <strong>Gate A</strong> - 35% capacity, 3-5 min wait
+                        </li>
+                        <li class="mb-2 ps-3">
+                            <i class="bi bi-check-lg text-success me-2"></i>
+                            <strong>Gate F</strong> - 38% capacity, 3-5 min wait
+                        </li>
+                        <li class="ps-3">
+                            <i class="bi bi-check-lg text-success me-2"></i>
+                            <strong>Gate E</strong> - 42% capacity, 4-6 min wait
+                        </li>
                     </ul>
                 </div>
-                
-                <div class="alert alert-info mb-4">
-                    <h6 class="alert-heading"><i class="bi bi-shield-check me-2"></i>Safety Reminders</h6>
-                    <ul class="mb-0 small">
-                        <li>Do not rush - maintain safe distance from others</li>
-                        <li>Follow all signs and staff instructions</li>
-                        <li>Keep your belongings with you at all times</li>
-                        <li>If you need assistance, contact stadium staff</li>
-                    </ul>
+
+                <div class="alert alert-danger" role="alert">
+                    <h6 class="alert-heading">
+                        <i class="bi bi-exclamation-triangle me-2"></i>Avoid Gate D
+                    </h6>
+                    <p class="mb-0">
+                        Gate D is operating at 85% capacity with 12-15 minute expected wait. 
+                        Please use alternative gates for faster exit.
+                    </p>
                 </div>
-                
-                <div class="d-grid gap-2">
-                    <a href="https://www.google.com/maps/dir/?api=1&destination=Chinnaswamy+Stadium,+Bengaluru" target="_blank" class="btn btn-primary btn-lg">
-                        <i class="bi bi-map me-2"></i>Open Map to Exit Gate
-                    </a>
-                    <a href="{% url 'landing_page' %}" class="btn btn-outline-light">
-                        <i class="bi bi-house me-2"></i>Return to Home
-                    </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card card-dark shadow-strong exit-info-card">
+            <div class="card-header bg-warning bg-opacity-25">
+                <h5 class="card-title text-warning mb-0">
+                    <i class="bi bi-clock-history me-2"></i>Exit Timeline
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="timeline">
+                    <div class="timeline-dot" style="top: 15px;"></div>
+                    <div class="mb-4">
+                        <p class="fw-bold text-success mb-1">10:00 PM - Match Ends</p>
+                        <small class="text-muted">Controlled exit process begins immediately after final whistle</small>
+                    </div>
+
+                    <div class="timeline-dot" style="top: 120px;"></div>
+                    <div class="mb-4">
+                        <p class="fw-bold text-info mb-1">10:05 PM - Exit Slot Opens</p>
+                        <small class="text-muted">Your assigned exit time slot begins. Head to your gate</small>
+                    </div>
+
+                    <div class="timeline-dot" style="top: 220px;"></div>
+                    <div class="mb-4">
+                        <p class="fw-bold text-warning mb-1">10:05-10:50 PM - Peak Exit Period</p>
+                        <small class="text-muted">Highest crowd flow. Wait times: 5-15 minutes depending on gate</small>
+                    </div>
+
+                    <div class="timeline-dot" style="top: 320px;"></div>
+                    <div>
+                        <p class="fw-bold text-secondary mb-1">10:50 PM+ - Reduced Crowd</p>
+                        <small class="text-muted">Exit becomes smooth. Wait times drop to 1-3 minutes</small>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Parking & Transportation Info -->
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card card-dark shadow-strong exit-info-card">
+            <div class="card-header bg-info bg-opacity-25">
+                <h5 class="card-title text-info mb-0">
+                    <i class="bi bi-car-front me-2"></i>Parking Information
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <p class="fw-bold text-white mb-2">Available Parking Lots</p>
+                    <div class="p-2 bg-secondary bg-opacity-25 rounded mb-2">
+                        <p class="mb-1"><strong>Lot A (North):</strong> 450/600 spaces</p>
+                        <small class="text-muted">10-min walk to gate</small>
+                    </div>
+                    <div class="p-2 bg-secondary bg-opacity-25 rounded mb-2">
+                        <p class="mb-1"><strong>Lot B (East):</strong> 520/650 spaces</p>
+                        <small class="text-muted">5-min walk to gate</small>
+                    </div>
+                    <div class="p-2 bg-secondary bg-opacity-25 rounded mb-2">
+                        <p class="mb-1"><strong>Lot C (West):</strong> 280/400 spaces</p>
+                        <small class="text-muted">15-min walk to gate</small>
+                    </div>
+                </div>
+
+                <p class="text-muted small mb-0">
+                    <i class="bi bi-info-circle me-1"></i>
+                    Parking attendants will guide traffic during peak exit time
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card card-dark shadow-strong exit-info-card">
+            <div class="card-header bg-success bg-opacity-25">
+                <h5 class="card-title text-success mb-0">
+                    <i class="bi bi-bus-front me-2"></i>Public Transport
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <p class="fw-bold text-white mb-2">Nearest Transit Stops</p>
+                    <div class="p-2 bg-secondary bg-opacity-25 rounded mb-2">
+                        <p class="mb-1"><strong>BMTC #27 (North):</strong> Next in 8 min</p>
+                        <small class="text-muted">Frequency: Every 15 min after match</small>
+                    </div>
+                    <div class="p-2 bg-secondary bg-opacity-25 rounded mb-2">
+                        <p class="mb-1"><strong>Metro - Indiranagar Station:</strong> 15-min walk</p>
+                        <small class="text-muted">Extended hours post-event</small>
+                    </div>
+                    <div class="p-2 bg-secondary bg-opacity-25 rounded mb-2">
+                        <p class="mb-1"><strong>Taxi/Auto Stand:</strong> South gate area</p>
+                        <small class="text-muted">Surge pricing may apply</small>
+                    </div>
+                </div>
+
+                <p class="text-muted small mb-0">
+                    <i class="bi bi-info-circle me-1"></i>
+                    Crowded & suggested for large crowds: Plan 15 min earlier
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Safety Tips -->
+<div class="alert alert-success" role="alert">
+    <h5 class="alert-heading">
+        <i class="bi bi-shield-check me-2"></i>Safety & Exit Guidelines
+    </h5>
+    <ul class="mb-0">
+        <li>Wait for your designated exit time slot and proceed in an orderly manner</li>
+        <li>Follow the direction of security personnel at exit gates</li>
+        <li>Keep all valuables secured. Report any suspicious activity immediately</li>
+        <li>If you feel faint or unwell, inform a security guard - medical assistance available</li>
+        <li>Children should be kept close. Report any separated child to the nearest officer</li>
+        <li>Stay alert and aware of your surroundings during exit</li>
+    </ul>
+</div>
+
+<!-- Emergency Information -->
+<div class="card bg-dark border-0 border-danger shadow-lg mb-4">
+    <div class="card-header bg-danger bg-opacity-25">
+        <h5 class="card-title text-danger mb-0">
+            <i class="bi bi-telephone-fill me-2"></i>Emergency Contacts
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <p class="text-muted small mb-2">Medical Emergency</p>
+                <p class="fw-bold text-white">+91-80-GOVVENS-1 (In Stadium)</p>
+            </div>
+            <div class="col-md-6">
+                <p class="text-muted small mb-2">Security/Safety</p>
+                <p class="fw-bold text-white">+91-80-GOVVENS-2 (In Stadium)</p>
+            </div>
+            <div class="col-md-6">
+                <p class="text-muted small mb-2">Lost & Found</p>
+                <p class="fw-bold text-white">Email: support@govvens.com</p>
+            </div>
+            <div class="col-md-6">
+                <p class="text-muted small mb-2">General Help</p>
+                <p class="fw-bold text-white">24/7 Support Line available</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Navigation Buttons -->
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <a href="{% url 'entry_exit_plan' %}" class="btn btn-success btn-lg w-100">
+            <i class="bi bi-map me-2"></i>Plan Journey
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a href="{% url 'my_tickets' %}" class="btn btn-info btn-lg w-100">
+            <i class="bi bi-ticket-perforated me-2"></i>My Tickets
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a href="{% url 'faq' %}" class="btn btn-warning btn-lg w-100">
+            <i class="bi bi-question-circle me-2"></i>FAQ
+        </a>
+    </div>
+</div>
+
 {% endblock %}

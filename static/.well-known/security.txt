@@ -1,0 +1,4 @@
+Contact: security@govvens.example.com
+Expires: 2026-12-12T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://govvens.example.com/.well-known/security.txt

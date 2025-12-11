@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}Payment - {{ event.name }}{% endblock %}
+
+{% block content %}
+{% if is_demo %}
+<div class="alert alert-info mb-4">
+    <i class="bi bi-info-circle me-2"></i>
+    <strong>Demo Mode:</strong> This is a sample payment page. <a href="{% url 'signup_login' %}" class="alert-link">Login</a> to complete real bookings.
+</div>
+{% endif %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="bi bi-credit-card me-2"></i>Review & Pay for {{ event.name }}</h2>
+</div>
+
+<div class="alert alert-success mb-4">
+    <h6 class="alert-heading"><i class="bi bi-check-circle me-2"></i>Booking Summary</h6>
+    <p class="mb-0">Please review your selection and complete the payment to confirm your tickets. Your seats are reserved for 15 minutes.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card bg-dark text-white border-0 shadow mb-4">
+            <div class="card-header bg-primary">
+                <h5 class="mb-0">Your Selection</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush bg-dark text-white">
+                    {% for seat in selected_seats %}
+                    <li class="list-group-item bg-dark border-secondary">
+                        <i class="bi bi-ticket-perforated me-2"></i>{{ seat }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="mt-3 p-3 bg-secondary rounded">
+                    <div class="d-flex justify-content-between">
+                        <span><strong>Total Seats:</strong> {{ selected_seats|length }}</span>
+                        <span><strong>Total Price:</strong> ₹{{ total_price|floatformat:2 }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-dark text-white border-0 shadow">
+            <div class="card-header bg-primary">
+                <h5 class="mb-0">Payment Method</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{% url 'payment' event.id %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="payment_method" class="form-label">Select Payment Method</label>
+                        <select class="form-select bg-dark text-white border-secondary" id="payment_method" name="payment_method" required>
+                            <option value="">Choose...</option>
+                            <option value="razorpay">Razorpay (Credit/Debit/UPI)</option>
+                            <option value="upi">UPI</option>
+                        </select>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="bi bi-credit-card me-2"></i>Pay ₹{{ total_price|floatformat:2 }}
+                        </button>
+                        <a href="{% url 'seat_selection' event.id %}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>Back to Seat Selection
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-dark text-white border-0 shadow">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">Important</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Secure payment via Razorpay</li>
+                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Digital ticket with QR code</li>
+                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Assigned entry time slot</li>
+                    <li class="mb-0"><i class="bi bi-clock text-warning me-2"></i>Seats held for 15 minutes</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payment FAQ Section -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card bg-secondary text-white border-0 shadow">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0"><i class="bi bi-question-circle me-2"></i>Payment FAQs</h4>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <h6 class="text-warning"><i class="bi bi-credit-card me-2"></i>How do I pay for tickets?</h6>
+                        <p class="small mb-0">Payments are processed securely via Razorpay. We accept Credit Cards, Debit Cards, UPI, Net Banking, and Wallets. All transactions are encrypted and secure.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-warning"><i class="bi bi-exclamation-triangle me-2"></i>What if my payment fails?</h6>
+                        <p class="small mb-0">The reserved seats are released after 15 minutes if payment isn't completed. You can retry the payment within the 15-minute window. We recommend having a backup payment method ready.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-warning"><i class="bi bi-shield-check me-2"></i>Is my payment secure?</h6>
+                        <p class="small mb-0">Yes, all payments are processed through Razorpay, which is PCI DSS compliant. Your card details are never stored on our servers. All transactions are encrypted using industry-standard SSL.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-warning"><i class="bi bi-clock me-2"></i>How long are seats reserved?</h6>
+                        <p class="small mb-0">Selected seats are held for 15 minutes during the payment process. If payment isn't completed within this time, the seats will be released and made available to other users.</p>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="{% url 'faq' %}" class="btn btn-outline-light">
+                        <i class="bi bi-question-circle me-2"></i>View All FAQs
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

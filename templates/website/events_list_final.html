@@ -1,0 +1,354 @@
+{% extends "base.html" %}
+{% block title %}Events - GOVVENS{% endblock %}
+
+{% block content %}
+
+<style>
+    .event-card {
+        transition: all 0.3s ease;
+        border-left: 4px solid transparent;
+    }
+    
+    .event-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(40, 167, 69, 0.3) !important;
+        border-left-color: #28a745;
+    }
+    
+    .stat-box {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+        margin-top: 5px;
+    }
+    
+    .event-image {
+        height: 200px;
+        object-fit: cover;
+        background: linear-gradient(135deg, rgba(40,167,69,0.2), rgba(32,201,151,0.15));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #28a745;
+        font-size: 3rem;
+        border-bottom: 2px solid rgba(40,167,69,0.2);
+    }
+    
+    .badge-custom {
+        padding: 8px 16px;
+        border-radius: 20px;
+        display: inline-block;
+        margin: 5px;
+        font-weight: 500;
+        background: rgba(40,167,69,0.15);
+        color: #28a745;
+    }
+    
+    .availability-bar {
+        background: rgba(40,167,69,0.1);
+        height: 8px;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    
+    .availability-fill {
+        background: linear-gradient(90deg, #28a745, #20c997);
+        height: 100%;
+        width: 65%;
+    }
+    
+    .quick-info {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .info-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.95rem;
+        color: #d1d5db;
+    }
+    
+    .info-item i {
+        color: #28a745;
+    }
+</style>
+
+<!-- Page Header -->
+<div style="background: linear-gradient(135deg, rgba(40,167,69,0.15), rgba(32,201,151,0.1)); border: 1px solid rgba(40,167,69,0.2); border-radius: 16px; padding: 50px 40px; margin-bottom: 40px;">
+    <div class="row align-items-center">
+        <div class="col-md-8">
+            <h1 style="font-size:2.5rem;font-weight:700;margin-bottom:15px;">
+                <i class="bi bi-calendar-event me-2" style="color:#28a745;"></i>Upcoming Matches
+            </h1>
+            <p style="color:#d1d5db;font-size:1.1rem;margin-bottom:0;line-height:1.6;">
+                Browse and book tickets for upcoming cricket matches at Chinnaswamy Stadium. Smart seat selection, AI verification, and instant digital tickets.
+            </p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            {% if user.is_authenticated %}
+            <a href="{% url 'my_tickets' %}" class="btn" style="background:#28a745;color:#06110a;font-weight:700;padding:12px 30px;border-radius:50px;">
+                <i class="bi bi-ticket-perforated me-2"></i>My Tickets
+            </a>
+            {% else %}
+            <a href="{% url 'signup_login' %}" class="btn" style="background:#28a745;color:#06110a;font-weight:700;padding:12px 30px;border-radius:50px;">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Login to Book
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Platform Statistics -->
+<div class="row g-3 mb-5">
+    <div class="col-md-3">
+        <div class="stat-box">
+            <div class="stat-number">12</div>
+            <div class="stat-label">Upcoming Matches</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-box">
+            <div class="stat-number">45,000+</div>
+            <div class="stat-label">Seats Available</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-box">
+            <div class="stat-number">8,500+</div>
+            <div class="stat-label">Tickets Sold</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-box">
+            <div class="stat-number">98%</div>
+            <div class="stat-label">Satisfaction Rate</div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Section -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(40,167,69,0.15); border-radius: 12px; padding: 20px;">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label style="color:#b0b8c1;font-weight:600;margin-bottom:8px;display:block;">Team Name</label>
+                    <input type="text" class="form-control form-control-dark" placeholder="India vs Australia..." style="background: rgba(255,255,255,0.02); border: 1px solid rgba(40,167,69,0.15); color: #e9eef1;">
+                </div>
+                <div class="col-md-3">
+                    <label style="color:#b0b8c1;font-weight:600;margin-bottom:8px;display:block;">Match Type</label>
+                    <select class="form-control form-control-dark" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(40,167,69,0.15); color: #e9eef1;">
+                        <option value="">All Types</option>
+                        <option value="test">Test Match</option>
+                        <option value="odi">ODI</option>
+                        <option value="t20">T20</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label style="color:#b0b8c1;font-weight:600;margin-bottom:8px;display:block;">Date Range</label>
+                    <input type="date" class="form-control form-control-dark" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(40,167,69,0.15); color: #e9eef1;">
+                </div>
+                <div class="col-md-3" style="display:flex;align-items:flex-end;">
+                    <button class="btn w-100" style="background:linear-gradient(135deg,#28a745,#20c997);color:#06110a;font-weight:700;">
+                        <i class="bi bi-search me-2"></i>Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Events Grid -->
+<div class="row g-4 mb-5">
+    
+    <!-- Event Card 1 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card card-dark shadow-strong event-card h-100">
+            <div class="event-image">
+                <i class="bi bi-cricket"></i>
+            </div>
+            <div class="card-body">
+                <div class="badge-custom">🏏 Test Match</div>
+                <h5 class="card-title mt-3" style="color:#ffffff;">India vs Australia</h5>
+                <p class="card-text" style="color:#d1d5db;margin-bottom:0;">Chinnaswamy Stadium, Bangalore</p>
+                
+                <div class="quick-info">
+                    <div class="info-item">
+                        <i class="bi bi-calendar3"></i>
+                        <span>Dec 28, 2024</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="bi bi-clock"></i>
+                        <span>9:00 AM</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="bi bi-people"></i>
+                        <span>15,000 seats</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="bi bi-ticket"></i>
+                        <span>₹500 - ₹5000</span>
+                    </div>
+                </div>
+                
+                <p style="color:#b0b8c1;font-size:0.85rem;margin-top:15px;margin-bottom:10px;">Seat Availability</p>
+                <div class="availability-bar">
+                    <div class="availability-fill"></div>
+                </div>
+                
+                <a href="{% url 'seat_selection' %}" class="btn w-100 mt-3" style="background:#28a745;color:#06110a;font-weight:700;">
+                    <i class="bi bi-chair me-2"></i>Book Seats
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Event Card 2 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card card-dark shadow-strong event-card h-100">
+            <div class="event-image">
+                <i class="bi bi-cricket"></i>
+            </div>
+            <div class="card-body">
+                <div class="badge-custom">🏏 ODI</div>
+                <h5 class="card-title mt-3" style="color:#ffffff;">India vs England</h5>
+                <p class="card-text" style="color:#d1d5db;margin-bottom:0;">Chinnaswamy Stadium, Bangalore</p>
+                
+                <div class="quick-info">
+                    <div class="info-item">
+                        <i class="bi bi-calendar3"></i>
+                        <span>Jan 5, 2025</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="bi bi-clock"></i>
+                        <span>3:00 PM</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="bi bi-people"></i>
+                        <span>20,000 seats</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="bi bi-ticket"></i>
+                        <span>₹800 - ₹8000</span>
+                    </div>
+                </div>
+                
+                <p style="color:#b0b8c1;font-size:0.85rem;margin-top:15px;margin-bottom:10px;">Seat Availability</p>
+                <div class="availability-bar">
+                    <div class="availability-fill" style="width:45%;"></div>
+                </div>
+                
+                <a href="{% url 'seat_selection' %}" class="btn w-100 mt-3" style="background:#28a745;color:#06110a;font-weight:700;">
+                    <i class="bi bi-chair me-2"></i>Book Seats
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Event Card 3 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card card-dark shadow-strong event-card h-100">
+            <div class="event-image">
+                <i class="bi bi-cricket"></i>
+            </div>
+            <div class="card-body">
+                <div class="badge-custom">🏏 T20</div>
+                <h5 class="card-title mt-3" style="color:#ffffff;">India vs West Indies</h5>
+                <p class="card-text" style="color:#d1d5db;margin-bottom:0;">Chinnaswamy Stadium, Bangalore</p>
+                
+                <div class="quick-info">
+                    <div class="info-item">
+                        <i class="bi bi-calendar3"></i>
+                        <span>Jan 15, 2025</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="bi bi-clock"></i>
+                        <span>7:00 PM</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="bi bi-people"></i>
+                        <span>25,000 seats</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="bi bi-ticket"></i>
+                        <span>₹1000 - ₹10000</span>
+                    </div>
+                </div>
+                
+                <p style="color:#b0b8c1;font-size:0.85rem;margin-top:15px;margin-bottom:10px;">Seat Availability</p>
+                <div class="availability-bar">
+                    <div class="availability-fill" style="width:80%;"></div>
+                </div>
+                
+                <a href="{% url 'seat_selection' %}" class="btn w-100 mt-3" style="background:#28a745;color:#06110a;font-weight:700;">
+                    <i class="bi bi-chair me-2"></i>Book Seats
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Why Book with GOVVENS -->
+<div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(40,167,69,0.15); border-radius: 16px; padding: 50px 40px; margin-bottom: 40px;">
+    <h2 style="text-align:center;font-size:2rem;font-weight:700;margin-bottom:40px;color:#ffffff;">Why Book with GOVVENS?</h2>
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div style="display:flex;gap:15px;">
+                <i class="bi bi-lightning-fill" style="color:#28a745;font-size:1.5rem;"></i>
+                <div>
+                    <h5 style="color:#ffffff;margin-bottom:8px;">Instant Digital Tickets</h5>
+                    <p style="color:#d1d5db;">Receive QR codes instantly via email & SMS. No printing needed.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div style="display:flex;gap:15px;">
+                <i class="bi bi-face-id" style="color:#28a745;font-size:1.5rem;"></i>
+                <div>
+                    <h5 style="color:#ffffff;margin-bottom:8px;">AI Face Verification</h5>
+                    <p style="color:#d1d5db;">Secure entry with face recognition. Prevent unauthorized ticket use.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div style="display:flex;gap:15px;">
+                <i class="bi bi-people-fill" style="color:#28a745;font-size:1.5rem;"></i>
+                <div>
+                    <h5 style="color:#ffffff;margin-bottom:8px;">Book for Friends</h5>
+                    <p style="color:#d1d5db;">Search friends by name/email and buy tickets directly for them.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div style="display:flex;gap:15px;">
+                <i class="bi bi-shield-check" style="color:#28a745;font-size:1.5rem;"></i>
+                <div>
+                    <h5 style="color:#ffffff;margin-bottom:8px;">100% Secure & Safe</h5>
+                    <p style="color:#d1d5db;">PCI-DSS compliant payments. Your data never stored after verification.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

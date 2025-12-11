@@ -2,43 +2,575 @@
 {% block title %}Events - GOVVENS{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0"><i class="bi bi-calendar-event me-2"></i>All Upcoming Matches</h2>
-    {% if user.is_authenticated %}
-    <a href="{% url 'my_tickets' %}" class="btn btn-outline-light">
-        <i class="bi bi-ticket-perforated me-2"></i>My Tickets
-    </a>
-    {% endif %}
+
+<style>
+    .event-card {
+        transition: all 0.3s ease;
+        border-left: 4px solid transparent;
+    }
+    
+    .event-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(40, 167, 69, 0.3) !important;
+        border-left-color: #28a745;
+    }
+    
+    .stat-box {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+        margin-top: 5px;
+    }
+    
+    .event-image {
+        height: 200px;
+        object-fit: cover;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+    }
+    
+    .badge-custom {
+        padding: 8px 16px;
+        border-radius: 20px;
+        display: inline-block;
+        margin: 5px;
+        font-weight: 500;
+    }
+</style>
+
+<!-- Page Header -->
+<div class="bg-gradient text-white py-4 px-3 rounded-3 mb-4" style="background: linear-gradient(135deg, #28a745, #20c997);">
+    <div class="row align-items-center">
+        <div class="col-md-8">
+            <h1 class="display-5 fw-bold mb-2">
+                <i class="bi bi-calendar-event me-2"></i>Upcoming Matches
+            </h1>
+            <p class="lead mb-0">Browse and book tickets for upcoming cricket matches at Chinnaswamy Stadium</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            {% if user.is_authenticated %}
+            <a href="{% url 'my_tickets' %}" class="btn btn-light btn-lg">
+                <i class="bi bi-ticket-perforated me-2"></i>My Tickets
+            </a>
+            {% else %}
+            <a href="{% url 'signup_login' %}" class="btn btn-light btn-lg">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Login to Book
+            </a>
+            {% endif %}
+        </div>
+    </div>
 </div>
 
-<div class="row g-4">
-    {% for event in events %}
-    <div class="col-md-4">
-        <div class="card bg-dark text-white border-0 shadow-lg h-100" style="transition: transform 0.2s;">
-            <div class="card-header bg-primary">
-                <h5 class="card-title mb-0"><i class="bi bi-trophy me-2"></i>{{ event.name }}</h5>
+<!-- Platform Statistics -->
+<div class="row g-3 mb-5">
+    <div class="col-md-3">
+        <div class="stat-box">
+            <div class="stat-number">12</div>
+            <div class="stat-label">Upcoming Matches</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-box">
+            <div class="stat-number">45,000+</div>
+            <div class="stat-label">Seats Available</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-box">
+            <div class="stat-number">8,500+</div>
+            <div class="stat-label">Tickets Sold</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-box">
+            <div class="stat-number">₹500-2000</div>
+            <div class="stat-label">Price Range</div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Section -->
+<div class="card card-dark shadow-strong mb-4">
+    <div class="card-body">
+        <h5 class="card-title text-success mb-3">
+            <i class="bi bi-funnel me-2"></i>Filter Events
+        </h5>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label text-white">Search by Name</label>
+                <input type="text" class="form-control" placeholder="Enter match name..." id="searchInput" onkeyup="filterEvents()">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label text-white">Sort By</label>
+                <select class="form-select" id="sortSelect" onchange="filterEvents()">
+                    <option value="date-asc">Date (Earliest First)</option>
+                    <option value="date-desc">Date (Latest First)</option>
+                    <option value="price-asc">Price (Low to High)</option>
+                    <option value="price-desc">Price (High to Low)</option>
+                    <option value="available">Most Available</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label text-white">Status</label>
+                <select class="form-select" id="statusSelect" onchange="filterEvents()">
+                    <option value="">All Events</option>
+                    <option value="open">Open for Booking</option>
+                    <option value="closing">Closing Soon</option>
+                    <option value="sold">Sold Out</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Events Grid -->
+<div class="row g-4 mb-5" id="eventsContainer">
+    <!-- Event 1 -->
+    <div class="col-md-6 col-lg-4 event-item">
+        <div class="card bg-dark text-white border-0 shadow-lg h-100 event-card">
+            <div class="event-image text-center" style="background: linear-gradient(135deg, #FF6B6B, #FF8E53);">
+                <i class="bi bi-trophy"></i>
             </div>
             <div class="card-body">
-                <p class="card-text">
-                    <i class="bi bi-calendar3 me-2"></i><strong>Date:</strong> {{ event.date }}<br>
-                    <i class="bi bi-clock me-2"></i><strong>Time:</strong> {{ event.time }}<br>
-                    <i class="bi bi-geo-alt me-2"></i><strong>Stadium:</strong> {{ event.stadium }}<br>
-                    <i class="bi bi-currency-rupee me-2"></i><strong>Price:</strong> {{ event.ticket_price }}<br>
-                    <i class="bi bi-people me-2"></i><strong>Seats Available:</strong> {{ event.available_seats }}
-                </p>
-                <div class="d-grid gap-2">
-                    <a href="{% url 'event_detail' event.id %}" class="btn btn-primary">
-                        <i class="bi bi-eye me-2"></i>View Details
-                    </a>
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="card-title mb-0 text-success fw-bold">India vs Pakistan</h5>
+                    <span class="badge bg-success">Open</span>
+                </div>
+                <hr class="text-white-50">
+                
+                <div class="mb-3">
+                    <p class="mb-2">
+                        <i class="bi bi-calendar3 text-warning me-2"></i>
+                        <strong>Date:</strong> Mar 15, 2024
+                    </p>
+                    <p class="mb-2">
+                        <i class="bi bi-clock text-info me-2"></i>
+                        <strong>Time:</strong> 6:00 PM - 10:00 PM
+                    </p>
+                    <p class="mb-2">
+                        <i class="bi bi-geo-alt text-danger me-2"></i>
+                        <strong>Venue:</strong> Chinnaswamy Stadium
+                    </p>
+                </div>
+                
+                <div class="row text-center g-2 mb-3">
+                    <div class="col-6">
+                        <small class="text-muted">Available Seats</small>
+                        <p class="text-success fw-bold fs-6">8,500</p>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-muted">Price Range</small>
+                        <p class="text-warning fw-bold fs-6">₹800-2000</p>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="badge-custom bg-info bg-opacity-25 text-info">
+                        <i class="bi bi-shield-check me-1"></i>Verified Entry
+                    </div>
+                    <div class="badge-custom bg-success bg-opacity-25 text-success">
+                        <i class="bi bi-clock-history me-1"></i>Staggered Slots
+                    </div>
+                </div>
+                
+                <a href="#" class="btn btn-success w-100">
+                    <i class="bi bi-eye me-2"></i>View Details & Book
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event 2 -->
+    <div class="col-md-6 col-lg-4 event-item">
+        <div class="card bg-dark text-white border-0 shadow-lg h-100 event-card">
+            <div class="event-image text-center" style="background: linear-gradient(135deg, #4ECDC4, #44A08D);">
+                <i class="bi bi-trophy"></i>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="card-title mb-0 text-success fw-bold">India vs Australia</h5>
+                    <span class="badge bg-warning text-dark">Closing Soon</span>
+                </div>
+                <hr class="text-white-50">
+                
+                <div class="mb-3">
+                    <p class="mb-2">
+                        <i class="bi bi-calendar3 text-warning me-2"></i>
+                        <strong>Date:</strong> Mar 20, 2024
+                    </p>
+                    <p class="mb-2">
+                        <i class="bi bi-clock text-info me-2"></i>
+                        <strong>Time:</strong> 3:00 PM - 9:00 PM
+                    </p>
+                    <p class="mb-2">
+                        <i class="bi bi-geo-alt text-danger me-2"></i>
+                        <strong>Venue:</strong> Chinnaswamy Stadium
+                    </p>
+                </div>
+                
+                <div class="row text-center g-2 mb-3">
+                    <div class="col-6">
+                        <small class="text-muted">Available Seats</small>
+                        <p class="text-success fw-bold fs-6">1,200</p>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-muted">Price Range</small>
+                        <p class="text-warning fw-bold fs-6">₹1000-2500</p>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="badge-custom bg-info bg-opacity-25 text-info">
+                        <i class="bi bi-shield-check me-1"></i>Verified Entry
+                    </div>
+                    <div class="badge-custom bg-success bg-opacity-25 text-success">
+                        <i class="bi bi-flash-fill me-1"></i>Limited Stock
+                    </div>
+                </div>
+                
+                <a href="#" class="btn btn-success w-100">
+                    <i class="bi bi-eye me-2"></i>View Details & Book
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event 3 -->
+    <div class="col-md-6 col-lg-4 event-item">
+        <div class="card bg-dark text-white border-0 shadow-lg h-100 event-card">
+            <div class="event-image text-center" style="background: linear-gradient(135deg, #F093FB, #F5576C);">
+                <i class="bi bi-trophy"></i>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="card-title mb-0 text-success fw-bold">India vs New Zealand</h5>
+                    <span class="badge bg-danger">Sold Out</span>
+                </div>
+                <hr class="text-white-50">
+                
+                <div class="mb-3">
+                    <p class="mb-2">
+                        <i class="bi bi-calendar3 text-warning me-2"></i>
+                        <strong>Date:</strong> Mar 25, 2024
+                    </p>
+                    <p class="mb-2">
+                        <i class="bi bi-clock text-info me-2"></i>
+                        <strong>Time:</strong> 6:00 PM - 10:00 PM
+                    </p>
+                    <p class="mb-2">
+                        <i class="bi bi-geo-alt text-danger me-2"></i>
+                        <strong>Venue:</strong> Chinnaswamy Stadium
+                    </p>
+                </div>
+                
+                <div class="row text-center g-2 mb-3">
+                    <div class="col-6">
+                        <small class="text-muted">Available Seats</small>
+                        <p class="text-danger fw-bold fs-6">0</p>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-muted">Price Range</small>
+                        <p class="text-warning fw-bold fs-6">₹600-1500</p>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="badge-custom bg-info bg-opacity-25 text-info">
+                        <i class="bi bi-shield-check me-1"></i>Verified Entry
+                    </div>
+                    <div class="badge-custom bg-danger bg-opacity-25 text-danger">
+                        <i class="bi bi-x-circle me-1"></i>No Availability
+                    </div>
+                </div>
+                
+                <button class="btn btn-secondary w-100" disabled>
+                    <i class="bi bi-x-circle me-2"></i>Sold Out
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event 4 -->
+    <div class="col-md-6 col-lg-4 event-item">
+        <div class="card bg-dark text-white border-0 shadow-lg h-100 event-card">
+            <div class="event-image text-center" style="background: linear-gradient(135deg, #4158D0, #C850C0);">
+                <i class="bi bi-trophy"></i>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="card-title mb-0 text-success fw-bold">India vs Sri Lanka</h5>
+                    <span class="badge bg-success">Open</span>
+                </div>
+                <hr class="text-white-50">
+                
+                <div class="mb-3">
+                    <p class="mb-2">
+                        <i class="bi bi-calendar3 text-warning me-2"></i>
+                        <strong>Date:</strong> Apr 5, 2024
+                    </p>
+                    <p class="mb-2">
+                        <i class="bi bi-clock text-info me-2"></i>
+                        <strong>Time:</strong> 6:00 PM - 10:00 PM
+                    </p>
+                    <p class="mb-2">
+                        <i class="bi bi-geo-alt text-danger me-2"></i>
+                        <strong>Venue:</strong> Chinnaswamy Stadium
+                    </p>
+                </div>
+                
+                <div class="row text-center g-2 mb-3">
+                    <div class="col-6">
+                        <small class="text-muted">Available Seats</small>
+                        <p class="text-success fw-bold fs-6">12,000</p>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-muted">Price Range</small>
+                        <p class="text-warning fw-bold fs-6">₹500-1200</p>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="badge-custom bg-info bg-opacity-25 text-info">
+                        <i class="bi bi-shield-check me-1"></i>Verified Entry
+                    </div>
+                    <div class="badge-custom bg-success bg-opacity-25 text-success">
+                        <i class="bi bi-hand-thumbs-up me-1"></i>Best Value
+                    </div>
+                </div>
+                
+                <a href="#" class="btn btn-success w-100">
+                    <i class="bi bi-eye me-2"></i>View Details & Book
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event 5 -->
+    <div class="col-md-6 col-lg-4 event-item">
+        <div class="card bg-dark text-white border-0 shadow-lg h-100 event-card">
+            <div class="event-image text-center" style="background: linear-gradient(135deg, #0093E9, #80D0C7);">
+                <i class="bi bi-trophy"></i>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="card-title mb-0 text-success fw-bold">India vs England</h5>
+                    <span class="badge bg-success">Open</span>
+                </div>
+                <hr class="text-white-50">
+                
+                <div class="mb-3">
+                    <p class="mb-2">
+                        <i class="bi bi-calendar3 text-warning me-2"></i>
+                        <strong>Date:</strong> Apr 15, 2024
+                    </p>
+                    <p class="mb-2">
+                        <i class="bi bi-clock text-info me-2"></i>
+                        <strong>Time:</strong> 3:00 PM - 9:00 PM
+                    </p>
+                    <p class="mb-2">
+                        <i class="bi bi-geo-alt text-danger me-2"></i>
+                        <strong>Venue:</strong> Chinnaswamy Stadium
+                    </p>
+                </div>
+                
+                <div class="row text-center g-2 mb-3">
+                    <div class="col-6">
+                        <small class="text-muted">Available Seats</small>
+                        <p class="text-success fw-bold fs-6">5,800</p>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-muted">Price Range</small>
+                        <p class="text-warning fw-bold fs-6">₹900-2200</p>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="badge-custom bg-info bg-opacity-25 text-info">
+                        <i class="bi bi-shield-check me-1"></i>Verified Entry
+                    </div>
+                    <div class="badge-custom bg-success bg-opacity-25 text-success">
+                        <i class="bi bi-fire me-1"></i>Hot Ticket
+                    </div>
+                </div>
+                
+                <a href="#" class="btn btn-success w-100">
+                    <i class="bi bi-eye me-2"></i>View Details & Book
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event 6 -->
+    <div class="col-md-6 col-lg-4 event-item">
+        <div class="card bg-dark text-white border-0 shadow-lg h-100 event-card">
+            <div class="event-image text-center" style="background: linear-gradient(135deg, #FA8BFF, #2BD2FF);">
+                <i class="bi bi-trophy"></i>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="card-title mb-0 text-success fw-bold">India vs West Indies</h5>
+                    <span class="badge bg-success">Open</span>
+                </div>
+                <hr class="text-white-50">
+                
+                <div class="mb-3">
+                    <p class="mb-2">
+                        <i class="bi bi-calendar3 text-warning me-2"></i>
+                        <strong>Date:</strong> Apr 25, 2024
+                    </p>
+                    <p class="mb-2">
+                        <i class="bi bi-clock text-info me-2"></i>
+                        <strong>Time:</strong> 6:00 PM - 10:00 PM
+                    </p>
+                    <p class="mb-2">
+                        <i class="bi bi-geo-alt text-danger me-2"></i>
+                        <strong>Venue:</strong> Chinnaswamy Stadium
+                    </p>
+                </div>
+                
+                <div class="row text-center g-2 mb-3">
+                    <div class="col-6">
+                        <small class="text-muted">Available Seats</small>
+                        <p class="text-success fw-bold fs-6">10,500</p>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-muted">Price Range</small>
+                        <p class="text-warning fw-bold fs-6">₹700-1800</p>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="badge-custom bg-info bg-opacity-25 text-info">
+                        <i class="bi bi-shield-check me-1"></i>Verified Entry
+                    </div>
+                    <div class="badge-custom bg-success bg-opacity-25 text-success">
+                        <i class="bi bi-hand-thumbs-up me-1"></i>Popular
+                    </div>
+                </div>
+                
+                <a href="#" class="btn btn-success w-100">
+                    <i class="bi bi-eye me-2"></i>View Details & Book
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Analytics Summary Section -->
+<section class="bg-dark text-white rounded-3 p-4 mb-4">
+    <h3 class="fw-bold text-success mb-4">
+        <i class="bi bi-graph-up me-2"></i>Platform Analytics
+    </h3>
+    
+    <div class="row g-4">
+        <div class="col-md-6">
+            <h5 class="text-white mb-3">Seat Availability by Price Range</h5>
+            <div class="row g-2">
+                <div class="col-md-6">
+                    <div class="p-3 bg-secondary rounded text-center">
+                        <p class="mb-1 text-muted small">Budget (₹500-800)</p>
+                        <p class="fs-5 fw-bold text-success">18,500 seats</p>
+                        <p class="small text-muted">42% of total</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 bg-secondary rounded text-center">
+                        <p class="mb-1 text-muted small">Standard (₹800-1500)</p>
+                        <p class="fs-5 fw-bold text-info">15,200 seats</p>
+                        <p class="small text-muted">35% of total</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 bg-secondary rounded text-center">
+                        <p class="mb-1 text-muted small">Premium (₹1500-2000)</p>
+                        <p class="fs-5 fw-bold text-warning">9,000 seats</p>
+                        <p class="small text-muted">21% of total</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 bg-secondary rounded text-center">
+                        <p class="mb-1 text-muted small">Luxury (₹2000+)</p>
+                        <p class="fs-5 fw-bold text-danger">2,300 seats</p>
+                        <p class="small text-muted">2% of total</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <h5 class="text-white mb-3">Booking Trends</h5>
+            <div class="row g-2">
+                <div class="col-md-6">
+                    <div class="p-3 bg-secondary rounded text-center">
+                        <p class="mb-1 text-muted small">Peak Booking Hours</p>
+                        <p class="fs-5 fw-bold text-success">6 PM - 9 PM</p>
+                        <p class="small text-muted">Highest demand</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 bg-secondary rounded text-center">
+                        <p class="mb-1 text-muted small">Avg Conversion Rate</p>
+                        <p class="fs-5 fw-bold text-info">24.5%</p>
+                        <p class="small text-muted">From view to purchase</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 bg-secondary rounded text-center">
+                        <p class="mb-1 text-muted small">Repeat Customers</p>
+                        <p class="fs-5 fw-bold text-warning">38%</p>
+                        <p class="small text-muted">Return booking rate</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 bg-secondary rounded text-center">
+                        <p class="mb-1 text-muted small">Mobile Bookings</p>
+                        <p class="fs-5 fw-bold text-danger">72%</p>
+                        <p class="small text-muted">Of total bookings</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    {% endfor %}
-{% endblock %}
+</section>
 
-<style>
-.card:hover {
-    transform: translateY(-5px);
+<!-- Info Banner -->
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="bi bi-info-circle me-2"></i>
+    <strong>Did you know?</strong> GOVVENS uses AI-powered staggered entry slots to ensure zero stampedes and reduce entry time by 80%.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<script>
+function filterEvents() {
+    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    const eventItems = document.querySelectorAll('.event-item');
+    
+    eventItems.forEach(item => {
+        const title = item.querySelector('.card-title').textContent.toLowerCase();
+        if (title.includes(searchInput)) {
+            item.style.display = '';
+        } else {
+            item.style.display = 'none';
+        }
+    });
 }
-</style>
+</script>
+
+{% endblock %}

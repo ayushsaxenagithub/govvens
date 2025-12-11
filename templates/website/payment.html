@@ -1,123 +1,430 @@
 {% extends "base.html" %}
-{% block title %}Payment - {{ event.name }}{% endblock %}
+{% block title %}Secure Payment - GOVVENS{% endblock %}
 
 {% block content %}
-{% if is_demo %}
-<div class="alert alert-info mb-4">
-    <i class="bi bi-info-circle me-2"></i>
-    <strong>Demo Mode:</strong> This is a sample payment page. <a href="{% url 'signup_login' %}" class="alert-link">Login</a> to complete real bookings.
-</div>
-{% endif %}
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0"><i class="bi bi-credit-card me-2"></i>Review & Pay for {{ event.name }}</h2>
+<style>
+    .payment-step {
+        position: relative;
+        padding-bottom: 40px;
+    }
+    
+    .payment-step::before {
+        content: '';
+        position: absolute;
+        left: 20px;
+        top: 50px;
+        width: 2px;
+        height: calc(100% + 20px);
+        background: #28a745;
+    }
+    
+    .payment-step:last-child::before {
+        display: none;
+    }
+    
+    .step-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #28a745;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .payment-method {
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        padding: 15px;
+        border-radius: 10px;
+        background: rgba(40, 167, 69, 0.05);
+    }
+    
+    .payment-method:hover {
+        border-color: #28a745;
+        background: rgba(40, 167, 69, 0.15);
+    }
+    
+    .payment-method.active {
+        border-color: #28a745;
+        background: rgba(40, 167, 69, 0.25);
+    }
+    
+    .summary-box {
+        background: linear-gradient(135deg, rgba(40, 167, 69, 0.1), rgba(32, 201, 151, 0.1));
+        border: 2px solid #28a745;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    
+    .price-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .price-row.total {
+        border-bottom: none;
+        border-top: 2px solid #28a745;
+        padding-top: 15px;
+        margin-top: 10px;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+    
+    .security-badge {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        background: rgba(40, 167, 69, 0.1);
+        border-left: 3px solid #28a745;
+        border-radius: 5px;
+        margin: 10px 0;
+    }
+</style>
+
+<!-- Progress Indicator -->
+<div class="bg-dark rounded-3 p-4 mb-4">
+    <div class="row">
+        <div class="col">
+            <div class="text-center">
+                <div class="step-circle">1</div>
+                <small class="text-muted">Seat Selection</small>
+            </div>
+        </div>
+        <div class="col">
+            <div class="text-center">
+                <div class="step-circle">2</div>
+                <small class="text-success fw-bold">Payment</small>
+            </div>
+        </div>
+        <div class="col">
+            <div class="text-center">
+                <div class="step-circle">3</div>
+                <small class="text-muted">Confirmation</small>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="alert alert-success mb-4">
-    <h6 class="alert-heading"><i class="bi bi-check-circle me-2"></i>Booking Summary</h6>
-    <p class="mb-0">Please review your selection and complete the payment to confirm your tickets. Your seats are reserved for 15 minutes.</p>
-</div>
-
-<div class="row">
-    <div class="col-md-8">
-        <div class="card bg-dark text-white border-0 shadow mb-4">
-            <div class="card-header bg-primary">
-                <h5 class="mb-0">Your Selection</h5>
+<!-- Main Payment Form -->
+<div class="row g-4">
+    <!-- Left Column: Payment Details -->
+    <div class="col-lg-8">
+        <!-- Event Summary -->
+        <div class="card card-dark shadow-strong mb-4">
+            <div class="card-header bg-success bg-opacity-25">
+                <h5 class="card-title text-success mb-0">
+                    <i class="bi bi-calendar-event me-2"></i>Booking Summary
+                </h5>
             </div>
             <div class="card-body">
-                <ul class="list-group list-group-flush bg-dark text-white">
-                    {% for seat in selected_seats %}
-                    <li class="list-group-item bg-dark border-secondary">
-                        <i class="bi bi-ticket-perforated me-2"></i>{{ seat }}
-                    </li>
-                    {% endfor %}
-                </ul>
-                <div class="mt-3 p-3 bg-secondary rounded">
-                    <div class="d-flex justify-content-between">
-                        <span><strong>Total Seats:</strong> {{ selected_seats|length }}</span>
-                        <span><strong>Total Price:</strong> ₹{{ total_price|floatformat:2 }}</span>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <small class="text-muted">Event</small>
+                        <p class="fw-bold fs-5 text-white mb-0">India vs Pakistan</p>
+                    </div>
+                    <div class="col-md-6">
+                        <small class="text-muted">Date & Time</small>
+                        <p class="fw-bold fs-5 text-white mb-0">Mar 15, 2024 • 6:00 PM</p>
+                    </div>
+                    <div class="col-md-6">
+                        <small class="text-muted">Venue</small>
+                        <p class="fw-bold fs-5 text-white mb-0">Chinnaswamy Stadium</p>
+                    </div>
+                    <div class="col-md-6">
+                        <small class="text-muted">Booking ID</small>
+                        <p class="fw-bold fs-5 text-success mb-0">BKG-2024-45823</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="card bg-dark text-white border-0 shadow">
-            <div class="card-header bg-primary">
-                <h5 class="mb-0">Payment Method</h5>
+        <!-- Seats Summary -->
+        <div class="card card-dark shadow-strong mb-4">
+            <div class="card-header bg-info bg-opacity-25">
+                <h5 class="card-title text-info mb-0">
+                    <i class="bi bi-grid-3x3 me-2"></i>Selected Seats
+                </h5>
             </div>
             <div class="card-body">
-                <form method="post" action="{% url 'payment' event.id %}">
-                    {% csrf_token %}
+                <div class="row g-2">
+                    <div class="col-md-6">
+                        <div class="p-3 bg-secondary bg-opacity-25 rounded">
+                            <p class="text-muted small mb-1">Block & Seat</p>
+                            <p class="fw-bold fs-5 text-white">Block A, Row 5, Seat 12</p>
+                            <small class="text-success">Premium Category</small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-secondary bg-opacity-25 rounded">
+                            <p class="text-muted small mb-1">Entry Slot Assigned</p>
+                            <p class="fw-bold fs-5 text-warning">5:15 PM - 5:45 PM</p>
+                            <small class="text-info">Gate A4</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Methods -->
+        <div class="card card-dark shadow-strong mb-4">
+            <div class="card-header bg-warning bg-opacity-25">
+                <h5 class="card-title text-warning mb-0">
+                    <i class="bi bi-credit-card me-2"></i>Select Payment Method
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3 mb-4">
+                    <!-- Credit/Debit Card -->
+                    <div class="col-md-6">
+                        <div class="payment-method active">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-credit-card fs-4 text-info me-3"></i>
+                                <div>
+                                    <p class="fw-bold text-white mb-1">Credit/Debit Card</p>
+                                    <small class="text-muted">Visa, Mastercard, Amex</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- UPI -->
+                    <div class="col-md-6">
+                        <div class="payment-method">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-wallet2 fs-4 text-success me-3"></i>
+                                <div>
+                                    <p class="fw-bold text-white mb-1">UPI</p>
+                                    <small class="text-muted">PhonePe, Google Pay, Paytm</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Net Banking -->
+                    <div class="col-md-6">
+                        <div class="payment-method">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-bank fs-4 text-warning me-3"></i>
+                                <div>
+                                    <p class="fw-bold text-white mb-1">Net Banking</p>
+                                    <small class="text-muted">All major banks supported</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wallet -->
+                    <div class="col-md-6">
+                        <div class="payment-method">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-cash-coin fs-4 text-danger me-3"></i>
+                                <div>
+                                    <p class="fw-bold text-white mb-1">Digital Wallet</p>
+                                    <small class="text-muted">Paytm, Amazon Pay, Airtel Money</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Details Form -->
+                <div id="cardDetails" class="border-top pt-4">
+                    <h6 class="text-white fw-bold mb-3">Card Details</h6>
                     <div class="mb-3">
-                        <label for="payment_method" class="form-label">Select Payment Method</label>
-                        <select class="form-select bg-dark text-white border-secondary" id="payment_method" name="payment_method" required>
-                            <option value="">Choose...</option>
-                            <option value="razorpay">Razorpay (Credit/Debit/UPI)</option>
-                            <option value="upi">UPI</option>
-                        </select>
+                        <label class="form-label text-muted">Cardholder Name</label>
+                        <input type="text" class="form-control bg-dark text-white border-secondary" placeholder="John Doe" required>
                     </div>
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-success btn-lg">
-                            <i class="bi bi-credit-card me-2"></i>Pay ₹{{ total_price|floatformat:2 }}
-                        </button>
-                        <a href="{% url 'seat_selection' event.id %}" class="btn btn-secondary">
-                            <i class="bi bi-arrow-left me-2"></i>Back to Seat Selection
-                        </a>
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Card Number</label>
+                        <input type="text" class="form-control bg-dark text-white border-secondary" placeholder="4532 1234 5678 9010" maxlength="19" required>
                     </div>
-                </form>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Expiry Date</label>
+                            <input type="text" class="form-control bg-dark text-white border-secondary" placeholder="MM/YY" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">CVV</label>
+                            <input type="text" class="form-control bg-dark text-white border-secondary" placeholder="123" maxlength="3" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Badges -->
+                <div class="mt-4">
+                    <div class="security-badge">
+                        <i class="bi bi-shield-check text-success me-2"></i>
+                        <small class="text-white">Secured by SSL encryption • PCI-DSS Level 1 Compliant</small>
+                    </div>
+                    <div class="security-badge">
+                        <i class="bi bi-lock-fill text-info me-2"></i>
+                        <small class="text-white">256-bit encryption for all transactions</small>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card bg-dark text-white border-0 shadow">
-            <div class="card-header bg-warning text-dark">
-                <h5 class="mb-0">Important</h5>
-            </div>
+
+        <!-- Terms & Conditions -->
+        <div class="card card-dark shadow-strong mb-4">
             <div class="card-body">
-                <ul class="list-unstyled mb-0">
-                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Secure payment via Razorpay</li>
-                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Digital ticket with QR code</li>
-                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Assigned entry time slot</li>
-                    <li class="mb-0"><i class="bi bi-clock text-warning me-2"></i>Seats held for 15 minutes</li>
-                </ul>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                    <label class="form-check-label text-white" for="termsCheck">
+                        I agree to the <a href="#" class="text-success text-decoration-none">Terms & Conditions</a> and <a href="#" class="text-success text-decoration-none">Privacy Policy</a>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Button -->
+        <button class="btn btn-success btn-lg w-100 mb-4">
+            <i class="bi bi-lock-fill me-2"></i>Pay ₹1,500 Securely
+        </button>
+    </div>
+
+    <!-- Right Column: Order Summary -->
+    <div class="col-lg-4">
+        <div class="summary-box sticky-top" style="top: 20px;">
+            <h5 class="text-success fw-bold mb-3">
+                <i class="bi bi-receipt me-2"></i>Order Summary
+            </h5>
+
+            <!-- Price Breakdown -->
+            <div class="price-row">
+                <span class="text-muted">1 x Premium Ticket</span>
+                <span class="text-white">₹1,500</span>
+            </div>
+
+            <div class="price-row">
+                <span class="text-muted">Processing Fee</span>
+                <span class="text-white">₹0</span>
+            </div>
+
+            <div class="price-row">
+                <span class="text-muted">GST (18%)</span>
+                <span class="text-warning">Included</span>
+            </div>
+
+            <div class="price-row total">
+                <span>Total Amount</span>
+                <span class="text-success">₹1,500</span>
+            </div>
+
+            <!-- Additional Info -->
+            <div class="mt-4 pt-4 border-top border-secondary">
+                <p class="text-muted small mb-2">
+                    <i class="bi bi-info-circle me-2"></i>
+                    <strong>Reservation Time:</strong> 14 minutes remaining
+                </p>
+                <p class="text-muted small mb-3">
+                    <i class="bi bi-check-circle me-2"></i>
+                    <strong>Instant Confirmation:</strong> You'll receive a confirmation email immediately
+                </p>
+            </div>
+
+            <!-- Security Info -->
+            <div class="bg-success bg-opacity-25 p-3 rounded mt-4">
+                <p class="small text-white mb-0">
+                    <i class="bi bi-shield-check text-success me-2"></i>
+                    Your payment is 100% secure and encrypted. We use industry-standard security protocols.
+                </p>
+            </div>
+
+            <!-- Money-back Guarantee -->
+            <div class="bg-info bg-opacity-25 p-3 rounded mt-3">
+                <p class="small text-white mb-0">
+                    <i class="bi bi-hand-thumbs-up text-info me-2"></i>
+                    Cancel within 24 hours for a full refund. No questions asked.
+                </p>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Payment FAQ Section -->
-<div class="row mt-4">
-    <div class="col-12">
-        <div class="card bg-secondary text-white border-0 shadow">
-            <div class="card-header bg-warning text-dark">
-                <h4 class="mb-0"><i class="bi bi-question-circle me-2"></i>Payment FAQs</h4>
+<!-- Payment Statistics Section -->
+<section class="mt-5 pt-4 border-top">
+    <h3 class="fw-bold text-success mb-4">
+        <i class="bi bi-graph-up me-2"></i>Payment Analytics
+    </h3>
+    
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="bg-dark p-4 rounded-3 text-center">
+                <p class="text-muted small mb-2">Average Processing Time</p>
+                <p class="fs-4 fw-bold text-success">2-3 seconds</p>
+                <small class="text-muted">Instant confirmation</small>
             </div>
-            <div class="card-body">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <h6 class="text-warning"><i class="bi bi-credit-card me-2"></i>How do I pay for tickets?</h6>
-                        <p class="small mb-0">Payments are processed securely via Razorpay. We accept Credit Cards, Debit Cards, UPI, Net Banking, and Wallets. All transactions are encrypted and secure.</p>
-                    </div>
-                    <div class="col-md-6">
-                        <h6 class="text-warning"><i class="bi bi-exclamation-triangle me-2"></i>What if my payment fails?</h6>
-                        <p class="small mb-0">The reserved seats are released after 15 minutes if payment isn't completed. You can retry the payment within the 15-minute window. We recommend having a backup payment method ready.</p>
-                    </div>
-                    <div class="col-md-6">
-                        <h6 class="text-warning"><i class="bi bi-shield-check me-2"></i>Is my payment secure?</h6>
-                        <p class="small mb-0">Yes, all payments are processed through Razorpay, which is PCI DSS compliant. Your card details are never stored on our servers. All transactions are encrypted using industry-standard SSL.</p>
-                    </div>
-                    <div class="col-md-6">
-                        <h6 class="text-warning"><i class="bi bi-clock me-2"></i>How long are seats reserved?</h6>
-                        <p class="small mb-0">Selected seats are held for 15 minutes during the payment process. If payment isn't completed within this time, the seats will be released and made available to other users.</p>
-                    </div>
-                </div>
-                <div class="text-center mt-3">
-                    <a href="{% url 'faq' %}" class="btn btn-outline-light">
-                        <i class="bi bi-question-circle me-2"></i>View All FAQs
-                    </a>
-                </div>
+        </div>
+        <div class="col-md-3">
+            <div class="bg-dark p-4 rounded-3 text-center">
+                <p class="text-muted small mb-2">Payment Success Rate</p>
+                <p class="fs-4 fw-bold text-info">99.8%</p>
+                <small class="text-muted">Industry leading</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="bg-dark p-4 rounded-3 text-center">
+                <p class="text-muted small mb-2">Refund Processed In</p>
+                <p class="fs-4 fw-bold text-warning">24 hours</p>
+                <small class="text-muted">Direct to your account</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="bg-dark p-4 rounded-3 text-center">
+                <p class="text-muted small mb-2">Transactions Secured</p>
+                <p class="fs-4 fw-bold text-danger">100%</p>
+                <small class="text-muted">SSL encrypted</small>
             </div>
         </div>
     </div>
+</section>
+
+<!-- Help & Support -->
+<div class="alert alert-warning mt-5">
+    <div class="row align-items-center">
+        <div class="col-md-8">
+            <h5 class="alert-heading mb-2">
+                <i class="bi bi-question-circle me-2"></i>Need Help?
+            </h5>
+            <p class="mb-0">Having trouble with payment? Contact our support team or check our FAQ for common issues.</p>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+            <a href="#" class="btn btn-outline-warning me-2">
+                <i class="bi bi-chat-dots me-1"></i>Live Chat
+            </a>
+            <a href="{% url 'faq' %}" class="btn btn-outline-warning">
+                <i class="bi bi-question-circle me-1"></i>FAQ
+            </a>
+        </div>
+    </div>
 </div>
+
+<script>
+    // Payment method selection
+    document.querySelectorAll('.payment-method').forEach(method => {
+        method.addEventListener('click', function() {
+            document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // Reservation timer
+    let time = 14 * 60; // 14 minutes in seconds
+    setInterval(() => {
+        if (time > 0) time--;
+        const mins = Math.floor(time / 60);
+        const secs = time % 60;
+        // Update timer display if element exists
+    }, 1000);
+</script>
+
 {% endblock %}

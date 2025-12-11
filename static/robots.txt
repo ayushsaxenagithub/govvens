@@ -1,0 +1,67 @@
+# GOVVENS - Crowd-Safe Ticketing Platform
+# Robot exclusion file to manage bot and crawler access
+
+# Block all bots from sensitive admin areas
+User-agent: *
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /dashboard/sessions/
+Disallow: /dashboard/activities/
+Disallow: /api/
+Disallow: /*.xlsx
+Disallow: /*.csv
+Disallow: /static/uploads/
+Disallow: /media/
+Disallow: /accounts/
+Disallow: /user/
+Disallow: /payment/
+Disallow: /checkout/
+
+# Allow important pages for search engines
+Allow: /
+Allow: /events/
+Allow: /faq/
+Allow: /exit-info/
+
+# User-agent specific rules
+User-agent: AhrefsBot
+Disallow: /
+User-agent: SemrushBot
+Disallow: /
+User-agent: DotBot
+Disallow: /
+User-agent: MJ12bot
+Crawl-delay: 10
+Request-rate: 1/10s
+
+# Googlebot specific
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Bingbot specific
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Rate limiting for all crawlers
+User-agent: *
+Crawl-delay: 5
+Request-rate: 10/minute
+
+# Sitemap location
+Sitemap: https://govvens.example.com/sitemap.xml
+Sitemap: https://govvens.example.com/sitemap-events.xml
+
+# Bad bots and scrapers - complete block
+User-agent: AhrefsBot-abr
+User-agent: AhrefsBot
+User-agent: SemrushBot
+User-agent: SemrushBot-BA
+User-agent: DotBot
+User-agent: MJ12bot
+User-agent: SpaBot
+User-agent: scrapy
+User-agent: curl
+User-agent: wget
+Disallow: /

@@ -1,0 +1,418 @@
+{% extends "base.html" %}
+{% block title %}Entry Verification - GOVVENS{% endblock %}
+
+{% block content %}
+
+<style>
+    .verification-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    
+    .verification-method {
+        background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+        border: 2px solid rgba(40,167,69,0.2);
+        border-radius: 16px;
+        padding: 40px;
+        margin-bottom: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    .verification-method:hover {
+        border-color: rgba(40,167,69,0.5);
+        background: linear-gradient(135deg, rgba(40,167,69,0.08), rgba(32,201,151,0.04));
+    }
+    
+    .verification-method.active {
+        border-color: #28a745;
+        background: linear-gradient(135deg, rgba(40,167,69,0.15), rgba(32,201,151,0.1));
+    }
+    
+    .method-icon {
+        font-size: 3rem;
+        color: #28a745;
+        margin-bottom: 15px;
+    }
+    
+    .method-title {
+        font-size: 1.3rem;
+        color: #ffffff;
+        margin-bottom: 10px;
+    }
+    
+    .method-desc {
+        color: #d1d5db;
+        line-height: 1.6;
+    }
+    
+    .info-box {
+        background: rgba(40,167,69,0.08);
+        border-left: 4px solid #28a745;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    
+    .info-box .title {
+        color: #28a745;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+    
+    .info-box .content {
+        color: #d1d5db;
+    }
+    
+    .step-indicator {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin-bottom: 40px;
+    }
+    
+    .step {
+        background: rgba(255,255,255,0.02);
+        border: 2px solid rgba(40,167,69,0.15);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        position: relative;
+    }
+    
+    .step.active {
+        border-color: #28a745;
+        background: rgba(40,167,69,0.15);
+    }
+    
+    .step-number {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        border-radius: 50%;
+        line-height: 40px;
+        font-weight: bold;
+        margin: 0 auto 10px;
+    }
+    
+    .step-label {
+        font-size: 0.85rem;
+        color: #b0b8c1;
+    }
+    
+    .friend-search-box {
+        background: rgba(255,255,255,0.02);
+        border: 2px solid rgba(40,167,69,0.2);
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+    
+    .search-input {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(40,167,69,0.2);
+        color: #e9eef1;
+        padding: 12px 15px;
+        border-radius: 8px;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+    
+    .search-input::placeholder {
+        color: #9aa0a6;
+    }
+    
+    .friend-item {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(40,167,69,0.15);
+        border-radius: 10px;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        transition: all 0.3s ease;
+    }
+    
+    .friend-item:hover {
+        background: rgba(40,167,69,0.1);
+        border-color: rgba(40,167,69,0.3);
+    }
+    
+    .friend-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .friend-avatar {
+        width: 45px;
+        height: 45px;
+        background: linear-gradient(135deg, #28a745, #20c997);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+    
+    .add-friend-btn {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .add-friend-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(40,167,69,0.3);
+    }
+    
+    @media (max-width: 768px) {
+        .step-indicator {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .verification-method {
+            padding: 25px;
+        }
+    }
+</style>
+
+<!-- Page Header -->
+<div style="background: linear-gradient(135deg, rgba(40,167,69,0.15), rgba(32,201,151,0.1)); border: 1px solid rgba(40,167,69,0.2); border-radius: 16px; padding: 50px 40px; margin-bottom: 40px;">
+    <h1 style="font-size:2.5rem;font-weight:700;margin-bottom:15px;">
+        <i class="bi bi-shield-check me-2" style="color:#28a745;"></i>Verify Your Identity
+    </h1>
+    <p style="color:#d1d5db;font-size:1.1rem;margin-bottom:0;line-height:1.6;">
+        Choose your preferred verification method. Our AI-powered system ensures secure, frictionless entry with face recognition or QR code scanning.
+    </p>
+</div>
+
+<!-- Progress Indicator -->
+<div class="verification-container">
+    <div class="step-indicator mb-4">
+        <div class="step active">
+            <div class="step-number">1</div>
+            <div class="step-label">Verify Identity</div>
+        </div>
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-label">Confirm Details</div>
+        </div>
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-label">Get QR Code</div>
+        </div>
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-label">Enter Stadium</div>
+        </div>
+    </div>
+
+    <!-- Why Verification -->
+    <div class="info-box">
+        <div class="title">
+            <i class="bi bi-info-circle me-2"></i>Why We Verify Your Identity
+        </div>
+        <div class="content">
+            Security & Safety: Prevent unauthorized ticket use and fraud. Everyone entering gets their own QR code linked to their face. You can also verify your friends with AI before booking tickets for them.<br>
+            <strong style="color:#28a745;">Instant Entry:</strong> Face recognition takes just 3-5 seconds at gates. No manual ID checks, no queues.
+        </div>
+    </div>
+
+    <!-- Verification Methods -->
+    <h3 style="color:#ffffff;margin-bottom:30px;font-weight:700;">Select Your Verification Method</h3>
+
+    <!-- Face Recognition Method -->
+    <div class="verification-method active" onclick="selectMethod('face')">
+        <div class="method-icon">
+            <i class="bi bi-face-id"></i>
+        </div>
+        <div class="method-title">AI Face Recognition</div>
+        <div class="method-desc">
+            Our advanced facial recognition engine uses liveness detection to verify your identity. We map your facial features using secure algorithms. Your biometric data is never stored permanently.
+        </div>
+        <div style="margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.05);">
+            <ul style="color:#d1d5db;margin-bottom:0;padding-left:20px;">
+                <li>Takes 5-10 seconds</li>
+                <li>Works in low light (IR sensors)</li>
+                <li>99.7% accuracy rating</li>
+                <li>GDPR & privacy compliant</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- QR Code Method -->
+    <div class="verification-method" onclick="selectMethod('qr')">
+        <div class="method-icon">
+            <i class="bi bi-qr-code"></i>
+        </div>
+        <div class="method-title">QR Code Verification</div>
+        <div class="method-desc">
+            Scan the QR code from your ticket email or SMS. Instant verification at any gate. Perfect if you prefer not to use biometric verification.
+        </div>
+        <div style="margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.05);">
+            <ul style="color:#d1d5db;margin-bottom:0;padding-left:20px;">
+                <li>Takes 2-3 seconds</li>
+                <li>Works with any camera</li>
+                <li>Backup for all users</li>
+                <li>No biometric data collected</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Friend Verification Section -->
+    <h3 style="color:#ffffff;margin-top:50px;margin-bottom:30px;font-weight:700;">
+        <i class="bi bi-people-fill me-2" style="color:#28a745;"></i>Verify Your Friends
+    </h3>
+    <p style="color:#d1d5db;margin-bottom:30px;">
+        Before booking tickets for friends, verify their identity using face recognition or by requesting them to provide their QR code. This ensures you're buying for the right person and prevents ticket disputes.
+    </p>
+
+    <div class="friend-search-box">
+        <h5 style="color:#ffffff;margin-bottom:20px;">Search Friends in GOVVENS</h5>
+        
+        <input type="text" class="search-input" placeholder="Search by name, email, username, or phone...">
+        
+        <div style="margin-bottom:20px;">
+            <small style="color:#b0b8c1;">Or verify a friend using:</small>
+            <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
+                <button style="background:rgba(40,167,69,0.15);color:#28a745;border:1px solid rgba(40,167,69,0.3);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:0.9rem;font-weight:600;">
+                    <i class="bi bi-face-id me-1"></i>Face Scan
+                </button>
+                <button style="background:rgba(40,167,69,0.15);color:#28a745;border:1px solid rgba(40,167,69,0.3);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:0.9rem;font-weight:600;">
+                    <i class="bi bi-qr-code me-1"></i>QR Code
+                </button>
+                <button style="background:rgba(40,167,69,0.15);color:#28a745;border:1px solid rgba(40,167,69,0.3);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:0.9rem;font-weight:600;">
+                    <i class="bi bi-share me-1"></i>Share Link
+                </button>
+            </div>
+        </div>
+
+        <h5 style="color:#ffffff;margin-top:30px;margin-bottom:15px;">Search Results</h5>
+        
+        <!-- Friend Results -->
+        <div class="friend-item">
+            <div class="friend-info">
+                <div class="friend-avatar">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <div>
+                    <div style="color:#ffffff;font-weight:600;">Raj Kumar</div>
+                    <small style="color:#b0b8c1;">@raj_kumar • raj@email.com</small>
+                </div>
+            </div>
+            <button class="add-friend-btn">
+                <i class="bi bi-plus-circle me-1"></i>Add
+            </button>
+        </div>
+
+        <div class="friend-item">
+            <div class="friend-info">
+                <div class="friend-avatar" style="background: linear-gradient(135deg, #20c997, #0dcaf0);">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <div>
+                    <div style="color:#ffffff;font-weight:600;">Priya Singh</div>
+                    <small style="color:#b0b8c1;">@priya_singh • priya@email.com</small>
+                </div>
+            </div>
+            <button class="add-friend-btn">
+                <i class="bi bi-plus-circle me-1"></i>Add
+            </button>
+        </div>
+
+        <div class="friend-item">
+            <div class="friend-info">
+                <div class="friend-avatar" style="background: linear-gradient(135deg, #ffc107, #fd7e14);">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <div>
+                    <div style="color:#ffffff;font-weight:600;">Amit Patel</div>
+                    <small style="color:#b0b8c1;">@amit_p • amit@email.com</small>
+                </div>
+            </div>
+            <button class="add-friend-btn">
+                <i class="bi bi-plus-circle me-1"></i>Add
+            </button>
+        </div>
+    </div>
+
+    <!-- How It Works -->
+    <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(40,167,69,0.15); border-radius: 16px; padding: 40px; margin-top: 40px;">
+        <h3 style="color:#ffffff;margin-bottom:30px;font-weight:700;">How Entry Verification Works</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div style="margin-bottom:30px;">
+                    <h5 style="color:#28a745;margin-bottom:10px;display:flex;align-items:center;gap:10px;">
+                        <span style="display:inline-block;width:30px;height:30px;background:linear-gradient(135deg,#28a745,#20c997);border-radius:50%;text-align:center;line-height:30px;color:white;font-weight:bold;font-size:0.8rem;">1</span>
+                        At the Stadium Gate
+                    </h5>
+                    <p style="color:#d1d5db;margin-bottom:0;margin-left:40px;">Show your QR ticket code or ID</p>
+                </div>
+                <div style="margin-bottom:30px;">
+                    <h5 style="color:#28a745;margin-bottom:10px;display:flex;align-items:center;gap:10px;">
+                        <span style="display:inline-block;width:30px;height:30px;background:linear-gradient(135deg,#28a745,#20c997);border-radius:50%;text-align:center;line-height:30px;color:white;font-weight:bold;font-size:0.8rem;">2</span>
+                        Face Recognition Scan
+                    </h5>
+                    <p style="color:#d1d5db;margin-bottom:0;margin-left:40px;">Our AI camera captures your face in <strong>5 seconds</strong></p>
+                </div>
+                <div>
+                    <h5 style="color:#28a745;margin-bottom:10px;display:flex;align-items:center;gap:10px;">
+                        <span style="display:inline-block;width:30px;height:30px;background:linear-gradient(135deg,#28a745,#20c997);border-radius:50%;text-align:center;line-height:30px;color:white;font-weight:bold;font-size:0.8rem;">3</span>
+                        Instant Verification
+                    </h5>
+                    <p style="color:#d1d5db;margin-bottom:0;margin-left:40px;">System matches face to ticket holder</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div style="margin-bottom:30px;">
+                    <h5 style="color:#28a745;margin-bottom:10px;display:flex;align-items:center;gap:10px;">
+                        <span style="display:inline-block;width:30px;height:30px;background:linear-gradient(135deg,#28a745,#20c997);border-radius:50%;text-align:center;line-height:30px;color:white;font-weight:bold;font-size:0.8rem;">4</span>
+                        Get Your Entry Token
+                    </h5>
+                    <p style="color:#d1d5db;margin-bottom:0;margin-left:40px;">Physical or digital entry pass generated</p>
+                </div>
+                <div style="margin-bottom:30px;">
+                    <h5 style="color:#28a745;margin-bottom:10px;display:flex;align-items:center;gap:10px;">
+                        <span style="display:inline-block;width:30px;height:30px;background:linear-gradient(135deg,#28a745,#20c997);border-radius:50%;text-align:center;line-height:30px;color:white;font-weight:bold;font-size:0.8rem;">5</span>
+                        Proceed to Seating
+                    </h5>
+                    <p style="color:#d1d5db;margin-bottom:0;margin-left:40px;">Real-time crowd guidance via app</p>
+                </div>
+                <div>
+                    <h5 style="color:#28a745;margin-bottom:10px;display:flex;align-items:center;gap:10px;">
+                        <span style="display:inline-block;width:30px;height:30px;background:linear-gradient(135deg,#28a745,#20c997);border-radius:50%;text-align:center;line-height:30px;color:white;font-weight:bold;font-size:0.8rem;">6</span>
+                        Enjoy the Match!
+                    </h5>
+                    <p style="color:#d1d5db;margin-bottom:0;margin-left:40px;">Zero-friction entry. No missed moments.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div style="background: linear-gradient(135deg, rgba(40,167,69,0.1), rgba(32,201,151,0.08)); border: 1px solid rgba(40,167,69,0.2); border-radius: 16px; padding: 40px; margin-top: 40px; text-align: center;">
+        <h4 style="color:#ffffff;margin-bottom:15px;">Ready to Verify?</h4>
+        <p style="color:#d1d5db;margin-bottom:25px;">Select your verification method above and proceed. Takes less than a minute.</p>
+        <a href="{% url 'verify_identity' %}" style="display:inline-block;background:linear-gradient(135deg,#28a745,#20c997);color:#06110a;padding:12px 40px;border-radius:50px;text-decoration:none;font-weight:700;">
+            <i class="bi bi-arrow-right me-2"></i>Continue Verification
+        </a>
+    </div>
+</div>
+
+<script>
+    function selectMethod(method) {
+        document.querySelectorAll('.verification-method').forEach(el => el.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+    }
+</script>
+
+{% endblock %}

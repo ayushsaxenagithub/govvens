@@ -1,0 +1,499 @@
+{% extends "base.html" %}
+{% block title %}Journey Planner - GOVVENS{% endblock %}
+
+{% block content %}
+
+<style>
+    .journey-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+    
+    .map-section {
+        background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+        border: 2px solid rgba(40,167,69,0.2);
+        border-radius: 16px;
+        padding: 30px;
+        position: relative;
+    }
+    
+    .map-placeholder {
+        background: linear-gradient(135deg, rgba(40,167,69,0.15), rgba(32,201,151,0.1));
+        border: 2px dashed rgba(40,167,69,0.3);
+        border-radius: 12px;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #28a745;
+        font-size: 3rem;
+        position: relative;
+    }
+    
+    .traffic-indicator {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(0,0,0,0.6);
+        padding: 15px 20px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+    
+    .traffic-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    }
+    
+    .traffic-smooth {
+        background: #28a745;
+    }
+    
+    .traffic-moderate {
+        background: #ffc107;
+    }
+    
+    .traffic-heavy {
+        background: #dc3545;
+    }
+    
+    .info-panel {
+        background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+        border: 2px solid rgba(40,167,69,0.2);
+        border-radius: 16px;
+        padding: 30px;
+    }
+    
+    .info-item {
+        background: rgba(40,167,69,0.08);
+        padding: 15px;
+        border-radius: 10px;
+        border-left: 4px solid #28a745;
+        margin-bottom: 15px;
+    }
+    
+    .info-label {
+        color: #b0b8c1;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    
+    .info-value {
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+    
+    .gate-status {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(40,167,69,0.15);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .gate-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+    
+    .gate-name {
+        color: #ffffff;
+        font-weight: 700;
+    }
+    
+    .gate-wait-time {
+        color: #28a745;
+        font-weight: 700;
+    }
+    
+    .wait-bar {
+        background: rgba(40,167,69,0.1);
+        height: 6px;
+        border-radius: 3px;
+        overflow: hidden;
+    }
+    
+    .wait-fill {
+        background: linear-gradient(90deg, #28a745, #20c997);
+        height: 100%;
+        width: 35%;
+    }
+    
+    .crowd-indicator {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 30px;
+    }
+    
+    .crowd-item {
+        background: rgba(255,255,255,0.02);
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+        border: 1px solid rgba(40,167,69,0.15);
+    }
+    
+    .crowd-icon {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+        display: block;
+    }
+    
+    .crowd-label {
+        color: #b0b8c1;
+        font-size: 0.85rem;
+    }
+    
+    .estimated-arrival {
+        background: linear-gradient(135deg, rgba(40,167,69,0.15), rgba(32,201,151,0.1));
+        border: 2px solid rgba(40,167,69,0.2);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .arrival-time {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #28a745;
+        margin-bottom: 8px;
+    }
+    
+    .arrival-text {
+        color: #d1d5db;
+        font-size: 0.95rem;
+    }
+    
+    .cta-button {
+        display: block;
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: #06110a;
+        padding: 12px 25px;
+        border-radius: 50px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: 700;
+        margin-top: 15px;
+        transition: all 0.3s ease;
+    }
+    
+    .cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(40,167,69,0.3);
+    }
+    
+    .tips-section {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(40,167,69,0.15);
+        border-radius: 16px;
+        padding: 30px;
+        margin-top: 30px;
+    }
+    
+    .tip-item {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .tip-icon {
+        color: #28a745;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+    }
+    
+    .tip-content h5 {
+        color: #ffffff;
+        margin-bottom: 5px;
+    }
+    
+    .tip-content p {
+        color: #d1d5db;
+        margin-bottom: 0;
+    }
+    
+    @media (max-width: 768px) {
+        .journey-container {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<!-- Page Header -->
+<div style="background: linear-gradient(135deg, rgba(40,167,69,0.15), rgba(32,201,151,0.1)); border: 1px solid rgba(40,167,69,0.2); border-radius: 16px; padding: 50px 40px; margin-bottom: 40px;">
+    <h1 style="font-size:2.5rem;font-weight:700;margin-bottom:15px;">
+        <i class="bi bi-map me-2" style="color:#28a745;"></i>Journey Planner
+    </h1>
+    <p style="color:#d1d5db;font-size:1.1rem;margin-bottom:0;line-height:1.6;">
+        Real-time traffic, crowd analytics, and optimized entry routes. Plan your perfect stadium arrival.
+    </p>
+</div>
+
+<!-- Main Journey Container -->
+<div class="journey-container">
+    
+    <!-- Map Section -->
+    <div class="map-section">
+        <h3 style="color:#ffffff;margin-bottom:20px;font-weight:700;">
+            <i class="bi bi-compass me-2" style="color:#28a745;"></i>Route Optimization
+        </h3>
+        
+        <div class="map-placeholder">
+            <i class="bi bi-map"></i>
+            <div class="traffic-indicator">
+                <span class="traffic-dot traffic-smooth"></span>
+                <span style="color:#28a745;">Smooth Traffic</span>
+            </div>
+        </div>
+        
+        <div style="margin-top:20px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">
+                <div>
+                    <label style="color:#b0b8c1;font-size:0.85rem;font-weight:600;display:block;margin-bottom:8px;">Starting Point</label>
+                    <input type="text" class="form-control form-control-dark" placeholder="Enter location..." style="background: rgba(255,255,255,0.02); border: 1px solid rgba(40,167,69,0.15); color: #e9eef1;">
+                </div>
+                <div>
+                    <label style="color:#b0b8c1;font-size:0.85rem;font-weight:600;display:block;margin-bottom:8px;">Transport Mode</label>
+                    <select class="form-control form-control-dark" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(40,167,69,0.15); color: #e9eef1;">
+                        <option selected>Car 🚗</option>
+                        <option>Public Transport 🚌</option>
+                        <option>Bike 🏍</option>
+                        <option>Walking 🚶</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Info Panel -->
+    <div class="info-panel">
+        <h3 style="color:#ffffff;margin-bottom:20px;font-weight:700;">
+            <i class="bi bi-info-circle me-2" style="color:#28a745;"></i>Live Status
+        </h3>
+        
+        <div class="info-item">
+            <div class="info-label">ESTIMATED ARRIVAL</div>
+            <div class="info-value">8:25 AM</div>
+        </div>
+        
+        <div class="info-item">
+            <div class="info-label">TRAVEL TIME</div>
+            <div class="info-value">28 minutes</div>
+        </div>
+        
+        <div class="info-item">
+            <div class="info-label">CROWD LEVEL</div>
+            <div class="info-value" style="color:#ffc107;">Moderate (65%)</div>
+        </div>
+        
+        <div class="info-item">
+            <div class="info-label">SUGGESTED GATE</div>
+            <div class="info-value">Gate 4</div>
+        </div>
+        
+        <div class="estimated-arrival">
+            <div class="arrival-time">8:25 AM</div>
+            <div class="arrival-text">Recommended Entry Time</div>
+            <p style="color:#b0b8c1;font-size:0.85rem;margin-top:10px;margin-bottom:0;">Arrive 35 minutes before match start</p>
+        </div>
+        
+        <a href="{% url 'events_list' %}" class="cta-button">
+            <i class="bi bi-calendar-event me-2"></i>View Match Details
+        </a>
+    </div>
+    
+</div>
+
+<!-- Gate-wise Information -->
+<div style="background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border: 2px solid rgba(40,167,69,0.2); border-radius: 16px; padding: 30px; margin-bottom: 40px;">
+    <h3 style="color:#ffffff;margin-bottom:25px;font-weight:700;">
+        <i class="bi bi-door-open me-2" style="color:#28a745;"></i>Entry Gates - Real-Time Status
+    </h3>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Gate 1 -->
+            <div class="gate-status">
+                <div class="gate-header">
+                    <span class="gate-name">Gate 1 - North</span>
+                    <span class="gate-wait-time">⏱ 12 min</span>
+                </div>
+                <div class="wait-bar">
+                    <div class="wait-fill" style="width:20%;"></div>
+                </div>
+                <small style="color:#b0b8c1;margin-top:8px;display:block;">
+                    <i class="bi bi-people me-1"></i>850 people in queue
+                </small>
+            </div>
+            
+            <!-- Gate 2 -->
+            <div class="gate-status">
+                <div class="gate-header">
+                    <span class="gate-name">Gate 2 - East</span>
+                    <span class="gate-wait-time">⏱ 18 min</span>
+                </div>
+                <div class="wait-bar">
+                    <div class="wait-fill" style="width:45%;"></div>
+                </div>
+                <small style="color:#b0b8c1;margin-top:8px;display:block;">
+                    <i class="bi bi-people me-1"></i>1,250 people in queue
+                </small>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <!-- Gate 3 -->
+            <div class="gate-status">
+                <div class="gate-header">
+                    <span class="gate-name">Gate 3 - South (RECOMMENDED)</span>
+                    <span class="gate-wait-time" style="color:#28a745;">⏱ 5 min ✓</span>
+                </div>
+                <div class="wait-bar">
+                    <div class="wait-fill" style="width:12%;"></div>
+                </div>
+                <small style="color:#b0b8c1;margin-top:8px;display:block;">
+                    <i class="bi bi-people me-1"></i>450 people in queue
+                </small>
+            </div>
+            
+            <!-- Gate 4 -->
+            <div class="gate-status">
+                <div class="gate-header">
+                    <span class="gate-name">Gate 4 - West</span>
+                    <span class="gate-wait-time">⏱ 22 min</span>
+                </div>
+                <div class="wait-bar">
+                    <div class="wait-fill" style="width:65%;"></div>
+                </div>
+                <small style="color:#b0b8c1;margin-top:8px;display:block;">
+                    <i class="bi bi-people me-1"></i>1,850 people in queue
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stadium Layout & Crowd Analytics -->
+<div style="background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border: 2px solid rgba(40,167,69,0.2); border-radius: 16px; padding: 30px; margin-bottom: 40px;">
+    <h3 style="color:#ffffff;margin-bottom:25px;font-weight:700;">
+        <i class="bi bi-graph-up me-2" style="color:#28a745;"></i>Crowd Analytics - Real-Time
+    </h3>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 12px; border: 1px solid rgba(40,167,69,0.15);">
+                <h5 style="color:#ffffff;margin-bottom:20px;">Stadium Occupancy</h5>
+                <div style="display:flex;justify-content:space-around;align-items:center;">
+                    <div style="text-align:center;">
+                        <div style="font-size:2.5rem;font-weight:700;color:#28a745;">68%</div>
+                        <small style="color:#b0b8c1;">Overall</small>
+                    </div>
+                    <div style="text-align:center;">
+                        <div style="font-size:1.8rem;font-weight:700;color:#ffc107;">85%</div>
+                        <small style="color:#b0b8c1;">Entry Queues</small>
+                    </div>
+                    <div style="text-align:center;">
+                        <div style="font-size:1.8rem;font-weight:700;color:#20c997;">35K</div>
+                        <small style="color:#b0b8c1;">Inside Stadium</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 12px; border: 1px solid rgba(40,167,69,0.15);">
+                <h5 style="color:#ffffff;margin-bottom:20px;">Seating Area Status</h5>
+                <div style="margin-bottom:12px;">
+                    <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+                        <span style="color:#d1d5db;">Block A</span>
+                        <span style="color:#28a745;">92%</span>
+                    </div>
+                    <div style="background:rgba(40,167,69,0.1);height:6px;border-radius:3px;overflow:hidden;">
+                        <div style="background:linear-gradient(90deg,#28a745,#20c997);height:100%;width:92%;"></div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom:12px;">
+                    <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+                        <span style="color:#d1d5db;">Block B</span>
+                        <span style="color:#28a745;">78%</span>
+                    </div>
+                    <div style="background:rgba(40,167,69,0.1);height:6px;border-radius:3px;overflow:hidden;">
+                        <div style="background:linear-gradient(90deg,#28a745,#20c997);height:100%;width:78%;"></div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+                        <span style="color:#d1d5db;">Block C</span>
+                        <span style="color:#20c997;">45%</span>
+                    </div>
+                    <div style="background:rgba(40,167,69,0.1);height:6px;border-radius:3px;overflow:hidden;">
+                        <div style="background:linear-gradient(90deg,#28a745,#20c997);height:100%;width:45%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tips Section -->
+<div class="tips-section">
+    <h3 style="color:#ffffff;margin-bottom:25px;font-weight:700;">
+        <i class="bi bi-lightbulb me-2" style="color:#28a745;"></i>Smart Entry Tips
+    </h3>
+    
+    <div class="tip-item">
+        <div class="tip-icon">
+            <i class="bi bi-clock"></i>
+        </div>
+        <div class="tip-content">
+            <h5>Arrive Early</h5>
+            <p>Arrive 30-45 minutes before match start. Our AI assigns optimal entry slots to prevent bottlenecks.</p>
+        </div>
+    </div>
+    
+    <div class="tip-item">
+        <div class="tip-icon">
+            <i class="bi bi-door-open"></i>
+        </div>
+        <div class="tip-content">
+            <h5>Use Recommended Gates</h5>
+            <p>Follow our live traffic data. Gate 3 currently has 5-min wait vs 22-min at Gate 4.</p>
+        </div>
+    </div>
+    
+    <div class="tip-item">
+        <div class="tip-icon">
+            <i class="bi bi-face-id"></i>
+        </div>
+        <div class="tip-content">
+            <h5>Face Recognition Ready</h5>
+            <p>Face verification takes just 5 seconds. Have your QR code + ID ready as backup.</p>
+        </div>
+    </div>
+    
+    <div class="tip-item">
+        <div class="tip-icon">
+            <i class="bi bi-phone"></i>
+        </div>
+        <div class="tip-content">
+            <h5>Keep App Open</h5>
+            <p>Real-time notifications will guide you to seating areas and notify about optimal entry times.</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

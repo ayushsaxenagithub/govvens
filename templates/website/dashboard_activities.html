@@ -340,7 +340,7 @@
                 <div class="card-body">
                     {% for stat in event_type_stats %}
                     <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span>{{ stat.event_type|title|replace:"_":" " }}</span>
+                        <span>{{ stat.event_type_display }}</span>
                         <div class="d-flex align-items-center">
                             <div class="progress me-2" style="width: 200px; height: 20px;">
                                 <div class="progress-bar" role="progressbar" 

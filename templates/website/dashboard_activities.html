@@ -1,0 +1,399 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard - Activities - GOVVENS{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0"><i class="bi bi-activity me-2"></i>User Activities Dashboard</h1>
+            <p class="text-muted mb-0">Track user interactions and events</p>
+        </div>
+        <div>
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary me-2">
+                <i class="bi bi-arrow-left me-1"></i>Back to Users
+            </a>
+            <a href="{% url 'export_activities_excel' %}{% if search_query %}?search={{ search_query }}{% endif %}{% if filter_type %}{% if search_query %}&{% else %}?{% endif %}filter={{ filter_type }}{% endif %}" 
+               class="btn btn-success">
+                <i class="bi bi-download me-1"></i>Export to Excel
+            </a>
+        </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <ul class="nav nav-tabs mb-4" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" href="{% url 'dashboard' %}" role="tab">
+                <i class="bi bi-people me-1"></i>Users
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" href="{% url 'dashboard_sessions' %}" role="tab">
+                <i class="bi bi-window me-1"></i>Sessions
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="activities-tab" href="{% url 'dashboard_activities' %}" role="tab">
+                <i class="bi bi-activity me-1"></i>Activities
+                <span class="badge bg-primary ms-2">{{ total_activities }}</span>
+            </a>
+        </li>
+    </ul>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-white-50 mb-1">Total Activities</h6>
+                            <h2 class="mb-0">{{ total_activities }}</h2>
+                        </div>
+                        <i class="bi bi-activity fs-1 opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-white-50 mb-1">Page Views</h6>
+                            <h2 class="mb-0">{{ page_views }}</h2>
+                        </div>
+                        <i class="bi bi-eye fs-1 opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-white-50 mb-1">API Requests</h6>
+                            <h2 class="mb-0">{{ api_requests }}</h2>
+                        </div>
+                        <i class="bi bi-code-slash fs-1 opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-white-50 mb-1">Avg Response</h6>
+                            <h2 class="mb-0">
+                                {% if avg_response_time %}
+                                    {{ avg_response_time|floatformat:0 }}ms
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </h2>
+                        </div>
+                        <i class="bi bi-speedometer2 fs-1 opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search and Filter Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" action="{% url 'dashboard_activities' %}" class="row g-3">
+                <div class="col-md-3">
+                    <label for="search" class="form-label">Search Activities</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                        <input type="text" class="form-control" id="search" name="search" 
+                               placeholder="Search by path, URL, user..." 
+                               value="{{ search_query }}">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label for="filter" class="form-label">Event Type</label>
+                    <select class="form-select" id="filter" name="filter">
+                        <option value="">All Types</option>
+                        <option value="page_view" {% if filter_type == 'page_view' %}selected{% endif %}>Page Views</option>
+                        <option value="api_request" {% if filter_type == 'api_request' %}selected{% endif %}>API Requests</option>
+                        <option value="interaction" {% if filter_type == 'interaction' %}selected{% endif %}>Interactions</option>
+                        <option value="auth" {% if filter_type == 'auth' %}selected{% endif %}>Authentication</option>
+                        <option value="custom" {% if filter_type == 'custom' %}selected{% endif %}>Custom Events</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="status_code" class="form-label">Status Code</label>
+                    <input type="number" class="form-control" id="status_code" name="status_code" 
+                           placeholder="e.g. 200" value="{{ status_code }}">
+                </div>
+                <div class="col-md-2">
+                    <label for="date_from" class="form-label">From Date</label>
+                    <input type="date" class="form-control" id="date_from" name="date_from" value="{{ date_from }}">
+                </div>
+                <div class="col-md-2">
+                    <label for="date_to" class="form-label">To Date</label>
+                    <input type="date" class="form-control" id="date_to" name="date_to" value="{{ date_to }}">
+                </div>
+                <div class="col-md-1">
+                    <label for="sort" class="form-label">Sort</label>
+                    <select class="form-select" id="sort" name="sort">
+                        <option value="-timestamp" {% if sort_by == '-timestamp' %}selected{% endif %}>Newest</option>
+                        <option value="timestamp" {% if sort_by == 'timestamp' %}selected{% endif %}>Oldest</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-funnel me-1"></i>Apply Filters
+                    </button>
+                    <a href="{% url 'dashboard_activities' %}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-counterclockwise me-1"></i>Reset
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Activities Table -->
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="bi bi-table me-2"></i>Activities List</h5>
+        </div>
+        <div class="card-body p-0">
+            {% if activities %}
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Path</th>
+                            <th>User</th>
+                            <th>Session</th>
+                            <th>Method</th>
+                            <th>Status</th>
+                            <th>Response Time</th>
+                            <th>Timestamp</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for activity in activities %}
+                        <tr>
+                            <td>{{ activity.id }}</td>
+                            <td>
+                                <span class="badge bg-{% if activity.event_type == 'page_view' %}primary{% elif activity.event_type == 'api_request' %}info{% elif activity.event_type == 'auth' %}success{% elif activity.event_type == 'interaction' %}warning{% else %}secondary{% endif %}">
+                                    {{ activity.get_event_type_display }}
+                                </span>
+                            </td>
+                            <td>
+                                <code class="small">{{ activity.path|truncatechars:40 }}</code>
+                                {% if activity.view_name %}
+                                    <br><small class="text-muted">{{ activity.view_name|truncatechars:30 }}</small>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if activity.session and activity.session.user %}
+                                    <a href="{% url 'dashboard' %}?search={{ activity.session.user.email }}" class="text-decoration-none">
+                                        {{ activity.session.user.email|truncatechars:25 }}
+                                    </a>
+                                {% else %}
+                                    <span class="text-muted">Anonymous</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if activity.session %}
+                                    <a href="{% url 'session_detail' activity.session.id %}" class="text-decoration-none">
+                                        <code class="small">{{ activity.session.session_id|truncatechars:20 }}</code>
+                                    </a>
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ activity.method|default:"-" }}</td>
+                            <td>
+                                {% if activity.status_code %}
+                                    {% if activity.status_code < 300 %}
+                                        <span class="badge bg-success">{{ activity.status_code }}</span>
+                                    {% elif activity.status_code < 400 %}
+                                        <span class="badge bg-info">{{ activity.status_code }}</span>
+                                    {% elif activity.status_code < 500 %}
+                                        <span class="badge bg-warning">{{ activity.status_code }}</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">{{ activity.status_code }}</span>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if activity.response_time_ms %}
+                                    {{ activity.response_time_ms }}ms
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ activity.timestamp|date:"M d, H:i:s" }}</td>
+                            <td>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <a href="{% url 'activity_detail' activity.id %}" class="btn btn-outline-primary" title="View Details">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    {% if activity.session %}
+                                    <a href="{% url 'session_detail' activity.session.id %}" class="btn btn-outline-info" title="View Session">
+                                        <i class="bi bi-window"></i>
+                                    </a>
+                                    {% endif %}
+                                    <button type="button" class="btn btn-outline-danger" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#deleteModal{{ activity.id }}"
+                                            title="Delete Activity">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Delete Confirmation Modal -->
+                        <div class="modal fade" id="deleteModal{{ activity.id }}" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content bg-dark text-white">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Confirm Delete</h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to delete this activity?</p>
+                                        <p class="text-muted"><small>Path: {{ activity.path|truncatechars:50 }}</small></p>
+                                        <p class="text-danger"><small>This action cannot be undone!</small></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <form method="post" action="{% url 'delete_activity' activity.id %}" class="d-inline">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">Delete Activity</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            {% if activities.has_other_pages %}
+            <div class="card-footer">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center mb-0">
+                        {% if activities.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if filter_type %}&filter={{ filter_type }}{% endif %}{% if status_code %}&status_code={{ status_code }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if date_from %}&date_from={{ date_from }}{% endif %}{% if date_to %}&date_to={{ date_to }}{% endif %}">First</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ activities.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if filter_type %}&filter={{ filter_type }}{% endif %}{% if status_code %}&status_code={{ status_code }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if date_from %}&date_from={{ date_from }}{% endif %}{% if date_to %}&date_to={{ date_to }}{% endif %}">Previous</a>
+                            </li>
+                        {% endif %}
+                        
+                        <li class="page-item active">
+                            <span class="page-link">
+                                Page {{ activities.number }} of {{ activities.paginator.num_pages }}
+                            </span>
+                        </li>
+                        
+                        {% if activities.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ activities.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if filter_type %}&filter={{ filter_type }}{% endif %}{% if status_code %}&status_code={{ status_code }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if date_from %}&date_from={{ date_from }}{% endif %}{% if date_to %}&date_to={{ date_to }}{% endif %}">Next</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ activities.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if filter_type %}&filter={{ filter_type }}{% endif %}{% if status_code %}&status_code={{ status_code }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if date_from %}&date_from={{ date_from }}{% endif %}{% if date_to %}&date_to={{ date_to }}{% endif %}">Last</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="card-body text-center py-5">
+                <i class="bi bi-inbox fs-1 text-muted"></i>
+                <p class="text-muted mt-3">No activities found matching your criteria.</p>
+                <a href="{% url 'dashboard_activities' %}" class="btn btn-primary">Clear Filters</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    {% if event_type_stats or status_code_stats %}
+    <div class="row mt-4">
+        {% if event_type_stats %}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h6 class="mb-0"><i class="bi bi-pie-chart me-2"></i>Event Type Distribution</h6>
+                </div>
+                <div class="card-body">
+                    {% for stat in event_type_stats %}
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>{{ stat.event_type|title|replace:"_":" " }}</span>
+                        <div class="d-flex align-items-center">
+                            <div class="progress me-2" style="width: 200px; height: 20px;">
+                                <div class="progress-bar" role="progressbar" 
+                                     style="width: {% widthratio stat.count total_activities 100 %}%">
+                                </div>
+                            </div>
+                            <span class="badge bg-primary">{{ stat.count }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if status_code_stats %}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h6 class="mb-0"><i class="bi bi-list-ol me-2"></i>Status Code Distribution</h6>
+                </div>
+                <div class="card-body">
+                    {% for stat in status_code_stats %}
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>
+                            {% if stat.status_code < 300 %}
+                                <span class="badge bg-success">{{ stat.status_code }}</span>
+                            {% elif stat.status_code < 400 %}
+                                <span class="badge bg-info">{{ stat.status_code }}</span>
+                            {% elif stat.status_code < 500 %}
+                                <span class="badge bg-warning">{{ stat.status_code }}</span>
+                            {% else %}
+                                <span class="badge bg-danger">{{ stat.status_code }}</span>
+                            {% endif %}
+                        </span>
+                        <span class="badge bg-secondary">{{ stat.count }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .table th {
+        white-space: nowrap;
+    }
+    .card {
+        border: none;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+</style>
+{% endblock %}
+

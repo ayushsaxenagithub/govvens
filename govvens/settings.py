@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-wg-6k9$m$ot7(ita=%co2$%o3)w&rr$y^y(124+ln5owr6*okd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True # Set to False in production
+DEBUG = False # Set to False in production
 
 ALLOWED_HOSTS = ['*','15.207.108.196']
 
@@ -124,6 +124,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Enable WhiteNoise's GZip compression of static assets.
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Additional locations of static files
 STATICFILES_DIRS = [

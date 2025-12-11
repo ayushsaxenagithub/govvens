@@ -61,6 +61,10 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="{% url 'my_tickets' %}"><i class="bi bi-ticket-perforated me-2"></i>My Tickets</a></li>
                             <li><a class="dropdown-item" href="{% url 'entry_exit_plan' %}"><i class="bi bi-map me-2"></i>Plan Journey</a></li>
+                            {% if user.is_superuser %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-warning" href="{% url 'dashboard' %}"><i class="bi bi-speedometer2 me-2"></i>Admin Dashboard</a></li>
+                            {% endif %}
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="{% url 'user_logout' %}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
                         </ul>

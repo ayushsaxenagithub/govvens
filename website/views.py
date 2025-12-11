@@ -850,15 +850,18 @@ def session_detail(request, session_id):
     """Detailed view of a user session - Superuser only"""
     session = get_object_or_404(UserSession.objects.select_related('user').prefetch_related('activities'), id=session_id)
     
+    # Get all activities for stats
+    all_activities = session.activities.all()
+
     # Get activities for this session
-    activities = session.activities.all().order_by('-timestamp')[:100]  # Limit to 100 most recent
+    activities = all_activities.order_by('-timestamp')[:100]  # Limit to 100 most recent
     
     # Statistics
-    activity_stats = activities.values('event_type').annotate(count=Count('id')).order_by('-count')
+    activity_stats = all_activities.values('event_type').annotate(count=Count('id')).order_by('-count')
     
     # Response time stats
-    response_times = [a.response_time_ms for a in activities if a.response_time_ms]
-    avg_response_time = sum(response_times) / len(response_times) if response_times else None
+    response_times = all_activities.exclude(response_time_ms__isnull=True)
+    avg_response_time = response_times.aggregate(Avg('response_time_ms'))['response_time_ms__avg']
     
     context = {
         'page_title': f'Session Details - {session.session_id[:20]}...',

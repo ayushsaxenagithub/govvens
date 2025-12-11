@@ -1,7 +1,12 @@
 from django.urls import path
 from . import views
+from . import views_extra
 
 urlpatterns = [
+    # Robots.txt and RSS
+    path('robots.txt', views_extra.robots_txt, name='robots_txt'),
+    path('rss.xml', views_extra.rss_feed, name='rss_feed'),
+
     # Page 1: Landing Page
     path('', views.landing_page, name='landing_page'),
 

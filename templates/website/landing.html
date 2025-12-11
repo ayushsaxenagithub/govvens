@@ -108,9 +108,14 @@
         <p class="fs-5 mb-4 animate-on-scroll" style="animation-delay: 0.4s;">
             Experience smart entry, zero queues, and secure access powered by advanced eKYC + Face Scan technology
         </p>
-        <a href="{% url 'events_list' %}" class="btn btn-success btn-lg mt-3 shadow-lg px-5 py-3 animate-on-scroll" style="animation-delay: 0.6s;">
-            <i class="bi bi-calendar-event me-2"></i>Explore Upcoming Matches
-        </a>
+        <div class="d-flex justify-content-center gap-3 animate-on-scroll" style="animation-delay: 0.6s;">
+            <a href="{% url 'events_list' %}" class="btn btn-success btn-lg shadow-lg px-5 py-3">
+                <i class="bi bi-calendar-event me-2"></i>Explore Upcoming Matches
+            </a>
+            <a href="{% url 'entry_exit_plan' %}" class="btn btn-outline-light btn-lg shadow-lg px-5 py-3">
+                <i class="bi bi-map me-2"></i>View Stadium Map
+            </a>
+        </div>
     </div>
 </section>
 
@@ -612,4 +617,3 @@
 </script>
 
 {% endblock %}
-

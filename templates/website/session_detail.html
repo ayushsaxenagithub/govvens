@@ -1,13 +1,20 @@
 {% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
 {% block title %}Session Details - GOVVENS{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
 
 {% block content %}
 <div class="container-fluid px-4">
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 mt-4">
         <div>
-            <h1 class="h3 mb-0"><i class="bi bi-window me-2"></i>Session Details</h1>
-            <p class="text-muted mb-0">Complete session information</p>
+            <h1 class="h3 mb-0 text-gray-800"><i class="bi bi-window me-2"></i>Session Details</h1>
+            <p class="text-muted mb-0">Deep dive into session analytics and journey</p>
         </div>
         <div>
             <a href="{% url 'dashboard_sessions' %}" class="btn btn-secondary">
@@ -16,28 +23,110 @@
         </div>
     </div>
 
+    <!-- Overview Cards -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Session Status</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {% if session.ended_at %}
+                                    <span class="badge bg-secondary">Ended</span>
+                                {% else %}
+                                    <span class="badge bg-success">Active</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-circle-fill fs-2 text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">User Type</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {% if session.is_authenticated %}
+                                    Authenticated
+                                {% else %}
+                                    Anonymous
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-person-badge fs-2 text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Activities</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_activities }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-activity fs-2 text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Duration</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {% if session.ended_at %}
+                                    {{ session.duration_seconds }}s
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-clock fs-2 text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <!-- Session Information -->
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Session Information</h5>
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Core Information</h6>
                 </div>
                 <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
-                            <th width="40%">Session ID:</th>
-                            <td><code>{{ session.session_id }}</code></td>
+                            <th width="35%">Session ID:</th>
+                            <td><code class="text-break">{{ session.session_id }}</code></td>
                         </tr>
                         <tr>
                             <th>Visitor ID:</th>
-                            <td><code>{{ session.visitor_id }}</code></td>
+                            <td><code class="text-break">{{ session.visitor_id }}</code></td>
                         </tr>
                         <tr>
                             <th>User:</th>
                             <td>
                                 {% if session.user %}
-                                    <a href="{% url 'dashboard' %}?search={{ session.user.email }}" class="text-decoration-none">
+                                    <a href="{% url 'dashboard' %}?search={{ session.user.email }}" class="fw-bold text-decoration-none">
                                         {{ session.user.email }}
                                     </a>
                                     <br>
@@ -48,20 +137,15 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Status:</th>
+                            <th>Bot Status:</th>
                             <td>
-                                {% if session.is_authenticated %}
-                                    <span class="badge bg-success">Authenticated</span>
-                                {% else %}
-                                    <span class="badge bg-secondary">Anonymous</span>
-                                {% endif %}
                                 {% if session.is_bot %}
-                                    <span class="badge bg-danger">Bot</span>
-                                {% endif %}
-                                {% if session.ended_at %}
-                                    <span class="badge bg-secondary">Ended</span>
+                                    <span class="badge bg-danger">Bot / Crawler</span>
+                                    {% if session.bot_score %}
+                                        <small class="text-muted ms-2">Score: {{ session.bot_score }}</small>
+                                    {% endif %}
                                 {% else %}
-                                    <span class="badge bg-success">Active</span>
+                                    <span class="badge bg-success">Human</span>
                                 {% endif %}
                             </td>
                         </tr>
@@ -73,71 +157,78 @@
                             <th>Last Activity:</th>
                             <td>{{ session.last_activity_at|date:"M d, Y H:i:s" }}</td>
                         </tr>
-                        {% if session.ended_at %}
-                        <tr>
-                            <th>Ended At:</th>
-                            <td>{{ session.ended_at|date:"M d, Y H:i:s" }}</td>
-                        </tr>
-                        <tr>
-                            <th>Duration:</th>
-                            <td>{{ session.duration_seconds }} seconds ({{ session.duration_seconds|floatformat:0|add:0|intdiv:60 }}m {{ session.duration_seconds|floatformat:0|add:0|intdiv:60|add:0|mod:60 }}s)</td>
-                        </tr>
-                        {% endif %}
                     </table>
                 </div>
             </div>
+
+            <!-- Activity Distribution Chart -->
+            {% if activity_stats %}
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Activity Distribution</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2">
+                        <canvas id="activityPieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
         </div>
 
         <!-- Device & Location Information -->
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-header bg-info text-white">
-                    <h5 class="mb-0"><i class="bi bi-device-hdd me-2"></i>Device & Location</h5>
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Device & Geo-Location</h6>
                 </div>
                 <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
-                            <th width="40%">IP Address:</th>
-                            <td>{{ session.ip_address|default:"-" }}</td>
+                            <th width="35%">IP Address:</th>
+                            <td>
+                                {{ session.ip_address|default:"-" }}
+                                {% if session.isp %}
+                                    <br><small class="text-muted">{{ session.isp }}</small>
+                                {% endif %}
+                            </td>
                         </tr>
                         <tr>
-                            <th>Country:</th>
+                            <th>Location:</th>
                             <td>
                                 {% if session.country %}
-                                    <i class="bi bi-geo-alt"></i> {{ session.country }}
+                                    <i class="bi bi-geo-alt-fill text-danger"></i> {{ session.country }}
+                                    {% if session.region %}, {{ session.region }}{% endif %}
+                                    {% if session.city %}, {{ session.city }}{% endif %}
                                 {% else %}
                                     <span class="text-muted">-</span>
                                 {% endif %}
                             </td>
                         </tr>
-                        <tr>
-                            <th>Region:</th>
-                            <td>{{ session.region|default:"-" }}</td>
-                        </tr>
-                        <tr>
-                            <th>City:</th>
-                            <td>{{ session.city|default:"-" }}</td>
-                        </tr>
                         {% if session.latitude and session.longitude %}
                         <tr>
                             <th>Coordinates:</th>
-                            <td>{{ session.latitude }}, {{ session.longitude }}</td>
+                            <td>
+                                <a href="https://www.google.com/maps/search/?api=1&query={{ session.latitude }},{{ session.longitude }}" target="_blank" class="text-decoration-none">
+                                    {{ session.latitude }}, {{ session.longitude }} <i class="bi bi-box-arrow-up-right small"></i>
+                                </a>
+                            </td>
                         </tr>
                         {% endif %}
                         <tr>
-                            <th>ISP:</th>
-                            <td>{{ session.isp|default:"-" }}</td>
+                            <td colspan="2"><hr class="my-1"></td>
                         </tr>
                         <tr>
-                            <th>Device Type:</th>
-                            <td><span class="badge bg-secondary">{{ session.get_device_type_display }}</span></td>
+                            <th>Device:</th>
+                            <td>
+                                <span class="badge bg-secondary">{{ session.get_device_type_display }}</span>
+                                {% if session.device_family %}
+                                    <span class="ms-1">{{ session.device_family }}</span>
+                                {% endif %}
+                            </td>
                         </tr>
                         <tr>
-                            <th>Device Family:</th>
-                            <td>{{ session.device_family|default:"-" }}</td>
-                        </tr>
-                        <tr>
-                            <th>Operating System:</th>
+                            <th>OS:</th>
                             <td>{{ session.os|default:"-" }}</td>
                         </tr>
                         <tr>
@@ -150,199 +241,225 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Client Language:</th>
-                            <td>{{ session.client_language|default:"-" }}</td>
+                            <th>User Agent:</th>
+                            <td><small class="text-muted text-break">{{ session.user_agent|truncatechars:100 }}</small></td>
                         </tr>
                         <tr>
-                            <th>Client Timezone:</th>
-                            <td>{{ session.client_timezone|default:"-" }}</td>
+                            <th>Client Info:</th>
+                            <td>
+                                {% if session.client_language %}
+                                    <span class="badge bg-light text-dark border">{{ session.client_language }}</span>
+                                {% endif %}
+                                {% if session.client_timezone %}
+                                    <span class="badge bg-light text-dark border">{{ session.client_timezone }}</span>
+                                {% endif %}
+                            </td>
                         </tr>
                     </table>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- UTM Parameters -->
-    {% if session.utm_source or session.utm_medium or session.utm_campaign %}
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0"><i class="bi bi-link-45deg me-2"></i>UTM Parameters</h5>
+            <!-- UTM Parameters -->
+            {% if session.utm_source or session.utm_medium or session.utm_campaign %}
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-success">Marketing Attribution (UTM)</h6>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3">
-                            <strong>UTM Source:</strong><br>
-                            {{ session.utm_source|default:"-" }}
+                        <div class="col-md-6 mb-3">
+                            <label class="small text-muted text-uppercase">Source</label>
+                            <div class="fw-bold">{{ session.utm_source|default:"-" }}</div>
                         </div>
-                        <div class="col-md-3">
-                            <strong>UTM Medium:</strong><br>
-                            {{ session.utm_medium|default:"-" }}
+                        <div class="col-md-6 mb-3">
+                            <label class="small text-muted text-uppercase">Medium</label>
+                            <div class="fw-bold">{{ session.utm_medium|default:"-" }}</div>
                         </div>
-                        <div class="col-md-3">
-                            <strong>UTM Campaign:</strong><br>
-                            {{ session.utm_campaign|default:"-" }}
+                        <div class="col-md-6 mb-3">
+                            <label class="small text-muted text-uppercase">Campaign</label>
+                            <div class="fw-bold">{{ session.utm_campaign|default:"-" }}</div>
                         </div>
-                        <div class="col-md-3">
-                            <strong>UTM Term:</strong><br>
-                            {{ session.utm_term|default:"-" }}
+                        <div class="col-md-6 mb-3">
+                            <label class="small text-muted text-uppercase">Term</label>
+                            <div class="fw-bold">{{ session.utm_term|default:"-" }}</div>
                         </div>
                     </div>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
-    {% endif %}
 
     <!-- URLs -->
     <div class="row mb-4">
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-warning text-dark">
-                    <h5 class="mb-0"><i class="bi bi-box-arrow-in-right me-2"></i>Entry Information</h5>
+            <div class="card shadow mb-4 border-bottom-warning">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-warning">Entry Point</h6>
                 </div>
                 <div class="card-body">
-                    <p><strong>Entry URL:</strong></p>
-                    <p class="text-break"><small>{{ session.entry_url|default:"-"|truncatechars:100 }}</small></p>
-                    <p><strong>Landing Page Title:</strong></p>
-                    <p>{{ session.landing_page_title|default:"-" }}</p>
-                    <p><strong>Referrer:</strong></p>
-                    <p class="text-break"><small>{{ session.referrer|default:"-"|truncatechars:100 }}</small></p>
+                    <p class="mb-1"><strong>URL:</strong></p>
+                    <p class="text-break bg-light p-2 rounded mb-3"><code>{{ session.entry_url|default:"-" }}</code></p>
+                    <p class="mb-1"><strong>Landing Page Title:</strong></p>
+                    <p class="text-muted">{{ session.landing_page_title|default:"-" }}</p>
+                    <p class="mb-1"><strong>Referrer:</strong></p>
+                    <p class="text-break small text-muted">{{ session.referrer|default:"Direct / None" }}</p>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-danger text-white">
-                    <h5 class="mb-0"><i class="bi bi-box-arrow-right me-2"></i>Exit Information</h5>
+            <div class="card shadow mb-4 border-bottom-danger">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-danger">Exit Point</h6>
                 </div>
                 <div class="card-body">
-                    <p><strong>Exit URL:</strong></p>
-                    <p class="text-break"><small>{{ session.exit_url|default:"-"|truncatechars:100 }}</small></p>
+                    <p class="mb-1"><strong>URL:</strong></p>
+                    <p class="text-break bg-light p-2 rounded"><code>{{ session.exit_url|default:"-" }}</code></p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Activities -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0"><i class="bi bi-activity me-2"></i>Session Activities ({{ total_activities }})</h5>
-                    <a href="{% url 'dashboard_activities' %}?session_id={{ session.id }}" class="btn btn-sm btn-light">
-                        View All Activities
-                    </a>
-                </div>
-                <div class="card-body p-0">
-                    {% if activities %}
-                    <div class="table-responsive">
-                        <table class="table table-hover table-striped mb-0">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>Type</th>
-                                    <th>Path</th>
-                                    <th>Method</th>
-                                    <th>Status</th>
-                                    <th>Response Time</th>
-                                    <th>Timestamp</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for activity in activities %}
-                                <tr>
-                                    <td>
-                                        <span class="badge bg-{% if activity.event_type == 'page_view' %}primary{% elif activity.event_type == 'api_request' %}info{% elif activity.event_type == 'auth' %}success{% elif activity.event_type == 'interaction' %}warning{% else %}secondary{% endif %}">
-                                            {{ activity.get_event_type_display }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <code class="small">{{ activity.path|truncatechars:50 }}</code>
-                                    </td>
-                                    <td>{{ activity.method|default:"-" }}</td>
-                                    <td>
-                                        {% if activity.status_code %}
-                                            {% if activity.status_code < 300 %}
-                                                <span class="badge bg-success">{{ activity.status_code }}</span>
-                                            {% elif activity.status_code < 400 %}
-                                                <span class="badge bg-info">{{ activity.status_code }}</span>
-                                            {% elif activity.status_code < 500 %}
-                                                <span class="badge bg-warning">{{ activity.status_code }}</span>
-                                            {% else %}
-                                                <span class="badge bg-danger">{{ activity.status_code }}</span>
-                                            {% endif %}
-                                        {% else %}
-                                            <span class="text-muted">-</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if activity.response_time_ms %}
-                                            {{ activity.response_time_ms }}ms
-                                        {% else %}
-                                            <span class="text-muted">-</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ activity.timestamp|date:"M d, H:i:s" }}</td>
-                                    <td>
-                                        <a href="{% url 'activity_detail' activity.id %}" class="btn btn-sm btn-outline-primary">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    {% else %}
-                    <div class="card-body text-center py-5">
-                        <i class="bi bi-inbox fs-1 text-muted"></i>
-                        <p class="text-muted mt-3">No activities found for this session.</p>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
+    <!-- Activities Table -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Recent Activities</h6>
+            <a href="{% url 'dashboard_activities' %}?session_id={{ session.id }}" class="btn btn-sm btn-primary shadow-sm">
+                View All History
+            </a>
         </div>
-    </div>
-
-    <!-- Activity Statistics -->
-    {% if activity_stats %}
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header bg-secondary text-white">
-                    <h5 class="mb-0"><i class="bi bi-bar-chart me-2"></i>Activity Statistics</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        {% for stat in activity_stats %}
-                        <div class="col-md-3 mb-3">
-                            <div class="card bg-light">
-                                <div class="card-body text-center">
-                                    <h4 class="mb-0">{{ stat.count }}</h4>
-                                    <small class="text-muted">{{ stat.event_type|title }}</small>
+        <div class="card-body">
+            {% if activities %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Type</th>
+                            <th>Details</th>
+                            <th>Method</th>
+                            <th>Status</th>
+                            <th>Latency</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for activity in activities %}
+                        <tr>
+                            <td class="small text-nowrap">{{ activity.timestamp|date:"H:i:s" }}</td>
+                            <td>
+                                <span class="badge bg-{% if activity.event_type == 'page_view' %}primary{% elif activity.event_type == 'api_request' %}info{% elif activity.event_type == 'auth' %}success{% elif activity.event_type == 'interaction' %}warning{% else %}secondary{% endif %}">
+                                    {{ activity.get_event_type_display }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="text-break small">
+                                    <strong>{{ activity.path }}</strong>
+                                    {% if activity.view_name %}
+                                        <br><span class="text-muted">{{ activity.view_name }}</span>
+                                    {% endif %}
                                 </div>
-                            </div>
-                        </div>
+                            </td>
+                            <td><span class="badge bg-light text-dark border">{{ activity.method|default:"-" }}</span></td>
+                            <td>
+                                {% if activity.status_code %}
+                                    {% if activity.status_code < 300 %}
+                                        <span class="badge bg-success">{{ activity.status_code }}</span>
+                                    {% elif activity.status_code < 400 %}
+                                        <span class="badge bg-info">{{ activity.status_code }}</span>
+                                    {% elif activity.status_code < 500 %}
+                                        <span class="badge bg-warning">{{ activity.status_code }}</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">{{ activity.status_code }}</span>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if activity.response_time_ms %}
+                                    <span class="{% if activity.response_time_ms > 1000 %}text-danger fw-bold{% elif activity.response_time_ms > 500 %}text-warning{% else %}text-success{% endif %}">
+                                        {{ activity.response_time_ms }}ms
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'activity_detail' activity.id %}" class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
                         {% endfor %}
-                        {% if avg_response_time %}
-                        <div class="col-md-3 mb-3">
-                            <div class="card bg-light">
-                                <div class="card-body text-center">
-                                    <h4 class="mb-0">{{ avg_response_time|floatformat:0 }}ms</h4>
-                                    <small class="text-muted">Avg Response Time</small>
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
+                    </tbody>
+                </table>
             </div>
+            {% else %}
+            <div class="text-center py-5">
+                <i class="bi bi-inbox fs-1 text-muted"></i>
+                <p class="text-muted mt-3">No activities recorded for this session.</p>
+            </div>
+            {% endif %}
         </div>
     </div>
-    {% endif %}
 </div>
-{% endblock %}
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Activity Pie Chart
+        var ctxActivity = document.getElementById("activityPieChart");
+        if (ctxActivity && {{ activity_stats|length }} > 0) {
+            var myPieChart = new Chart(ctxActivity, {
+                type: 'doughnut',
+                data: {
+                    labels: [{% for stat in activity_stats %}"{{ stat.event_type|title|replace:'_ ' }}",{% endfor %}],
+                    datasets: [{
+                        data: [{% for stat in activity_stats %}{{ stat.count }},{% endfor %}],
+                        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b'],
+                        hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf', '#dda20a', '#be2617'],
+                        hoverBorderColor: "rgba(234, 236, 244, 1)",
+                    }],
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    tooltips: {
+                        backgroundColor: "rgb(255,255,255)",
+                        bodyFontColor: "#858796",
+                        borderColor: '#dddfeb',
+                        borderWidth: 1,
+                        xPadding: 15,
+                        yPadding: 15,
+                        displayColors: false,
+                        caretPadding: 10,
+                    },
+                    legend: {
+                        display: true,
+                        position: 'bottom'
+                    },
+                    cutoutPercentage: 70,
+                },
+            });
+        }
+    });
+</script>
+
+<style>
+    .border-left-primary { border-left: 0.25rem solid #4e73df !important; }
+    .border-left-success { border-left: 0.25rem solid #1cc88a !important; }
+    .border-left-info { border-left: 0.25rem solid #36b9cc !important; }
+    .border-left-warning { border-left: 0.25rem solid #f6c23e !important; }
+
+    .border-bottom-warning { border-bottom: 0.25rem solid #f6c23e !important; }
+    .border-bottom-danger { border-bottom: 0.25rem solid #e74a3b !important; }
+
+    .text-gray-300 { color: #dddfeb !important; }
+    .text-gray-800 { color: #5a5c69 !important; }
+
+    .chart-pie {
+        position: relative;
+        height: 15rem;
+        width: 100%;
+    }
+</style>
+{% endblock %}

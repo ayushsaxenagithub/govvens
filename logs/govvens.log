@@ -1624,3 +1624,18 @@ INFO 2025-12-17 00:02:58,638 basehttp 60528 125260 "GET /events/ HTTP/1.1" 200 3
 INFO 2025-12-17 00:03:02,541 basehttp 60528 125260 "GET /my-tickets/ HTTP/1.1" 200 34886
 INFO 2025-12-17 00:03:03,662 basehttp 60528 125260 "GET /entry-exit-plan/ HTTP/1.1" 200 29978
 INFO 2025-12-17 00:03:04,513 basehttp 60528 125260 "GET /exit-info/ HTTP/1.1" 200 28410
+INFO 2025-12-17 00:03:49,731 basehttp 60528 125260 "GET /my-tickets/ HTTP/1.1" 200 34886
+INFO 2025-12-17 00:03:50,423 basehttp 60528 125260 "GET /entry-exit-plan/ HTTP/1.1" 200 29978
+INFO 2025-12-17 00:03:51,240 basehttp 60528 125260 "GET /exit-info/ HTTP/1.1" 200 28410
+INFO 2025-12-17 00:03:52,197 basehttp 60528 125260 "GET /user/entry-verification/ HTTP/1.1" 200 27852
+INFO 2025-12-17 00:03:52,888 basehttp 60528 125260 "GET /ticket/confirm/ HTTP/1.1" 302 0
+INFO 2025-12-17 00:03:52,926 basehttp 60528 125260 "GET /events/ HTTP/1.1" 200 33507
+INFO 2025-12-17 00:03:56,625 basehttp 60528 90012 "GET /faq/ HTTP/1.1" 200 16801
+INFO 2025-12-17 00:05:07,504 basehttp 60528 8448 "GET /events/ HTTP/1.1" 200 33507
+INFO 2025-12-17 00:05:14,895 basehttp 60528 8448 "GET / HTTP/1.1" 200 41933
+INFO 2025-12-17 00:05:55,428 autoreload 60528 6672 C:\Users\ayush\OneDrive\Desktop\code\Govvens\website\views.py changed, reloading.
+INFO 2025-12-17 00:05:57,137 autoreload 8108 115900 Watching for file changes with StatReloader
+INFO 2025-12-17 00:06:17,904 autoreload 8108 115900 C:\Users\ayush\OneDrive\Desktop\code\Govvens\website\views.py changed, reloading.
+INFO 2025-12-17 00:06:18,469 autoreload 112348 15772 Watching for file changes with StatReloader
+INFO 2025-12-17 00:06:21,249 basehttp 112348 99020 "GET /faq/ HTTP/1.1" 200 33842
+INFO 2025-12-17 00:06:34,361 basehttp 112348 99020 "GET /user/verify-identity/ HTTP/1.1" 200 31675

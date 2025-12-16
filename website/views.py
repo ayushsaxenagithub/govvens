@@ -440,13 +440,51 @@ def faq_page(request):
         faqs = [
             {
                 'question': 'What is Govvens?',
-                'answer': 'Govvens is a civic-tech ticketing and crowd-safety platform.',
-                'category': 'general'
+                'answer': 'Govvens is a civic-tech ticketing and crowd-safety platform that manages crowd entry, ticketing, and exit for large events using staggered timings and verified ticketing. We ensure safe, organized, and fair access to high-footfall events.',
+                'category': 'general',
+                'icon': 'bi-info-circle'
             },
             {
-                'question': 'How does ticketing work?',
-                'answer': 'Our secure ticketing system ensures fair access to events.',
-                'category': 'ticketing'
+                'question': 'How does the notification system work?',
+                'answer': "Users pay a small, refundable fee (₹10) to get SMS alerts when tickets for specific matches open. This ensures fair and early access. The fee is deductible from your ticket price when you make a booking. You'll receive timely notifications via SMS and email before tickets go on sale.",
+                'category': 'notifications',
+                'icon': 'bi-bell'
+            },
+            {
+                'question': 'How are tickets verified?',
+                'answer': "Each ticket is tied to the user through Aadhaar-based eKYC and facial recognition. At the venue, you'll go through a quick face/eye scan similar to DigiYatra. Backup verification uses mobile OTP and ID at entry gates if needed. This ensures secure entry and prevents ticket fraud.",
+                'category': 'verification',
+                'icon': 'bi-shield-check'
+            },
+            {
+                'question': 'How is crowd control managed?',
+                'answer': "The system assigns specific time slots for entry and exit through automated SMS and app notifications, minimizing congestion and stampede risk. Each user gets a personalized entry window (e.g., 17:00-17:30) and exit window, ensuring staggered flow of crowds throughout the event.",
+                'category': 'crowd-control',
+                'icon': 'bi-people'
+            },
+            {
+                'question': 'Do I need to share my live location?',
+                'answer': "No. Only your home PIN code is required. Routes and timings are computed using Google Maps API based on that. We calculate the best departure time from your location to arrive during your assigned entry window. Your privacy is protected - we never track your live location.",
+                'category': 'privacy',
+                'icon': 'bi-geo-alt'
+            },
+            {
+                'question': 'Can I book seats for my friends or family?',
+                'answer': "Yes. The seat map supports individual, friends, and family bookings. You can select multiple seats together, and they will be held for up to 15 minutes during checkout. Each person will need their own identity verification for entry at the venue.",
+                'category': 'booking',
+                'icon': 'bi-people-fill'
+            },
+            {
+                'question': 'How do I pay for tickets?',
+                'answer': "Payments are processed securely via Razorpay. We accept Credit Cards, Debit Cards, UPI, Net Banking, and Wallets. All transactions are encrypted and secure. You'll receive a payment confirmation and digital ticket with QR code immediately after successful payment.",
+                'category': 'payment',
+                'icon': 'bi-credit-card'
+            },
+            {
+                'question': 'What if my payment fails?',
+                'answer': "The reserved seats are released after 15 minutes if payment isn't completed. You'll receive a notification if your payment fails. You can retry the payment within the 15-minute window. If the time expires, you'll need to select seats again. We recommend having a backup payment method ready.",
+                'category': 'payment',
+                'icon': 'bi-exclamation-triangle'
             },
         ]
         return render(request, 'website/faq.html', {
